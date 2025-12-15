@@ -1,0 +1,82 @@
+# =========================
+# Node & Package Managers
+# =========================
+node_modules/
+client/node_modules/
+server/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# =========================
+# Build / Output
+# =========================
+dist/
+build/
+client/dist/
+client/build/
+server/dist/
+server/build/
+
+# =========================
+# Vite
+# =========================
+client/.vite/
+
+# =========================
+# Logs
+# =========================
+*.log
+logs/
+*.log.*
+lerna-debug.log*
+
+# =========================
+# Editor / IDE
+# =========================
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# =========================
+# OS System Files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Env Files (keep secrets out of Git)
+# =========================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+client/.env
+client/.env.local
+client/.env.development.local
+client/.env.test.local
+client/.env.production.local
+server/.env
+server/.env.local
+server/.env.development.local
+server/.env.test.local
+server/.env.production.local
+
+# =========================
+# Cache
+# =========================
+.cache/
+client/.cache/
+server/.cache/
+
+# =========================
+# Project-specific ignores
+# =========================
+# Ignore fonts folder inside src
+client/src/fonts/
