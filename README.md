@@ -4,12 +4,12 @@ A real-time currency and cryptocurrency converter built with modern web technolo
 
 ## Features
 
-- 🔄 **Real-time Conversion**: Live exchange rates from CoinGecko and ExchangeRate-API
-- 💱 **Dual Mode**: Toggle between Fiat and Cryptocurrency conversions
-- 📊 **Interactive Charts**: 7-day price history visualization with Chart.js
-- 🎨 **Modern UI**: Clean, responsive design with TailwindCSS
-- 🔒 **Secure**: Built with best practices for production deployment
-- 🌍 **Global**: Support for 20+ fiat currencies and 15+ cryptocurrencies
+- **Real-time Conversion**: Live exchange rates from CoinGecko and ExchangeRate-API
+- **Dual Mode**: Toggle between Fiat and Cryptocurrency conversions
+- **Interactive Charts**: 7-day price history visualization with Chart.js
+- **Modern UI**: Clean, responsive design with TailwindCSS
+- **Secure**: Built with best practices for production deployment
+- **Global**: Support for 20+ fiat currencies and 15+ cryptocurrencies
 
 ## Tech Stack
 
@@ -130,11 +130,11 @@ BTC, ETH, BNB, XRP, SOL, ADA, USDT, USDC, DOGE, AVAX, DOT, MATIC, LINK, UNI, LTC
 ### Project Structure
 ```
 SKYX/
-├── backend/
+├── server/
 │   ├── server.js          # Express server with API routes
 │   ├── package.json       # Backend dependencies
 │   └── node_modules/      # Backend dependencies
-├── frontend/
+├── client/
 │   ├── src/
 │   │   ├── pages/
 │   │   │   └── home.html  # Main application page
@@ -176,7 +176,7 @@ This project is open source and available under the MIT License.
 3. Make your changes
 4. Test thoroughly
 5. Submit a pull request
-
+ 
 ## Support
 
 For issues or questions, please open an issue on the GitHub repository.
