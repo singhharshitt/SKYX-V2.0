@@ -16,7 +16,6 @@
 </head>
 
 <style>
-
     .inter-thin {
         font-family: "Inter", sans-serif;
         font-optical-sizing: auto;
@@ -186,37 +185,172 @@
         -webkit-appearance: none;
         margin: 0;
     }
+
+    /* Space Gradient Background */
+    .space-bg {
+        position: relative;
+        min-height: 100vh;
+        background:
+            radial-gradient(1200px at 80% 20%,
+                rgba(88, 28, 135, 0.25),
+                transparent 60%),
+            radial-gradient(1000px at 20% 80%,
+                rgba(30, 64, 175, 0.25),
+                transparent 60%),
+            linear-gradient(135deg,
+                #020617 0%,
+                #020b2d 45%,
+                #05010f 100%);
+        overflow: hidden;
+    }
+
+    .space-bg::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+            radial-gradient(1px 1px at 10% 20%, rgba(255, 255, 255, 0.15), transparent),
+            radial-gradient(1px 1px at 30% 40%, rgba(255, 255, 255, 0.12), transparent),
+            radial-gradient(1px 1px at 70% 60%, rgba(255, 255, 255, 0.1), transparent),
+            radial-gradient(1px 1px at 90% 80%, rgba(255, 255, 255, 0.08), transparent);
+        opacity: 0.12;
+        pointer-events: none;
+    }
+
+    .space-bg::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: url("/noise.png");
+        opacity: 0.04;
+        pointer-events: none;
+    }
+
+    @media (max-width: 768px) {
+        .space-bg::before {
+            opacity: 0.07;
+        }
+
+        .space-bg::after {
+            opacity: 0.03;
+        }
+    }
+
+    @keyframes dust {
+        from {
+            transform: translateY(0);
+        }
+
+        to {
+            transform: translateY(-40px);
+        }
+    }
+
+    .space-bg::before {
+        animation: dust 60s linear infinite;
+    }
 </style>
-<body class="overflow-x-hidden text-[#2C2C54]">
-    <nav class="mt-4  left-0 w-full z-50 px-5 py-5">
-        <div class="flex justify-between p-7 mx-7 gap-3">
-            <div class="flex ml-10 font-fliege font-bold">
-                <h2 class="text-5xl">
-                    S<span class="text-3xl">KY</span>X<span class="text-orange-400 text-2xl mr-2.5">.</span>
-                </h2>
-                <div class="w-px h-14 bg-gray-900 border-2 mr-2.5"></div>
-                <div class="flex flex-col text-sm gap-1">
-                    <p>Exchange<span class="text-orange-400">.</span></p>
-                    <p>Simplified<span class="text-orange-400">.</span></p>
+<!-- //text-[#2C2C54] -->
+
+<body class="overflow-x-hidden  text-white">
+    <section class="min-h-screen sticky top-0 z-[10] space-bg ">
+        <!-- Navbar -->
+        <nav class="w-full left-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-5">
+                <div class="flex h-20 items-center justify-between">
+
+                    <!-- LOGO -->
+                    <div class="flex ml-2 font-fliege font-bold items-center">
+                        <h2 class="text-3xl sm:text-4xl md:text-5xl">
+                            S<span class="text-xl sm:text-2xl md:text-3xl">KY</span>X<span class="text-orange-400 text-lg sm:text-xl md:text-2xl mr-2.5">.</span>
+                        </h2>
+
+                        <div class="w-px h-10 md:h-14 bg-gray-900 border-2 mr-2.5"></div>
+
+                        <div class="flex flex-col text-xs sm:text-sm gap-1">
+                            <p>Exchange<span class="text-orange-400">.</span></p>
+                            <p>Simplified<span class="text-orange-400">.</span></p>
+                        </div>
+                    </div>
+
+                    <!-- DESKTOP MENU -->
+                    <div class="hidden md:flex items-center gap-8 font-medium text-xl font-snpro">
+                        <a href="#" class="hover:text-orange-400 transition">Home</a>
+                        <a href="#" class="hover:text-orange-400 transition">Markets</a>
+                        <a href="#" class="hover:text-orange-400 transition">About</a>
+                    </div>
+
+                    <!-- MOBILE BUTTON -->
+                    <button id="menu-btn" class="md:hidden flex items-center justify-center p-2" onclick="toggleMenu()">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
                 </div>
             </div>
-            <div class="gap-8 flex mr-7">
-                <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px"
-                    fill="#F9F8F8"
-                    class="fill-[#FFD700] group-hover:scale-110 transition relative group hover:shadow-[0_0_20px_6px_rgba(255,215,0,0.6)] rounded-full p-2 ">
-                    <path
-                        d="M480-429ZM235.33-120q-48.05 0-81.69-33.64T120-235.33V-480q0-23.06 8.66-44.2 8.65-21.13 25.01-37.47L399-806.33q17-17.34 38.18-25.5Q458.35-840 480-840q22.1 0 43.24 8.18 21.13 8.17 38.43 25.49l244.66 244.66q16.36 16.34 25.01 37.47Q840-503.06 840-480v244.67q0 48.05-33.44 81.69Q773.11-120 725.33-120h-490Zm0-66.67h490q20.4 0 34.2-14.16 13.8-14.17 13.8-34.5V-480q0-9.94-3.33-18.64-3.33-8.69-10.67-16.03l-161.66-162-70.34 70 149.34 150v173.34H283.33v-173.34L550-723.33l-36.04-35.72q-9.61-9.52-18.62-11.9-9.01-2.38-15.01-2.38t-15.5 2.33q-9.5 2.33-18.83 11.67L201.33-514.67q-7.33 7.43-11 16.1-3.66 8.67-3.66 18.57v244.67q0 20.33 14.16 34.5 14.17 14.16 34.5 14.16ZM350-350h260v-79L480-559 350-429v79Z" />
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px"
-                    fill="#F9F8F8"
-                    class="fill-[#FFD700] group-hover:scale-110 transition relative group hover:shadow-[0_0_20px_6px_rgba(255,215,0,0.6)] rounded-full p-2 ">
-                    <path
-                        d="M479.94-693.33q-30.27 0-51.77-21.56-21.5-21.56-21.5-51.84 0-30.27 21.56-51.77 21.55-21.5 51.83-21.5 30.27 0 51.77 21.56 21.5 21.56 21.5 51.83 0 30.28-21.56 51.78-21.55 21.5-51.83 21.5ZM426.67-120v-480h106.66v480H426.67Z" />
-                </svg>
+
+            <!-- MOBILE MENU -->
+            <div id="mobile-menu" class="md:hidden hidden px-6 py-6 space-y-4 oboto-slab-M backdrop-blur-sm ">
+                <a href="#" class="block hover:text-orange-400">Home</a>
+                <a href="#" class="block hover:text-orange-400">Markets</a>
+                <a href="#" class="block hover:text-orange-400">About</a>
+            </div>
+        </nav>
+
+
+
+        <!-- Hero section -->
+        <div class="grid grid-cols-2 pt-28">
+            <!-- Left Side Text -->
+            <div class="w-1/2 mt-4">
+                <div class="flex justify-center items-center mt-44 min-w-full pl-[200px]">
+                    <div class="flex flex-col text-sm gap-4">
+                        <h2 class="text-7xl lexend-exa-bold">
+                            Your Exchange Compass<span class="text-orange-400">.</span>
+                        </h2>
+                        <p class="text-[13px] plus-jakarta-sans-semibold px-4">
+                            Convert currency in seconds and find the right place to make
+                            your exchange.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side Globe -->
+            <div class="w-1/2">
+                <div class="flex flex-col min-w-full justify-center items-center ml-24">
+                    <!-- Bigger Globe -->
+                    <canvas id="globeCanvas" class="w-[700px] h-[700px]"></canvas>
+
+                    <button
+                        class="flex px-6 py-2 skew-x-[-15deg] transition lexend-exa-bold -mt-18 bg-gradient-to-br from-[#0A0A0A] via-[#202020] to-[#1A1A1A] hover:from-[#202020] hover:to-[#2A2A2A] shadow-[6px_6px_0_#000] gap-2 rounded-lg transform hover:-translate-y-1 hover:scale-105">
+                        <span
+                            class="skew-x-[15deg] text-lg bg-gradient-to-r from-[#FFD700] to-[#FFB84D] bg-clip-text text-transparent drop-shadow-[0_0_6px_rgba(255,215,0,0.6)]">
+                            Check Rates
+                        </span>
+
+                        <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="32px"
+                            class="pb-1 skew-x-[15deg] fill-[#FFD700] drop-shadow-[0_0_6px_rgba(255,215,0,0.6)] transition transform hover:-translate-y-1 hover:scale-105">
+                            <path
+                                d="M480-840q74 0 139.5 28.5T734-734q49 49 77.5 114.5T840-480q0 74-28.5 139.5T734-226q-49 49-114.5 77.5T480-120q-41 0-79-9t-76-26l61-61q23 8 46.5 12t47.5 4q116 0 198-82t82-198q0-116-82-198t-198-82q-116 0-198 82t-82 198q0 24 4 47.5t12 46.5l-60 60q-18-36-27-74.5t-9-79.5q0-74 28.5-139.5T226-734q49-49 114.5-77.5T480-840Zm40 520v-144L176-120l-56-56 344-344H320v-80h280v280h-80Z" />
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
-    </nav>
+    </section>
+
+
+
+
+
+    <script>
+        function toggleMenu() {
+            document.getElementById("mobile-menu").classList.toggle("hidden");
+        }
+    </script>
 
 
 </body>
+
 </html>
