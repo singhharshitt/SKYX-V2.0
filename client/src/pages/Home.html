@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SKYX</title>
     <link href="../style.css" rel="stylesheet" />
+    <link href="converter.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -337,649 +338,504 @@
         }
     }
 
+
     .fade-in-up {
         opacity: 0;
         transform: translateY(20px);
         animation: fadeInUp 0.8s ease-out forwards;
     }
 
-    /* Converter Section Styles */
-    .converter-gradient {
-        background: linear-gradient(180deg,
-                rgba(20, 20, 30, 0.95) 0%,
-                rgba(10, 10, 20, 0.98) 50%,
-                rgba(5, 5, 15, 1) 100%);
+    /* Differentiator Cards Styles */
+    .differentiator-card {
         position: relative;
-    }
-
-    .converter-gradient::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(circle at 30% 50%,
-                rgba(255, 165, 0, 0.08),
-                transparent 50%);
-        pointer-events: none;
-    }
-
-    /* Converter Card */
-    .converter-card {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 1.5rem;
         padding: 2.5rem;
-        box-shadow:
-            0 10px 40px rgba(0, 0, 0, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.05);
-        transition: all 0.4s ease;
-    }
-
-    .converter-card:hover {
-        border-color: rgba(255, 165, 0, 0.2);
-        box-shadow:
-            0 20px 60px rgba(0, 0, 0, 0.5),
-            0 0 40px rgba(255, 165, 0, 0.1);
-    }
-
-    /* Toggle Switch */
-    .toggle-container {
-        display: inline-block;
-    }
-
-    .toggle-switch {
-        position: relative;
-        display: flex;
-        background: rgba(255, 255, 255, 0.05);
+        border-radius: 1.25rem;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(12px);
         border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 9999px;
-        padding: 0.25rem;
-        gap: 0.25rem;
-    }
-
-    .toggle-label {
-        display: flex;
-        align-items: center;
-        padding: 0.75rem 1.5rem;
-        border-radius: 9999px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        position: relative;
-        z-index: 2;
-        font-family: "Plus Jakarta Sans", sans-serif;
-        font-weight: 600;
-        color: rgba(255, 255, 255, 0.5);
-    }
-
-    #fiat-toggle:checked~.toggle-switch .toggle-label-left,
-    #crypto-toggle:checked~.toggle-switch .toggle-label-right {
-        color: #fff;
-    }
-
-    .toggle-slider {
-        position: absolute;
-        top: 0.25rem;
-        left: 0.25rem;
-        width: calc(50% - 0.25rem);
-        height: calc(100% - 0.5rem);
-        background: linear-gradient(135deg, rgba(255, 165, 0, 0.8), rgba(255, 215, 0, 0.6));
-        border-radius: 9999px;
-        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 4px 12px rgba(255, 165, 0, 0.3);
-    }
-
-    #crypto-toggle:checked~.toggle-switch .toggle-slider {
-        transform: translateX(calc(100% + 0.25rem));
-    }
-
-    /* Input Group */
-    .input-group {
-        display: flex;
-        gap: 0.75rem;
-    }
-
-    .converter-input {
-        flex: 1;
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 0.75rem;
-        padding: 1rem 1.25rem;
-        color: #fff;
-        font-size: 1.125rem;
-        font-family: "Lexend Exa", sans-serif;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        outline: none;
-    }
-
-    .converter-input:focus {
-        background: rgba(255, 255, 255, 0.06);
-        border-color: rgba(255, 165, 0, 0.4);
-        box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.1);
-    }
-
-    .converter-input::placeholder {
-        color: rgba(255, 255, 255, 0.3);
-    }
-
-    .converter-select {
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 0.75rem;
-        padding: 1rem 1.25rem;
-        color: #fff;
-        font-size: 1rem;
-        font-family: "Plus Jakarta Sans", sans-serif;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        outline: none;
-        min-width: 120px;
-    }
-
-    .converter-select:focus {
-        background: rgba(255, 255, 255, 0.06);
-        border-color: rgba(255, 165, 0, 0.4);
-        box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.1);
-    }
-
-    .converter-select option {
-        background: #1a1a2e;
-        color: #fff;
-    }
-
-    /* Swap Button */
-    .swap-button {
-        width: 3.5rem;
-        height: 3.5rem;
-        border-radius: 50%;
-        background: linear-gradient(135deg, rgba(255, 165, 0, 0.2), rgba(255, 215, 0, 0.15));
-        border: 2px solid rgba(255, 165, 0, 0.3);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #FFD700;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 12px rgba(255, 165, 0, 0.2);
-    }
-
-    .swap-button:hover {
-        transform: rotate(180deg) scale(1.1);
-        background: linear-gradient(135deg, rgba(255, 165, 0, 0.3), rgba(255, 215, 0, 0.2));
-        box-shadow: 0 6px 20px rgba(255, 165, 0, 0.4);
-    }
-
-    .swap-button:active {
-        transform: rotate(180deg) scale(0.95);
-    }
-
-    /* Convert Button */
-    .convert-button {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.75rem;
-        padding: 1.25rem 2rem;
-        background: linear-gradient(135deg, #FFD700, #FFA500);
-        border: none;
-        border-radius: 0.75rem;
-        color: #000;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow:
-            0 8px 20px rgba(255, 165, 0, 0.3),
-            0 2px 8px rgba(255, 215, 0, 0.2);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .convert-button::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.2));
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         opacity: 0;
-        transition: opacity 0.3s ease;
+        transform: translateY(30px);
+        animation: fadeInUp 0.6s ease-out forwards;
     }
 
-    .convert-button:hover {
-        transform: translateY(-2px) scale(1.02);
-        box-shadow:
-            0 12px 30px rgba(255, 165, 0, 0.4),
-            0 4px 12px rgba(255, 215, 0, 0.3);
+    .differentiator-card:nth-child(1) {
+        animation-delay: 0.1s;
     }
 
-    .convert-button:hover::before {
-        opacity: 1;
+    .differentiator-card:nth-child(2) {
+        animation-delay: 0.2s;
     }
 
-    .convert-button:active {
-        transform: translateY(0) scale(0.98);
+    .differentiator-card:nth-child(3) {
+        animation-delay: 0.3s;
     }
 
-    /* Result Panel */
-    .result-panel {
-        margin-top: 1.5rem;
-        padding: 1.5rem;
-        background: rgba(16, 185, 129, 0.05);
-        border: 1px solid rgba(16, 185, 129, 0.2);
-        border-radius: 0.75rem;
-        animation: fadeIn 0.4s ease-out;
+    .differentiator-card:nth-child(4) {
+        animation-delay: 0.4s;
     }
 
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(-10px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    .differentiator-card:nth-child(5) {
+        animation-delay: 0.5s;
     }
 
-    /* Chart Card */
-    .chart-card {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 1.5rem;
-        padding: 2.5rem;
-        box-shadow:
-            0 10px 40px rgba(0, 0, 0, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.05);
-        transition: all 0.4s ease;
+    .differentiator-card:nth-child(6) {
+        animation-delay: 0.6s;
     }
 
-    .chart-card:hover {
-        border-color: rgba(255, 165, 0, 0.2);
-        box-shadow:
-            0 20px 60px rgba(0, 0, 0, 0.5),
-            0 0 40px rgba(255, 165, 0, 0.1);
-    }
-
-    .chart-container {
-        position: relative;
-        height: 400px;
-        margin-bottom: 1rem;
-    }
-
-    .chart-placeholder {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 400px;
-    }
-
-    .chart-timeframe-btn {
-        padding: 0.5rem 1rem;
+    .differentiator-card:hover {
+        transform: translateY(-8px);
         background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 0.5rem;
-        color: rgba(255, 255, 255, 0.6);
-        font-family: "Plus Jakarta Sans", sans-serif;
-        font-weight: 600;
-        font-size: 0.875rem;
-        cursor: pointer;
+        border-color: rgba(255, 165, 0, 0.3);
+        box-shadow:
+            0 20px 40px rgba(0, 0, 0, 0.3),
+            0 0 30px rgba(255, 165, 0, 0.15);
+    }
+
+    .differentiator-icon {
+        width: fit-content;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        background: rgba(255, 140, 0, 0.08);
+        border-radius: 1rem;
         transition: all 0.3s ease;
     }
 
-    .chart-timeframe-btn:hover {
-        background: rgba(255, 255, 255, 0.08);
-        color: rgba(255, 255, 255, 0.9);
+    .differentiator-card:hover .differentiator-icon {
+        background: rgba(255, 140, 0, 0.15);
+        transform: scale(1.05);
     }
 
-    .chart-timeframe-btn.active {
-        background: linear-gradient(135deg, rgba(255, 165, 0, 0.3), rgba(255, 215, 0, 0.2));
-        border-color: rgba(255, 165, 0, 0.4);
-        color: #FFD700;
+    .differentiator-icon svg {
+        transition: transform 0.3s ease;
     }
 
-    /* Responsive Adjustments */
-    @media (max-width: 1024px) {
+    .differentiator-card:hover .differentiator-icon svg {
+        transform: rotate(5deg);
+    }
 
-        .converter-card,
-        .chart-card {
+    /* Responsive adjustments for differentiator cards */
+    @media (max-width: 768px) {
+        .differentiator-card {
             padding: 2rem;
         }
     }
 
-    @media (max-width: 768px) {
+    /* Marquee Currency Section Styles */
+    .marquee-container {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        padding: 1rem 0;
+    }
 
-        .converter-card,
-        .chart-card {
-            padding: 1.5rem;
+    .marquee-content {
+        display: flex;
+        width: fit-content;
+        animation: marquee 50s linear infinite;
+    }
+
+    .marquee-reverse {
+        animation: marquee-reverse 50s linear infinite;
+    }
+
+    /* Pause animation on hover (desktop) */
+    .marquee-container:hover .marquee-content {
+        animation-play-state: paused;
+    }
+
+    .marquee-item {
+        display: flex;
+        gap: 1rem;
+        padding-right: 1rem;
+    }
+
+    /* Currency Badge Styling */
+    .currency-badge {
+        display: inline-block;
+        padding: 0.875rem 1.75rem;
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 100px;
+        font-family: "Lexend Exa", sans-serif;
+        font-weight: 700;
+        font-size: 1rem;
+        color: #ffffff;
+        text-align: center;
+        white-space: nowrap;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .currency-badge:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 165, 0, 0.4);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Crypto Badge Variant */
+    .crypto-badge {
+        background: rgba(255, 140, 0, 0.08);
+        border-color: rgba(255, 140, 0, 0.2);
+    }
+
+    .crypto-badge:hover {
+        background: rgba(255, 140, 0, 0.15);
+        border-color: rgba(255, 140, 0, 0.5);
+    }
+
+    /* Marquee Keyframe Animations */
+    @keyframes marquee {
+        0% {
+            transform: translateX(0);
         }
 
-        .toggle-label {
-            padding: 0.625rem 1.25rem;
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+
+    @keyframes marquee-reverse {
+        0% {
+            transform: translateX(-50%);
+        }
+
+        100% {
+            transform: translateX(0);
+        }
+    }
+
+    /* Responsive adjustments for marquee */
+    @media (max-width: 768px) {
+        .currency-badge {
+            padding: 0.75rem 1.5rem;
             font-size: 0.875rem;
         }
 
-        .chart-container,
-        .chart-placeholder {
-            height: 300px;
+        .marquee-item {
+            gap: 0.75rem;
         }
     }
 
-    /* Premium Converter Section Styles */
-    .premium-converter-bg {
-        background: linear-gradient(180deg,
-                #f5ebe0 0%,
-                #e3d5ca 15%,
-                #bcaaa4 40%,
-                #6d4c41 70%,
-                #3e2723 100%);
+    /* Respect reduced motion preferences */
+    @media (prefers-reduced-motion: reduce) {
+        .marquee-content {
+            animation: none;
+        }
+    }
+
+    /* Market Pulse Insight Cards */
+    .insight-card {
         position: relative;
-        overflow: hidden;
-    }
-
-    .premium-converter-bg::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(circle at 50% 30%,
-                rgba(255, 167, 38, 0.15),
-                transparent 60%);
-        pointer-events: none;
-    }
-
-    /* Premium Card */
-    .premium-card {
-        background: #ffffff;
-        border-radius: 1.5rem;
-        padding: 2.5rem;
-        box-shadow:
-            0 20px 60px rgba(0, 0, 0, 0.15),
-            0 8px 24px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        border-radius: 1.25rem;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .premium-card:hover {
-        box-shadow:
-            0 24px 70px rgba(0, 0, 0, 0.2),
-            0 10px 30px rgba(255, 167, 38, 0.1);
-        transform: translateY(-2px);
+    .insight-card:hover {
+        transform: translateY(-4px);
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 165, 0, 0.25);
+        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
     }
 
-    /* Premium Toggle */
-    .premium-toggle-container {
-        display: inline-flex;
-        background: #f5f5f5;
-        border-radius: 9999px;
-        padding: 0.375rem;
-        gap: 0.5rem;
-    }
-
-    .premium-toggle-btn {
+    .insight-header {
         display: flex;
         align-items: center;
-        padding: 0.75rem 1.75rem;
-        border-radius: 9999px;
-        border: none;
-        background: transparent;
-        color: #757575;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .insight-content {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    /* Rate Movement Styles */
+    .rate-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .rate-item:hover {
+        background: rgba(255, 255, 255, 0.04);
+    }
+
+    .rate-pair {
         font-family: "Plus Jakarta Sans", sans-serif;
         font-weight: 600;
         font-size: 0.95rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        position: relative;
+        color: #e5e7eb;
     }
 
-    .premium-toggle-btn.active {
-        background: linear-gradient(135deg, #FF6F00, #FF8F00);
-        color: #ffffff;
-        box-shadow: 0 4px 12px rgba(255, 111, 0, 0.3);
-    }
-
-    .premium-toggle-btn:not(.active):hover {
-        color: #424242;
-        background: rgba(0, 0, 0, 0.05);
-    }
-
-    /* Premium Input Group */
-    .premium-input-group {
+    .rate-change {
         display: flex;
-        gap: 0.75rem;
-    }
-
-    .premium-input {
-        flex: 1;
-        background: #f9f9f9;
-        border: 2px solid #e0e0e0;
-        border-radius: 0.75rem;
-        padding: 1rem 1.25rem;
-        color: #212121;
-        font-size: 1.125rem;
+        align-items: center;
+        gap: 0.35rem;
         font-family: "Lexend Exa", sans-serif;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        outline: none;
+        font-weight: 700;
+        font-size: 0.875rem;
     }
 
-    .premium-input:focus {
-        background: #ffffff;
-        border-color: #FF8F00;
-        box-shadow: 0 0 0 4px rgba(255, 143, 0, 0.1);
+    .trend-icon {
+        width: 14px;
+        height: 14px;
     }
 
-    .premium-input::placeholder {
-        color: #bdbdbd;
+    .trend-up {
+        color: #22c55e;
     }
 
-    .premium-input:read-only {
-        background: #f5f5f5;
-        cursor: not-allowed;
+    .trend-down {
+        color: #ef4444;
     }
 
-    .premium-select {
-        background: #f9f9f9;
-        border: 2px solid #e0e0e0;
-        border-radius: 0.75rem;
-        padding: 1rem 1.25rem;
-        color: #212121;
-        font-size: 1rem;
-        font-family: "Plus Jakarta Sans", sans-serif;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        outline: none;
-        min-width: 110px;
+    .trend-neutral {
+        color: #94a3b8;
     }
 
-    .premium-select:focus {
-        background: #ffffff;
-        border-color: #FF8F00;
-        box-shadow: 0 0 0 4px rgba(255, 143, 0, 0.1);
-    }
-
-    .premium-select option {
-        background: #ffffff;
-        color: #212121;
-    }
-
-    /* Premium Swap Button */
-    .premium-swap-btn {
-        width: 3.5rem;
-        height: 3.5rem;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #FF6F00, #FF8F00);
-        border: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #ffffff;
-        cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 4px 12px rgba(255, 111, 0, 0.3);
-    }
-
-    .premium-swap-btn:hover {
-        transform: rotate(180deg) scale(1.1);
-        box-shadow: 0 6px 20px rgba(255, 111, 0, 0.4);
-    }
-
-    .premium-swap-btn:active {
-        transform: rotate(180deg) scale(0.95);
-    }
-
-    /* Premium Convert Button */
-    .premium-convert-btn {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.75rem;
-        padding: 1.25rem 2rem;
-        background: linear-gradient(135deg, #FF6F00, #FF8F00);
-        border: none;
-        border-radius: 0.75rem;
-        color: #ffffff;
-        cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow:
-            0 8px 20px rgba(255, 111, 0, 0.3),
-            0 2px 8px rgba(255, 143, 0, 0.2);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .premium-convert-btn::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.2));
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
-    .premium-convert-btn:hover {
-        transform: translateY(-2px) scale(1.02);
-        box-shadow:
-            0 12px 30px rgba(255, 111, 0, 0.4),
-            0 4px 12px rgba(255, 143, 0, 0.3);
-    }
-
-    .premium-convert-btn:hover::before {
-        opacity: 1;
-    }
-
-    .premium-convert-btn:active {
-        transform: translateY(0) scale(0.98);
-    }
-
-    /* Premium Result Panel */
-    .premium-result-panel {
-        margin-top: 1.5rem;
-        padding: 1.5rem;
-        background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
-        border: 2px solid #81c784;
-        border-radius: 0.75rem;
-        animation: premiumFadeIn 0.4s ease-out;
-    }
-
-    @keyframes premiumFadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(-10px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* Premium Chart Styles */
-    .premium-chart-container {
-        position: relative;
-        height: 400px;
+    /* Volatility Watch Styles */
+    .volatility-section {
         margin-bottom: 1rem;
     }
 
-    .premium-chart-placeholder {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 400px;
+    .volatility-section:last-child {
+        margin-bottom: 0;
     }
 
-    .premium-chart-btn {
-        padding: 0.5rem 1rem;
-        background: #f5f5f5;
-        border: 2px solid #e0e0e0;
-        border-radius: 0.5rem;
-        color: #757575;
+    .volatility-label {
         font-family: "Plus Jakarta Sans", sans-serif;
         font-weight: 600;
         font-size: 0.875rem;
-        cursor: pointer;
+        color: #9ca3af;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .volatility-items {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .volatility-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.5rem 0.875rem;
+        border-radius: 100px;
+        font-family: "Lexend Exa", sans-serif;
+        font-weight: 600;
+        font-size: 0.75rem;
         transition: all 0.3s ease;
     }
 
-    .premium-chart-btn:hover {
-        background: #eeeeee;
-        color: #424242;
-        border-color: #bdbdbd;
+    .volatility-badge.high {
+        background: rgba(239, 68, 68, 0.15);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        color: #fca5a5;
     }
 
-    .premium-chart-btn.active {
-        background: linear-gradient(135deg, #FF6F00, #FF8F00);
-        border-color: #FF6F00;
+    .volatility-badge.high:hover {
+        background: rgba(239, 68, 68, 0.25);
+        border-color: rgba(239, 68, 68, 0.5);
+    }
+
+    .volatility-badge.stable {
+        background: rgba(74, 222, 128, 0.1);
+        border: 1px solid rgba(74, 222, 128, 0.2);
+        color: #86efac;
+    }
+
+    .volatility-badge.stable:hover {
+        background: rgba(74, 222, 128, 0.15);
+        border-color: rgba(74, 222, 128, 0.3);
+    }
+
+    .alert-icon {
+        width: 14px;
+        height: 14px;
+    }
+
+    /* Market Snapshot Styles */
+    .snapshot-item {
+        padding: 0.75rem 0;
+    }
+
+    .snapshot-label {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: #9ca3af;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .snapshot-value {
+        font-family: "Lexend Exa", sans-serif;
+        font-weight: 700;
+        font-size: 1.25rem;
         color: #ffffff;
-        box-shadow: 0 2px 8px rgba(255, 111, 0, 0.3);
+        margin-bottom: 0.25rem;
     }
 
-    /* Premium Platform Cards */
-    .premium-platform-card {
-        background: #ffffff;
-        border-radius: 1rem;
-        padding: 1.5rem;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        transition: all 0.3s ease;
-        border: 2px solid transparent;
+    .snapshot-meta {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        font-weight: 400;
+        font-size: 0.875rem;
+        color: #6b7280;
     }
 
-    .premium-platform-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-        border-color: rgba(255, 143, 0, 0.3);
+    .snapshot-divider {
+        width: 100%;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.05);
+        margin: 0.5rem 0;
     }
 
-    /* Responsive Adjustments */
-    @media (max-width: 1024px) {
-        .premium-card {
-            padding: 2rem;
+    /* Responsive adjustments for insight cards */
+    @media (max-width: 768px) {
+        .insight-card {
+            padding: 1.5rem;
         }
 
-        .premium-platform-card {
-            padding: 1.25rem;
+        .snapshot-value {
+            font-size: 1.125rem;
+        }
+    }
+
+    /* Security, Accuracy & Trust Section */
+    .trust-card {
+        position: relative;
+        padding: 2rem;
+        border-radius: 1.25rem;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        text-align: center;
+    }
+
+    .trust-card:hover {
+        transform: translateY(-4px);
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(74, 222, 128, 0.3);
+        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .trust-icon-wrapper {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(74, 222, 128, 0.1);
+        border-radius: 50%;
+        transition: all 0.3s ease;
+    }
+
+    .trust-card:hover .trust-icon-wrapper {
+        background: rgba(74, 222, 128, 0.15);
+        transform: scale(1.05);
+    }
+
+    .trust-icon {
+        width: 32px;
+        height: 32px;
+        color: #86efac;
+    }
+
+    .trust-title {
+        font-family: "Lexend Exa", sans-serif;
+        font-weight: 700;
+        font-size: 1.125rem;
+        color: #ffffff;
+        margin-bottom: 0.75rem;
+    }
+
+    .trust-description {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        font-weight: 400;
+        font-size: 0.95rem;
+        color: #9ca3af;
+        line-height: 1.6;
+    }
+
+    /* Trust Statement Banner */
+    .trust-statement {
+        margin-top: 3rem;
+        padding: 1.5rem 2rem;
+        background: rgba(74, 222, 128, 0.08);
+        border: 1px solid rgba(74, 222, 128, 0.2);
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .checkmark-icon {
+        width: 40px;
+        height: 40px;
+        color: #86efac;
+        flex-shrink: 0;
+    }
+
+    .statement-text {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        font-size: 0.95rem;
+        color: #d1d5db;
+        line-height: 1.6;
+    }
+
+    .statement-text strong {
+        color: #86efac;
+        font-weight: 700;
+    }
+
+    /* Responsive adjustments for trust cards */
+    @media (max-width: 1024px) {
+        .trust-card {
+            padding: 1.75rem;
         }
     }
 
     @media (max-width: 768px) {
-        .premium-card {
+        .trust-card {
             padding: 1.5rem;
         }
 
-        .premium-toggle-btn {
-            padding: 0.625rem 1.25rem;
-            font-size: 0.875rem;
+        .trust-icon-wrapper {
+            width: 56px;
+            height: 56px;
         }
 
-        .premium-chart-container,
-        .premium-chart-placeholder {
-            height: 300px;
+        .trust-icon {
+            width: 28px;
+            height: 28px;
         }
 
-        .premium-platform-card {
-            padding: 1rem;
+        .trust-statement {
+            flex-direction: column;
+            text-align: center;
         }
     }
 </style>
@@ -1030,6 +886,7 @@
                 <a href="#" class="block hover:text-orange-400">About</a>
             </div>
         </nav>
+
         <!-- Hero section -->
         <div class="grid grid-cols-2 pt-12 justify-between">
             <!-- Left Side Text -->
@@ -1054,762 +911,145 @@
                 </div>
             </div>
         </div>
-        <!-- How It Works Section -->
-        <section class="min-h-screen py-20 px-4 sm:px-6 lg:px-8">
+
+        <section id="converter-section">
             <div class="max-w-7xl mx-auto">
                 <!-- Section Header -->
-                <div class="text-center mb-16 fade-in-up">
-                    <h2 class="text-5xl md:text-6xl lexend-exa-bold mb-4">
-                        How It Works<span class="text-orange-400">.</span>
+                <div class="text-center mb-12">
+                    <span class="converter-badge">Live Exchange Engine</span>
+                    <h2 class="converter-title lexend-exa-bold">
+                        Real-Time Converter<span class="accent-dot">.</span>
                     </h2>
-                    <p class="text-gray-400 text-lg plus-jakarta-sans-medium max-w-2xl mx-auto">
-                        Experience seamless currency conversion with our intelligent platform.
-                        From input to visualization, every step is optimized for speed and accuracy.
+                    <p class="text-gray-300 text-lg plus-jakarta-sans-regular max-w-2xl mx-auto mt-4">
+                        Convert between fiat currencies and cryptocurrencies instantly. Get live rates, historical
+                        charts, and trusted exchange recommendations.
                     </p>
                 </div>
 
-                <!-- Steps Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
-
-                    <!-- Step 1 -->
-                    <div class="how-it-works-card group">
-                        <div class="flex items-start gap-5">
-                            <div class="step-number">01</div>
-                            <div class="flex-1">
-                                <div class="flex items-center gap-3 mb-3">
-                                    <svg class="w-8 h-8 text-orange-400" fill="none" stroke="currentColor"
-                                        stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                    </svg>
-                                    <h3 class="text-2xl lexend-exa-semibold">Choose Conversion Mode</h3>
-                                </div>
-                                <p class="text-gray-400 plus-jakarta-sans-regular leading-relaxed">
-                                    Users select between Fiat or Cryptocurrency conversion modes and enter the desired
-                                    amount for instant processing.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Step 2 -->
-                    <div class="how-it-works-card group">
-                        <div class="flex items-start gap-5">
-                            <div class="step-number">02</div>
-                            <div class="flex-1">
-                                <div class="flex items-center gap-3 mb-3">
-                                    <svg class="w-8 h-8 text-orange-400" fill="none" stroke="currentColor"
-                                        stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <h3 class="text-2xl lexend-exa-semibold">Smart Input Processing</h3>
-                                </div>
-                                <p class="text-gray-400 plus-jakarta-sans-regular leading-relaxed">
-                                    Vanilla JavaScript validates all inputs in real-time, ensuring data integrity before
-                                    sending the conversion request.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Step 3 -->
-                    <div class="how-it-works-card group">
-                        <div class="flex items-start gap-5">
-                            <div class="step-number">03</div>
-                            <div class="flex-1">
-                                <div class="flex items-center gap-3 mb-3">
-                                    <svg class="w-8 h-8 text-orange-400" fill="none" stroke="currentColor"
-                                        stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                    </svg>
-                                    <h3 class="text-2xl lexend-exa-semibold">Secure Backend Request</h3>
-                                </div>
-                                <p class="text-gray-400 plus-jakarta-sans-regular leading-relaxed">
-                                    Data is securely transmitted to our Node.js + Express backend, ensuring protected
-                                    and reliable communication.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Step 4 -->
-                    <div class="how-it-works-card group">
-                        <div class="flex items-start gap-5">
-                            <div class="step-number">04</div>
-                            <div class="flex-1">
-                                <div class="flex items-center gap-3 mb-3">
-                                    <svg class="w-8 h-8 text-orange-400" fill="none" stroke="currentColor"
-                                        stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                    </svg>
-                                    <h3 class="text-2xl lexend-exa-semibold">Live Exchange Rates</h3>
-                                </div>
-                                <p class="text-gray-400 plus-jakarta-sans-regular leading-relaxed">
-                                    Our backend fetches real-time rates from CoinGecko and ExchangeRate APIs, delivering
-                                    up-to-the-second accuracy.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Step 5 -->
-                    <div class="how-it-works-card group">
-                        <div class="flex items-start gap-5">
-                            <div class="step-number">05</div>
-                            <div class="flex-1">
-                                <div class="flex items-center gap-3 mb-3">
-                                    <svg class="w-8 h-8 text-orange-400" fill="none" stroke="currentColor"
-                                        stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <h3 class="text-2xl lexend-exa-semibold">Instant Conversion Result</h3>
-                                </div>
-                                <p class="text-gray-400 plus-jakarta-sans-regular leading-relaxed">
-                                    Accurate converted values are calculated and returned instantly, displayed in a
-                                    clean, easy-to-read format.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Step 6 -->
-                    <div class="how-it-works-card group">
-                        <div class="flex items-start gap-5">
-                            <div class="step-number">06</div>
-                            <div class="flex-1">
-                                <div class="flex items-center gap-3 mb-3">
-                                    <svg class="w-8 h-8 text-orange-400" fill="none" stroke="currentColor"
-                                        stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                                    </svg>
-                                    <h3 class="text-2xl lexend-exa-semibold">Interactive Charts</h3>
-                                </div>
-                                <p class="text-gray-400 plus-jakarta-sans-regular leading-relaxed">
-                                    Visualize 7-day price history with beautiful Chart.js graphs, helping you track
-                                    trends and make informed decisions.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Step 7 -->
-                    <div class="how-it-works-card group">
-                        <div class="flex items-start gap-5">
-                            <div class="step-number">07</div>
-                            <div class="flex-1">
-                                <div class="flex items-center gap-3 mb-3">
-                                    <svg class="w-8 h-8 text-orange-400" fill="none" stroke="currentColor"
-                                        stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <h3 class="text-2xl lexend-exa-semibold">Global Visualization</h3>
-                                </div>
-                                <p class="text-gray-400 plus-jakarta-sans-regular leading-relaxed">
-                                    A stunning 3D rotating globe powered by Three.js highlights our worldwide currency
-                                    coverage and global reach.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Step 8 -->
-                    <div class="how-it-works-card group">
-                        <div class="flex items-start gap-5">
-                            <div class="step-number">08</div>
-                            <div class="flex-1">
-                                <div class="flex items-center gap-3 mb-3">
-                                    <svg class="w-8 h-8 text-orange-400" fill="none" stroke="currentColor"
-                                        stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                                    </svg>
-                                    <h3 class="text-2xl lexend-exa-semibold">Responsive Experience</h3>
-                                </div>
-                                <p class="text-gray-400 plus-jakarta-sans-regular leading-relaxed">
-                                    Fully optimized for all screen sizes using TailwindCSS, ensuring a seamless
-                                    experience on mobile, tablet, and desktop.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        
-
-
-        <!-- Main Converter Section - Premium Real-Time Version -->
-        <section class="sticky top-0 min-h-screen py-16 px-4 sm:px-6 lg:px-8  z-20">
-            <div class="max-w-7xl mx-auto">
-
-                <!-- Section Header -->
-                <div class="text-center mb-12">
-                    <div
-                        class="inline-block px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-4">
-                        <span class="text-sm plus-jakarta-sans-semibold text-orange-300">Converter</span>
-                    </div>
-                    <h2 class="text-5xl md:text-6xl lexend-exa-bold text-white">
-                        Live Rates<span class="text-orange-400">.</span>
-                    </h2>
-                </div>
-
-                <!-- Main Grid: Converter + Chart -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 mb-12">
-
-                    <!-- Left Panel: Converter Card -->
-                    <div class="premium-card">
-                        <!-- Toggle Switch -->
-                        <div class="flex justify-center mb-8">
-                            <div class="premium-toggle-container">
-                                <button id="fiat-mode-btn" class="premium-toggle-btn active"
-                                    onclick="switchMode('fiat')">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <span class="ml-2">Fiat</span>
-                                </button>
-                                <button id="crypto-mode-btn" class="premium-toggle-btn" onclick="switchMode('crypto')">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                    </svg>
-                                    <span class="ml-2">Crypto</span>
-                                </button>
-                            </div>
+                <!-- Main Converter Grid -->
+                <div class="converter-grid">
+                    <!-- Left Panel: Currency Converter Card -->
+                    <div class="converter-card">
+                        <!-- Mode Toggle -->
+                        <div class="mode-toggle">
+                            <button class="mode-btn active" id="fiat-mode-btn" onclick="switchMode('fiat')">
+                                Fiat Currency
+                            </button>
+                            <button class="mode-btn" id="crypto-mode-btn" onclick="switchMode('crypto')">
+                                Cryptocurrency
+                            </button>
+                            <button class="mode-btn" id="cross-mode-btn" onclick="switchMode('cross')">
+                                Crypto ↔ Fiat
+                            </button>
                         </div>
 
-                        <!-- From Section -->
-                        <div class="mb-6">
-                            <label class="block text-sm plus-jakarta-sans-semibold text-gray-700 mb-2">From</label>
-                            <div class="premium-input-group">
-                                <input type="number" id="from-amount-input" placeholder="0.00" class="premium-input"
-                                    oninput="handleAmountChange()" />
-                                <select id="from-currency-select" class="premium-select"
+                        <!-- From Currency -->
+                        <div class="currency-group">
+                            <label class="currency-label">From</label>
+                            <div class="currency-input-wrapper">
+                                <input type="number" class="amount-input" id="from-amount-input" placeholder="0.00"
+                                    oninput="handleAmountChange()" min="0" step="any" />
+                                <select class="currency-select" id="from-currency-select"
                                     onchange="handleCurrencyChange()">
                                     <option value="USD">USD</option>
-                                    <option value="EUR">EUR</option>
-                                    <option value="GBP">GBP</option>
-                                    <option value="JPY">JPY</option>
-                                    <option value="CAD">CAD</option>
-                                    <option value="AUD">AUD</option>
                                 </select>
                             </div>
                         </div>
 
                         <!-- Swap Button -->
-                        <div class="flex justify-center -my-3 relative z-10">
-                            <button class="premium-swap-btn" onclick="swapCurrenciesRealTime()">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5"
-                                    viewBox="0 0 24 24">
+                        <div class="swap-button-wrapper">
+                            <button class="swap-btn" onclick="swapCurrenciesRealTime()">
+                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
                                 </svg>
                             </button>
                         </div>
 
-                        <!-- To Section -->
-                        <div class="mb-8">
-                            <label class="block text-sm plus-jakarta-sans-semibold text-gray-700 mb-2">To</label>
-                            <div class="premium-input-group">
-                                <input type="number" id="to-amount-input" placeholder="0.00" class="premium-input"
+                        <!-- To Currency -->
+                        <div class="currency-group">
+                            <label class="currency-label">To</label>
+                            <div class="currency-input-wrapper">
+                                <input type="number" class="amount-input" id="to-amount-input" placeholder="0.00"
                                     readonly />
-                                <select id="to-currency-select" class="premium-select"
+                                <select class="currency-select" id="to-currency-select"
                                     onchange="handleCurrencyChange()">
                                     <option value="EUR">EUR</option>
-                                    <option value="USD">USD</option>
-                                    <option value="GBP">GBP</option>
-                                    <option value="JPY">JPY</option>
-                                    <option value="CAD">CAD</option>
-                                    <option value="AUD">AUD</option>
                                 </select>
                             </div>
                         </div>
 
                         <!-- Convert Button -->
-                        <button class="premium-convert-btn" onclick="performConversion()">
-                            <span class="lexend-exa-bold text-lg">Convert Now</span>
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                            </svg>
+                        <button class="convert-btn" onclick="performConversion()">
+                            Convert Now
                         </button>
 
-                        <!-- Result Panel -->
-                        <div id="result-panel-premium" class="premium-result-panel hidden">
-                            <div class="flex items-center justify-between mb-3">
-                                <span class="text-gray-600 plus-jakarta-sans-medium">Converted Amount</span>
-                                <div class="flex items-center gap-2">
-                                    <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                                    <span class="text-green-600 plus-jakarta-sans-semibold text-sm">Live</span>
-                                </div>
-                            </div>
-                            <div class="text-3xl lexend-exa-bold text-gray-900 mb-2" id="result-value-premium">
-                                0.00
-                            </div>
-                            <div class="text-sm text-gray-500 plus-jakarta-sans-regular">
-                                Rate: <span id="exchange-rate-premium" class="font-semibold">--</span>
-                            </div>
-                            <div class="text-xs text-gray-400 plus-jakarta-sans-regular mt-2">
-                                Last updated: <span id="last-updated">--</span>
+                        <!-- Result Panel (Hidden by default) -->
+                        <div class="result-panel hidden" id="result-panel-premium">
+                            <div class="result-value" id="result-value-premium">0.00 USD</div>
+                            <div class="exchange-rate" id="exchange-rate-premium">1 USD = 0.00 EUR</div>
+                            <div class="last-updated">Last updated: <span id="last-updated">--:--:--</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Right Panel: Live Chart -->
-                    <div class="premium-card">
-                        <div class="flex items-center justify-between mb-6">
-                            <h3 class="text-2xl lexend-exa-semibold text-gray-900">Price Chart</h3>
-                            <div class="flex gap-2">
-                                <button class="premium-chart-btn active" onclick="changeChartPeriod('7d')"
-                                    data-period="7d">7D</button>
-                                <button class="premium-chart-btn" onclick="changeChartPeriod('30d')"
-                                    data-period="30d">30D</button>
-                                <button class="premium-chart-btn" onclick="changeChartPeriod('90d')"
-                                    data-period="90d">90D</button>
+                    <!-- Right Panel: Price Chart -->
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <h3 class="chart-title plus-jakarta-sans-bold">Price Chart</h3>
+                            <div class="chart-period-selector">
+                                <button class="period-btn premium-chart-btn active" data-period="7d"
+                                    onclick="changeChartPeriod('7d')">7D</button>
+                                <button class="period-btn premium-chart-btn" data-period="30d"
+                                    onclick="changeChartPeriod('30d')">30D</button>
+                                <button class="period-btn premium-chart-btn" data-period="90d"
+                                    onclick="changeChartPeriod('90d')">90D</button>
                             </div>
                         </div>
 
-                        <!-- Chart Canvas -->
-                        <div class="premium-chart-container">
-                            <canvas id="liveChart"></canvas>
-                        </div>
-
-                        <!-- Chart Placeholder -->
-                        <div id="chart-placeholder-premium" class="premium-chart-placeholder">
-                            <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor"
-                                stroke-width="1.5" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                            </svg>
-                            <p class="text-gray-400 plus-jakarta-sans-medium text-center">
-                                Select currencies to view live price history
-                            </p>
+                        <div class="chart-canvas-wrapper">
+                            <div class="chart-placeholder" id="chart-placeholder-premium">
+                                Select a currency pair to view historical data
+                            </div>
+                            <canvas id="liveChart" class="hidden"></canvas>
                         </div>
                     </div>
-
                 </div>
 
-                <!-- Trusted Exchange Platforms -->
-                <div class="text-center mb-10">
-                    <h3 class="text-3xl md:text-4xl lexend-exa-bold text-white mb-2">
-                        Trusted Exchange Platforms<span class="text-orange-400">.</span>
-                    </h3>
-                    <p class="text-gray-300 plus-jakarta-sans-regular">
-                        Partner platforms ensuring the best rates and security
-                    </p>
+                <!-- Exchange Suggestions Section -->
+                <div class="exchange-suggestions">
+                    <h3 class="exchange-heading lexend-exa-bold">Trusted Exchange Platforms</h3>
+
+                    <div class="exchange-grid" id="exchange-grid">
+                        <!-- Exchange cards will be dynamically populated -->
+                    </div>
                 </div>
-
-                <!-- Platforms Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-                    <!-- Platform 1 -->
-                    <div class="premium-platform-card">
-                        <div class="flex items-center justify-between mb-4">
-                            <div
-                                class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                                </svg>
-                            </div>
-                            <span
-                                class="px-3 py-1 bg-blue-50 text-blue-700 text-xs plus-jakarta-sans-bold rounded-full">Best
-                                Rates</span>
-                        </div>
-                        <h4 class="text-xl lexend-exa-semibold text-gray-900 mb-2">Coinbase</h4>
-                        <p class="text-sm text-gray-600 plus-jakarta-sans-regular">
-                            Industry-leading rates with real-time market data and minimal spreads for optimal
-                            conversion.
-                        </p>
-                    </div>
-
-                    <!-- Platform 2 -->
-                    <div class="premium-platform-card">
-                        <div class="flex items-center justify-between mb-4">
-                            <div
-                                class="w-12 h-12 rounded-full bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                </svg>
-                            </div>
-                            <span
-                                class="px-3 py-1 bg-green-50 text-green-700 text-xs plus-jakarta-sans-bold rounded-full">High
-                                Security</span>
-                        </div>
-                        <h4 class="text-xl lexend-exa-semibold text-gray-900 mb-2">Kraken</h4>
-                        <p class="text-sm text-gray-600 plus-jakarta-sans-regular">
-                            Bank-grade encryption and multi-layer security protocols protecting your assets 24/7.
-                        </p>
-                    </div>
-
-                    <!-- Platform 3 -->
-                    <div class="premium-platform-card">
-                        <div class="flex items-center justify-between mb-4">
-                            <div
-                                class="w-12 h-12 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-                            <span
-                                class="px-3 py-1 bg-orange-50 text-orange-700 text-xs plus-jakarta-sans-bold rounded-full">Low
-                                Fees</span>
-                        </div>
-                        <h4 class="text-xl lexend-exa-semibold text-gray-900 mb-2">Binance</h4>
-                        <p class="text-sm text-gray-600 plus-jakarta-sans-regular">
-                            Competitive fee structure with volume discounts ensuring you keep more of your money.
-                        </p>
-                    </div>
-
-                </div>
-
             </div>
         </section>
-</section>
+
+        <!-- What Makes SKYX Different Section -->
+        
+        </section>
+
+        <!-- ========================================
+             PREMIUM CURRENCY CONVERTER SECTION
+             ======================================== -->
+
 
         <script src="../Scripts/GlobeModal.js"></script>
+        
         <script>
             function toggleMenu() {
                 document.getElementById("mobile-menu").classList.toggle("hidden");
             }
 
             // Swap currencies function (legacy)
-            function swapCurrencies() {
-                const fromAmount = document.getElementById('from-amount');
-                const fromCurrency = document.getElementById('from-currency');
-                const toAmount = document.getElementById('to-amount');
-                const toCurrency = document.getElementById('to-currency');
 
-                if (!fromAmount || !fromCurrency) return;
-
-                const tempAmount = fromAmount.value;
-                const tempCurrency = fromCurrency.value;
-
-                fromAmount.value = toAmount.value;
-                fromCurrency.value = toCurrency.value;
-                toAmount.value = tempAmount;
-                toCurrency.value = tempCurrency;
-            }
-
-            // ========== PREMIUM REAL-TIME CONVERTER ==========
-
-            let currentMode = 'fiat';
-            let debounceTimer;
-            let priceChart = null;
-            let currentPeriod = '7d';
-
-            // Currency lists
-            const fiatCurrencies = ['USD', 'EUR', 'GBP', 'JPY', 'CAD', 'AUD', 'CHF', 'CNY', 'INR'];
-            const cryptoCurrencies = ['BTC', 'ETH', 'USDT', 'BNB', 'SOL', 'XRP', 'ADA', 'DOGE'];
-
-            // Switch between Fiat and Crypto modes
-            function switchMode(mode) {
-                currentMode = mode;
-
-                // Update button styles
-                document.getElementById('fiat-mode-btn').classList.toggle('active', mode === 'fiat');
-                document.getElementById('crypto-mode-btn').classList.toggle('active', mode === 'crypto');
-
-                // Update currency lists
-                updateCurrencyLists();
-
-                // Clear and recalculate
-                document.getElementById('from-amount-input').value = '';
-                document.getElementById('to-amount-input').value = '';
-                hideResult();
-            }
-
-            // Update currency dropdown lists based on mode
-            function updateCurrencyLists() {
-                const fromSelect = document.getElementById('from-currency-select');
-                const toSelect = document.getElementById('to-currency-select');
-
-                const currencies = currentMode === 'fiat' ? fiatCurrencies : cryptoCurrencies;
-
-                fromSelect.innerHTML = currencies.map(curr => `<option value="${curr}">${curr}</option>`).join('');
-                toSelect.innerHTML = currencies.map(curr => `<option value="${curr}">${curr}</option>`).join('');
-
-                // Set different defaults
-                if (currencies.length > 1) {
-                    toSelect.selectedIndex = 1;
-                }
-            }
-
-            // Debounced input handler for real-time conversion
-            function handleAmountChange() {
-                clearTimeout(debounceTimer);
-                debounceTimer = setTimeout(() => {
-                    const amount = document.getElementById('from-amount-input').value;
-                    if (amount && parseFloat(amount) > 0) {
-                        performConversion();
-                    }
-                }, 500);
-            }
-
-            // Handle currency change
-            function handleCurrencyChange() {
-                const amount = document.getElementById('from-amount-input').value;
-                if (amount && parseFloat(amount) > 0) {
-                    performConversion();
-                }
-                updateChart();
-            }
-
-            // Perform conversion using API
-            async function performConversion() {
-                const fromAmount = document.getElementById('from-amount-input').value;
-                const fromCurrency = document.getElementById('from-currency-select').value;
-                const toCurrency = document.getElementById('to-currency-select').value;
-
-                if (!fromAmount || parseFloat(fromAmount) <= 0) {
-                    alert('Please enter a valid amount');
-                    return;
-                }
-
-                try {
-                    let rate;
-
-                    if (currentMode === 'fiat') {
-                        // Fiat conversion using exchangerate API
-                        const response = await fetch(`https://api.exchangerate-api.com/v4/latest/${fromCurrency}`);
-                        const data = await response.json();
-                        rate = data.rates[toCurrency];
-                    } else {
-                        // Crypto conversion using CoinGecko API
-                        const cryptoIds = {
-                            'BTC': 'bitcoin',
-                            'ETH': 'ethereum',
-                            'USDT': 'tether',
-                            'BNB': 'binancecoin',
-                            'SOL': 'solana',
-                            'XRP': 'ripple',
-                            'ADA': 'cardano',
-                            'DOGE': 'dogecoin'
-                        };
-
-                        const fromId = cryptoIds[fromCurrency];
-                        const toId = cryptoIds[toCurrency];
-
-                        if (fromId && toId) {
-                            const response = await fetch(
-                                `https://api.coingecko.com/api/v3/simple/price?ids=${fromId}&vs_currencies=${toId}`
-                            );
-                            const data = await response.json();
-                            rate = data[fromId]?.[toId.toLowerCase()] || 1;
-                        } else {
-                            rate = 1;
-                        }
-                    }
-
-                    // Calculate result
-                    const result = parseFloat(fromAmount) * rate;
-
-                    // Update UI
-                    document.getElementById('to-amount-input').value = result.toFixed(6);
-                    document.getElementById('result-value-premium').textContent =
-                        `${result.toFixed(2)} ${toCurrency}`;
-                    document.getElementById('exchange-rate-premium').textContent =
-                        `1 ${fromCurrency} = ${rate.toFixed(6)} ${toCurrency}`;
-                    document.getElementById('last-updated').textContent =
-                        new Date().toLocaleTimeString();
-
-                    showResult();
-                    updateChart();
-
-                } catch (error) {
-                    console.error('Conversion error:', error);
-                    alert('Unable to fetch exchange rate. Please try again.');
-                }
-            }
-
-            // Swap currencies with real-time update
-            function swapCurrenciesRealTime() {
-                const fromCurrencySelect = document.getElementById('from-currency-select');
-                const toCurrencySelect = document.getElementById('to-currency-select');
-
-                // Swap currency selections
-                const tempCurrency = fromCurrencySelect.value;
-                fromCurrencySelect.value = toCurrencySelect.value;
-                toCurrencySelect.value = tempCurrency;
-
-                // Recalculate if there's an amount
-                const amount = document.getElementById('from-amount-input').value;
-                if (amount && parseFloat(amount) > 0) {
-                    performConversion();
-                } else {
-                    updateChart();
-                }
-            }
-
-            // Show result panel
-            function showResult() {
-                const panel = document.getElementById('result-panel-premium');
-                panel.classList.remove('hidden');
-            }
-
-            // Hide result panel
-            function hideResult() {
-                const panel = document.getElementById('result-panel-premium');
-                panel.classList.add('hidden');
-            }
-
-            // Update Chart with live data
-            async function updateChart() {
-                const fromCurrency = document.getElementById('from-currency-select').value;
-                const toCurrency = document.getElementById('to-currency-select').value;
-
-                const placeholder = document.getElementById('chart-placeholder-premium');
-                const chartCanvas = document.getElementById('liveChart');
-
-                try {
-                    let chartData;
-
-                    if (currentMode === 'crypto') {
-                        // Fetch crypto historical data from CoinGecko
-                        const cryptoIds = {
-                            'BTC': 'bitcoin', 'ETH': 'ethereum', 'USDT': 'tether',
-                            'BNB': 'binancecoin', 'SOL': 'solana', 'XRP': 'ripple',
-                            'ADA': 'cardano', 'DOGE': 'dogecoin'
-                        };
-
-                        const days = currentPeriod === '7d' ? 7 : currentPeriod === '30d' ? 30 : 90;
-                        const fromId = cryptoIds[fromCurrency];
-
-                        const response = await fetch(
-                            `https://api.coingecko.com/api/v3/coins/${fromId}/market_chart?vs_currency=usd&days=${days}`
-                        );
-                        const data = await response.json();
-
-                        chartData = {
-                            labels: data.prices.map((_, i) => `Day ${i + 1}`),
-                            values: data.prices.map(p => p[1])
-                        };
-                    } else {
-                        // For fiat, generate sample data (real API would require paid service)
-                        const days = currentPeriod === '7d' ? 7 : currentPeriod === '30d' ? 30 : 90;
-                        const baseValue = 1.0;
-                        chartData = {
-                            labels: Array.from({ length: days }, (_, i) => `Day ${i + 1}`),
-                            values: Array.from({ length: days }, () =>
-                                baseValue + (Math.random() - 0.5) * 0.1)
-                        };
-                    }
-
-                    // Hide placeholder, show chart
-                    placeholder.classList.add('hidden');
-                    chartCanvas.classList.remove('hidden');
-
-                    renderChart(chartData);
-
-                } catch (error) {
-                    console.error('Chart error:', error);
-                    // Show placeholder on error
-                    placeholder.classList.remove('hidden');
-                    chartCanvas.classList.add('hidden');
-                }
-            }
-
-            // Render chart using Chart.js
-            function renderChart(data) {
-                const ctx = document.getElementById('liveChart').getContext('2d');
-
-                if (priceChart) {
-                    priceChart.destroy();
-                }
-
-                priceChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: data.labels,
-                        datasets: [{
-                            label: 'Price History',
-                            data: data.values,
-                            borderColor: '#FF6F00',
-                            backgroundColor: 'rgba(255, 111, 0, 0.1)',
-                            borderWidth: 3,
-                            fill: true,
-                            tension: 0.4,
-                            pointRadius: 0,
-                            pointHoverRadius: 6,
-                            pointHoverBackgroundColor: '#FF6F00'
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            },
-                            tooltip: {
-                                mode: 'index',
-                                intersect: false,
-                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                                titleColor: '#fff',
-                                bodyColor: '#fff',
-                                borderColor: '#FF6F00',
-                                borderWidth: 1
-                            }
-                        },
-                        scales: {
-                            x: {
-                                display: false
-                            },
-                            y: {
-                                beginAtZero: false,
-                                grid: {
-                                    color: 'rgba(0, 0, 0, 0.05)'
-                                },
-                                ticks: {
-                                    color: '#757575'
-                                }
-                            }
-                        },
-                        interaction: {
-                            mode: 'nearest',
-                            axis: 'x',
-                            intersect: false
-                        }
-                    }
-                });
-            }
-
-            // Change chart period
-            function changeChartPeriod(period) {
-                currentPeriod = period;
-
-                // Update button styles
-                document.querySelectorAll('.premium-chart-btn').forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.period === period);
-                });
-
-                updateChart();
-            }
-
-            // Initialize on page load
-            document.addEventListener('DOMContentLoaded', function () {
-                updateCurrencyLists();
-
-                // Hide chart initially
-                document.getElementById('liveChart').classList.add('hidden');
-            });
         </script>
 
 
+        <!-- Footer -->
+        
 </body>
 
 </html>
