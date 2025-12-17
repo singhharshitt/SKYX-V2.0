@@ -1,0 +1,492 @@
+/* ========================================
+   SKYX PREMIUM CURRENCY CONVERTER STYLES
+   ======================================== */
+
+/* Converter Section - Full Viewport with Gradient */
+#converter-section {
+    position: relative;
+    min-height: 100vh;
+    background: linear-gradient(135deg,
+            #f5f0e8 0%,
+            #e8dcc8 20%,
+            #4a4a4a 60%,
+            #2c2c2c 100%);
+    padding: 4rem 1rem;
+    overflow: hidden;
+}
+
+#converter-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 30%, rgba(255, 184, 77, 0.08), transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(255, 140, 0, 0.06), transparent 50%);
+    pointer-events: none;
+}
+
+/* Section Header */
+.converter-badge {
+    display: inline-block;
+    padding: 0.5rem 1.25rem;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 100px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.converter-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 3rem;
+    line-height: 1.1;
+}
+
+.converter-title .accent-dot {
+    color: #ff8c00;
+    font-size: 4rem;
+}
+
+/* Main Grid Layout - Responsive */
+.converter-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+@media (min-width: 1024px) {
+    .converter-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+    }
+}
+
+/* Currency Converter Card - Premium Glassmorphism */
+.converter-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 2.5rem;
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.12),
+        0 0 1px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.converter-card:hover {
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.16),
+        0 0 1px rgba(0, 0, 0, 0.15);
+    transform: translateY(-4px);
+}
+
+/* Mode Toggle Switch */
+.mode-toggle {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    padding: 0.5rem;
+    background: #f5f5f5;
+    border-radius: 12px;
+    flex-wrap: wrap;
+}
+
+.mode-btn {
+    flex: 1;
+    min-width: 120px;
+    padding: 0.875rem 1rem;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: #666;
+    white-space: nowrap;
+}
+
+.mode-btn:hover {
+    background: rgba(255, 140, 0, 0.08);
+    color: #ff8c00;
+}
+
+.mode-btn.active {
+    background: linear-gradient(135deg, #ff8c00, #ff6f00);
+    color: white;
+    box-shadow: 0 4px 16px rgba(255, 140, 0, 0.3);
+}
+
+/* Currency Input Group */
+.currency-group {
+    margin-bottom: 1.5rem;
+}
+
+.currency-label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: #333;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.currency-input-wrapper {
+    display: flex;
+    gap: 1rem;
+    align-items: stretch;
+}
+
+.amount-input {
+    flex: 2;
+    padding: 1.25rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    border: 2px solid #e5e5e5;
+    border-radius: 12px;
+    outline: none;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.amount-input:focus {
+    border-color: #ff8c00;
+    box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.1);
+}
+
+.currency-select {
+    flex: 1;
+    padding: 1.25rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: 2px solid #e5e5e5;
+    border-radius: 12px;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+}
+
+.currency-select:focus {
+    border-color: #ff8c00;
+    box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.1);
+}
+
+/* Swap Button - Animated */
+.swap-button-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 1.5rem 0;
+}
+
+.swap-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid #e5e5e5;
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.swap-btn:hover {
+    background: linear-gradient(135deg, #ff8c00, #ff6f00);
+    border-color: #ff8c00;
+    transform: rotate(180deg) scale(1.1);
+    box-shadow: 0 8px 24px rgba(255, 140, 0, 0.3);
+}
+
+.swap-btn:hover svg {
+    color: white;
+}
+
+.swap-btn svg {
+    width: 24px;
+    height: 24px;
+    color: #666;
+    transition: color 0.3s ease;
+}
+
+.swap-btn:active {
+    transform: rotate(180deg) scale(0.95);
+}
+
+/* Convert Button - Premium Gradient */
+.convert-btn {
+    width: 100%;
+    padding: 1.25rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #ff8c00, #ff6f00);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-top: 1.5rem;
+    box-shadow: 0 8px 24px rgba(255, 140, 0, 0.25);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.convert-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(255, 140, 0, 0.35);
+}
+
+.convert-btn:active {
+    transform: translateY(0);
+}
+
+/* Result Panel - Smooth Fade In */
+.result-panel {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(255, 140, 0, 0.05), rgba(255, 111, 0, 0.08));
+    border-radius: 16px;
+    border-left: 4px solid #ff8c00;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.result-panel:not(.hidden) {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.result-value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #ff8c00;
+    margin-bottom: 0.5rem;
+}
+
+.exchange-rate {
+    font-size: 0.875rem;
+    color: #666;
+    margin-bottom: 0.25rem;
+}
+
+.last-updated {
+    font-size: 0.75rem;
+    color: #999;
+}
+
+/* Chart Container - Minimal & Elegant */
+.chart-container {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 2.5rem;
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.12),
+        0 0 1px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.chart-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.chart-period-selector {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.period-btn {
+    padding: 0.5rem 1rem;
+    border: 2px solid #e5e5e5;
+    background: white;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #666;
+}
+
+.period-btn:hover {
+    border-color: #ff8c00;
+    color: #ff8c00;
+}
+
+.period-btn.active {
+    background: #ff8c00;
+    border-color: #ff8c00;
+    color: white;
+}
+
+.chart-canvas-wrapper {
+    position: relative;
+    height: 300px;
+    margin-bottom: 1rem;
+}
+
+.chart-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #999;
+    font-size: 0.95rem;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 12px;
+}
+
+/* Exchange Suggestions Section */
+.exchange-suggestions {
+    margin-top: 4rem;
+    position: relative;
+    z-index: 1;
+}
+
+.exchange-heading {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    color: #333;
+}
+
+.exchange-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+    .exchange-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .exchange-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.exchange-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid transparent;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.exchange-card:hover {
+    transform: translateY(-6px);
+    border-color: #ff8c00;
+    box-shadow: 0 12px 32px rgba(255, 140, 0, 0.2);
+}
+
+.exchange-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.exchange-name {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.exchange-badges {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.badge {
+    padding: 0.25rem 0.75rem;
+    background: rgba(255, 140, 0, 0.1);
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #ff8c00;
+}
+
+.badge.trust {
+    background: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+}
+
+.exchange-link {
+    display: inline-block;
+    margin-top: 0.75rem;
+    color: #ff8c00;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.exchange-link:hover {
+    color: #ff6f00;
+    text-decoration: underline;
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+    .converter-title {
+        font-size: 2.5rem;
+    }
+
+    .converter-title .accent-dot {
+        font-size: 3rem;
+    }
+
+    .converter-card,
+    .chart-container {
+        padding: 1.5rem;
+    }
+
+    .chart-canvas-wrapper {
+        height: 250px;
+    }
+}
+
+/* Utility Classes */
+.hidden {
+    display: none !important;
+}
