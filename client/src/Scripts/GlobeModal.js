@@ -1,64 +1,68 @@
 const canvas = document.getElementById("globeCanvas");
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({
-    canvas,
-    alpha: true,
-    antialias: true,
-});
-renderer.setPixelRatio(window.devicePixelRatio);
 
-// Load Earth texture
-const textureLoader = new THREE.TextureLoader();
-const earthTexture = textureLoader.load("/src/assets/skin3.png");
+// Safety check: only initialize globe if canvas exists
+if (canvas) {
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({
+        canvas,
+        alpha: true,
+        antialias: true,
+    });
+    renderer.setPixelRatio(window.devicePixelRatio);
 
-// Sphere (Earth) - higher detail for smoothness
-const geometry = new THREE.SphereGeometry(2, 128, 128);
-const material = new THREE.MeshStandardMaterial({
-    map: earthTexture,
-    roughness: 1,
-    metalness: 0,
-});
-const globe = new THREE.Mesh(geometry, material);
+    // Load Earth texture
+    const textureLoader = new THREE.TextureLoader();
+    const earthTexture = textureLoader.load("/src/assets/skin3.png");
 
-// Tilt Earth a bit (about 23.5 degrees)
-globe.rotation.z = THREE.MathUtils.degToRad(23.5);
+    // Sphere (Earth) - higher detail for smoothness
+    const geometry = new THREE.SphereGeometry(2, 128, 128);
+    const material = new THREE.MeshStandardMaterial({
+        map: earthTexture,
+        roughness: 1,
+        metalness: 0,
+    });
+    const globe = new THREE.Mesh(geometry, material);
 
-scene.add(globe);
+    // Tilt Earth a bit (about 23.5 degrees)
+    globe.rotation.z = THREE.MathUtils.degToRad(23.5);
 
-// Lights
-const light = new THREE.PointLight(0xffffff, 1.5);
-light.position.set(5, 3, 5);
-scene.add(light);
+    scene.add(globe);
 
-const ambient = new THREE.AmbientLight(0x404040, 1.5);
-scene.add(ambient);
+    // Lights
+    const light = new THREE.PointLight(0xffffff, 1.5);
+    light.position.set(5, 3, 5);
+    scene.add(light);
 
-camera.position.z = 5;
+    const ambient = new THREE.AmbientLight(0x404040, 1.5);
+    scene.add(ambient);
 
-// ✅ Resize handler to keep canvas responsive
-function resizeRenderer() {
-    const width = canvas.clientWidth;
-    const height = canvas.clientHeight;
+    camera.position.z = 5;
 
-    renderer.setSize(width, height, false);
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
+    // ✅ Resize handler to keep canvas responsive
+    function resizeRenderer() {
+        const width = canvas.clientWidth;
+        const height = canvas.clientHeight;
+
+        renderer.setSize(width, height, false);
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+    }
+
+    // Run once at start
+    resizeRenderer();
+
+    // Update when window resizes
+    window.addEventListener("resize", resizeRenderer);
+
+    // Animate spin
+    function animate() {
+        requestAnimationFrame(animate);
+        globe.rotation.y += 0.002; // spin around vertical axis
+        renderer.render(scene, camera);
+    }
+    animate();
 }
-
-// Run once at start
-resizeRenderer();
-
-// Update when window resizes
-window.addEventListener("resize", resizeRenderer);
-
-// Animate spin
-function animate() {
-    requestAnimationFrame(animate);
-    globe.rotation.y += 0.002; // spin around vertical axis
-    renderer.render(scene, camera);
-}
-animate();
 
 // Currency Converter JavaScript
 class CurrencyConverter {
