@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SKYX</title>
     <link href="../style.css" rel="stylesheet" />
-    <link href="converter.css" rel="stylesheet" />
-    <link href="HowWork.css" rel="stylesheet" />
-    <link href="MarketPulse.css" rel="stylesheet" />
+    <link href="../styling/converter.css" rel="stylesheet" />
+    <link href="../styling/HowWork.css" rel="stylesheet" />
+    <link href="../styling/MarketPulse.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -949,9 +949,9 @@
                         <div class="currency-group">
                             <label class="currency-label">From</label>
                             <div class="currency-input-wrapper">
-                                <input type="number" class="amount-input" id="from-amount-input" placeholder="0.00"
-                                    oninput="handleAmountChange()" min="0" step="any" />
-                                <select class="currency-select" id="from-currency-select"
+                                <input type="number" class="amount-input text-gray-950" id="from-amount-input"
+                                    placeholder="0.00" oninput="handleAmountChange()" min="0" step="any" />
+                                <select class="currency-select text-gray-950" id="from-currency-select"
                                     onchange="handleCurrencyChange()">
                                     <option value="USD">USD</option>
                                 </select>
@@ -972,9 +972,9 @@
                         <div class="currency-group">
                             <label class="currency-label">To</label>
                             <div class="currency-input-wrapper">
-                                <input type="number" class="amount-input" id="to-amount-input" placeholder="0.00"
-                                    readonly />
-                                <select class="currency-select" id="to-currency-select"
+                                <input type="number" class="amount-input text-gray-950" id="to-amount-input"
+                                    placeholder="0.00" readonly />
+                                <select class="currency-select text-gray-950" id="to-currency-select"
                                     onchange="handleCurrencyChange()">
                                     <option value="EUR">EUR</option>
                                 </select>
@@ -1255,8 +1255,7 @@
             </div>
         </section>
         <!--How it works-->
-        <section
-            class="py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-b from-gray-900 via-gray-900 to-gray-950 overflow-hidden">
+        <section class="py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
             <div class="max-w-7xl mx-auto">
 
                 <!-- Animated Background Elements -->
@@ -1595,7 +1594,7 @@
         </section>
 
         <!--Market Pulse Section-->
-        <section class="py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-b from-gray-900 to-gray-950 overflow-hidden relative">
+        <section class="py-20 px-4 sm:px-6 lg:px-8  overflow-hidden relative">
             <!-- Animated Background Elements -->
             <div class="absolute inset-0 overflow-hidden pointer-events-none">
                 <div class="absolute -top-40 -right-40 w-80 h-80 bg-orange-500/5 rounded-full blur-3xl animate-pulse">
@@ -1982,7 +1981,7 @@
             </div>
         </section>
         <!-- Security, Accuracy & Trust Section -->
-        <section class="py-20 px-4 sm:px-6 lg:px-8">
+        <section class="py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-b from-transparent via-gray-900/30 to-transparent">
             <div class="max-w-7xl mx-auto">
                 <!-- Section Header -->
                 <div class="text-center mb-12 fade-in-up">
@@ -2077,7 +2076,7 @@
             </div>
         </section>
         <!--CONTACT US FORM-->
-        <section class="py-20 px-4 sm:px-6 lg:px-8">
+        <section class="py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-b from-transparent via-gray-900/30 to-transparent">
             <div class="max-w-7xl mx-auto">
                 <div class="text-center mb-16 fade-in-up">
                     <div class="inline-flex items-center gap-3 mb-8 group">
@@ -2344,14 +2343,6 @@
                         <!-- Contact Info Card -->
                         <div
                             class="bg-linear-to-br from-gray-800/80 via-gray-850/80 to-gray-900/80 backdrop-blur-sm rounded-3xl p-8 sm:p-10 border border-gray-700/40 shadow-2xl hover:border-gray-600/60 transition-all duration-500">
-                            <h3
-                                class="text-2xl sm:text-3xl lexend-exa-semibold text-white mb-10 flex items-center gap-3">
-                                <div
-                                    class="w-3 h-3 bg-blue-400 rounded-full animate-pulse shadow-lg shadow-blue-400/50">
-                                </div>
-                                Get in Touch
-                            </h3>
-
                             <div class="space-y-8">
                                 <!-- Email -->
                                 <div
@@ -2433,79 +2424,6 @@
                             </div>
                         </div>
 
-                        <!-- FAQ Card -->
-                        <div
-                            class="bg-linear-to-br from-gray-800/80 via-gray-850/80 to-gray-900/80 backdrop-blur-sm rounded-3xl p-8 sm:p-10 border border-gray-700/40 shadow-2xl hover:border-gray-600/60 transition-all duration-500">
-                            <h3
-                                class="text-2xl sm:text-3xl lexend-exa-semibold text-white mb-8 flex items-center gap-3">
-                                <div
-                                    class="w-3 h-3 bg-purple-400 rounded-full animate-pulse shadow-lg shadow-purple-400/50">
-                                </div>
-                                Quick Answers
-                            </h3>
-
-                            <div class="space-y-6">
-                                <div class="group" x-data="{ open: false }">
-                                    <button @click="open = !open"
-                                        class="w-full flex items-center justify-between text-left">
-                                        <span
-                                            class="text-white font-medium group-hover:text-orange-400 transition-colors duration-300">How
-                                            quickly will I get a response?</span>
-                                        <svg class="w-5 h-5 text-gray-400 transform transition-transform duration-300"
-                                            :class="{ 'rotate-180': open }" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M19 9l-7 7-7-7" />
-                                        </svg>
-                                    </button>
-                                    <div x-show="open" x-transition class="mt-3 text-gray-400 text-sm">
-                                        We typically respond within 2 hours during business hours. For urgent matters,
-                                        please
-                                        call our support line.
-                                    </div>
-                                </div>
-
-                                <div class="group" x-data="{ open: false }">
-                                    <button @click="open = !open"
-                                        class="w-full flex items-center justify-between text-left">
-                                        <span
-                                            class="text-white font-medium group-hover:text-orange-400 transition-colors duration-300">Do
-                                            you offer 24/7 support?</span>
-                                        <svg class="w-5 h-5 text-gray-400 transform transition-transform duration-300"
-                                            :class="{ 'rotate-180': open }" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M19 9l-7 7-7-7" />
-                                        </svg>
-                                    </button>
-                                    <div x-show="open" x-transition class="mt-3 text-gray-400 text-sm">
-                                        Yes! Our emergency support line is available 24/7 for critical issues affecting
-                                        your
-                                        account or transactions.
-                                    </div>
-                                </div>
-
-                                <div class="group" x-data="{ open: false }">
-                                    <button @click="open = !open"
-                                        class="w-full flex items-center justify-between text-left">
-                                        <span
-                                            class="text-white font-medium group-hover:text-orange-400 transition-colors duration-300">Can
-                                            I schedule a call?</span>
-                                        <svg class="w-5 h-5 text-gray-400 transform transition-transform duration-300"
-                                            :class="{ 'rotate-180': open }" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M19 9l-7 7-7-7" />
-                                        </svg>
-                                    </button>
-                                    <div x-show="open" x-transition class="mt-3 text-gray-400 text-sm">
-                                        Absolutely! Email us with your preferred time and we'll schedule a call to
-                                        discuss your
-                                        needs.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -2787,54 +2705,7 @@
             </div>
         </section>
 
-        <script>
-            // FAQ Accordion Functionality
-            document.addEventListener('DOMContentLoaded', function () {
-                const faqItems = document.querySelectorAll('.faq-item');
-
-                faqItems.forEach(item => {
-                    const question = item.querySelector('.faq-question');
-                    const answer = item.querySelector('.faq-answer');
-                    const icon = item.querySelector('.faq-icon');
-
-                    question.addEventListener('click', () => {
-                        const isOpen = question.getAttribute('aria-expanded') === 'true';
-
-                        // Close all other items (optional: comment out for multiple open)
-                        faqItems.forEach(otherItem => {
-                            if (otherItem !== item) {
-                                const otherQuestion = otherItem.querySelector('.faq-question');
-                                const otherAnswer = otherItem.querySelector('.faq-answer');
-                                const otherIcon = otherItem.querySelector('.faq-icon');
-
-                                otherQuestion.setAttribute('aria-expanded', 'false');
-                                otherAnswer.style.maxHeight = '0px';
-                                otherIcon.style.transform = 'rotate(0deg)';
-                            }
-                        });
-
-                        // Toggle current item
-                        if (isOpen) {
-                            question.setAttribute('aria-expanded', 'false');
-                            answer.style.maxHeight = '0px';
-                            icon.style.transform = 'rotate(0deg)';
-                        } else {
-                            question.setAttribute('aria-expanded', 'true');
-                            answer.style.maxHeight = answer.scrollHeight + 'px';
-                            icon.style.transform = 'rotate(180deg)';
-                        }
-                    });
-
-                    // Keyboard accessibility
-                    question.addEventListener('keydown', (e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault();
-                            question.click();
-                        }
-                    });
-                });
-            });
-        </script>
+        <script src="../Scripts/FAQfunctionality.js"></script>
 
 
         <footer class="bg-linear-to-b from-gray-900 to-black border-t border-gray-800 mt-20">
@@ -3092,7 +2963,6 @@
         </script>
 
 
-        <!-- Footer -->
 
 </body>
 
