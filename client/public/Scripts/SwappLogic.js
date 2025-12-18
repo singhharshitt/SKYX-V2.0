@@ -16,8 +16,8 @@ const cryptoCurrencies = [
     'AVAX', 'DOT', 'MATIC', 'LINK', 'UNI', 'LTC'
 ];
 
-// API Base URL
-const API_BASE_URL = 'http://localhost:3001/api';
+// API Base URL - uses global config with fallback
+const API_BASE_URL = (window.API_CONFIG && window.API_CONFIG.API_BASE_URL) || 'http://localhost:3001/api';
 
 // FIXED: Function to swap currencies (for backward compatibility)
 function swapCurrencies() {
