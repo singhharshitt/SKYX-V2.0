@@ -84,8 +84,39 @@ const getHistoricalData = async (coinId, vsCurrency, days) => {
     }
 };
 
+const getMarketPulseData = async (coinIds) => {
+    try {
+        const response = await axios.get(`${BASE_URL}/coins/markets`, {
+            params: {
+                vs_currency: 'usd',
+                ids: coinIds.join(','),
+                order: 'market_cap_desc',
+                per_page: 10,
+                page: 1,
+                sparkline: false,
+                price_change_percentage: '24h'
+            }
+        });
+
+        return response.data.map(coin => ({
+            id: coin.id,
+            symbol: coin.symbol.toUpperCase(),
+            name: coin.name,
+            current_price: coin.current_price,
+            price_change_percentage_24h: coin.price_change_percentage_24h || 0,
+            market_cap: coin.market_cap,
+            total_volume: coin.total_volume,
+            image: coin.image
+        }));
+    } catch (error) {
+        console.error('Error fetching market pulse data:', error.message);
+        throw error;
+    }
+};
+
 module.exports = {
     getSupportedCryptoCurrencies,
     getCryptoPrice,
-    getHistoricalData
+    getHistoricalData,
+    getMarketPulseData
 };
