@@ -844,7 +844,7 @@
 <!-- //text-[#2C2C54] -->
 
 <body class="overflow-x-hidden  text-white ">
-    <section class="min-h-screen z-10 space-bg ">
+    <section class="min-h-screen z-10 space-bg" id="home">
         <!-- Navbar -->
         <nav class="w-full">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-5">
@@ -867,9 +867,9 @@
 
                     <!-- DESKTOP MENU -->
                     <div class="hidden md:flex items-center gap-8 font-medium text-xl font-snpro">
-                        <a href="#" class="hover:text-orange-400 transition">Home</a>
-                        <a href="#" class="hover:text-orange-400 transition">Markets</a>
-                        <a href="#" class="hover:text-orange-400 transition">About</a>
+                        <a href="#home" class="hover:text-orange-400 transition">Home</a>
+                        <a href="#converter-section" class="hover:text-orange-400 transition">Converter</a>
+                        <a href="#contact" class="hover:text-orange-400 transition">Contact</a>
                     </div>
 
                     <!-- MOBILE BUTTON -->
@@ -883,22 +883,24 @@
 
             <!-- MOBILE MENU -->
             <div id="mobile-menu" class="md:hidden hidden px-6 py-6 space-y-4 oboto-slab-M backdrop-blur-sm ">
-                <a href="#" class="block hover:text-orange-400">Home</a>
-                <a href="#" class="block hover:text-orange-400">Markets</a>
-                <a href="#" class="block hover:text-orange-400">About</a>
+                <a href="#home" class="block hover:text-orange-400">Home</a>
+                <a href="#converter-section" class="block hover:text-orange-400">Converter</a>
+                <a href="#contact" class="block hover:text-orange-400">Contact</a>
             </div>
         </nav>
 
         <!-- Hero section -->
-        <div class="grid grid-cols-2 pt-12 justify-between">
+        <div class="grid grid-cols-1 md:grid-cols-2 pt-12 justify-between max-w-full overflow-hidden">
             <!-- Left Side Text -->
-            <div class="mt-8">
-                <div class="flex justify-center items-center mt-44 min-w-full pl-40">
-                    <div class="flex flex-col text-sm gap-4">
-                        <h2 class="text-4xl md:text-7xl lexend-exa-bold  ">
+            <div class="mt-8 px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-center items-center sm:mt-20 md:mt-44 md:pl-12 lg:pl-20 xl:pl-40">
+                    <div class="flex flex-col gap-4">
+                        <h2
+                            class="text-3xl sm:text-4xl md:text-5xl lg:text-7xl lexend-exa-bold text-center md:text-left">
                             Your Exchange Compass<span class="text-orange-400">.</span>
                         </h2>
-                        <p class="md:text-[16px] plus-jakarta-sans-semibold px-4 text-[8px] ">
+                        <p
+                            class="text-sm sm:text-base md:text-[16px] plus-jakarta-sans-semibold text-center md:text-left px-0 sm:px-0">
                             Convert currency in seconds and find the right place to make
                             your exchange.
                         </p>
@@ -906,10 +908,10 @@
                 </div>
             </div>
             <!-- Right Side Globe -->
-            <div class="md:-mt-6">
-                <div class="flex flex-col min-w-full justify-center items-center ml-28">
+            <div class="flex md:-mt-6 justify-center items-center">
+                <div class="flex flex-col justify-center items-center scale-50 sm:scale-75 md:scale-100">
                     <!-- Bigger Globe -->
-                    <canvas id="globeCanvas" class="md:w-200 md:h-200 w-125 h-125 mr-18"></canvas>
+                    <canvas id="globeCanvas" class="md:w-200 md:h-200 w-125 h-125"></canvas>
                 </div>
             </div>
         </div>
@@ -2076,7 +2078,8 @@
             </div>
         </section>
         <!--CONTACT US FORM-->
-        <section class="py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-b from-transparent via-gray-900/30 to-transparent">
+        <section class="py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-b from-transparent via-gray-900/30 to-transparent"
+            id="contact">
             <div class="max-w-7xl mx-auto">
                 <div class="text-center mb-16 fade-in-up">
                     <div class="inline-flex items-center gap-3 mb-8 group">
@@ -2916,13 +2919,16 @@
 
 
 
+
+
+
+
+        <script src="/Scripts/Navigation.js"></script>
+        <script src="/Scripts/MarketPulse.js"></script>
         <script src="/Scripts/GlobeModal.js"></script>
         <script src="/Scripts/SwappLogic.js"></script>
         <script src="/Scripts/ScrollAnimation.js"></script>
         <script>
-            function toggleMenu() {
-                document.getElementById("mobile-menu").classList.toggle("hidden");
-            }
             const observerOptions = {
                 threshold: 0.1,
                 rootMargin: '0px 0px -50px 0px'
@@ -2957,8 +2963,6 @@
                     icon.style.transform = 'scale(1) rotate(0deg)';
                 });
             });
-
-            // Swap currencies function (legacy)
 
         </script>
 

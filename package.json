@@ -1,5 +1,12 @@
 {
+  "name": "skyx-v2",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "server": "npm run dev --prefix server",
+    "client": "npm run dev --prefix client"
+  },
   "devDependencies": {
-    "concurrently": "^9.2.1"
+    "concurrently": "^9.0.0"
   }
 }
