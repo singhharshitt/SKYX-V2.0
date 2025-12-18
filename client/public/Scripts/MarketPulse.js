@@ -16,7 +16,7 @@
         CRYPTO_SYMBOLS: ['btcusdt', 'ethusdt', 'solusdt'],
 
         // Backend API for fiat rates and aggregated data
-        API_ENDPOINT: '/api/market-pulse/overview',
+        API_ENDPOINT: 'http://localhost:3001/api/market-pulse/overview',
         FIAT_REFRESH_INTERVAL: 30000, // 30 seconds for fiat rates
 
         // UI & Performance

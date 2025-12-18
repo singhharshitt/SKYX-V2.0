@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Project Coordinates -->
+    <groupId>com.skyx</groupId>
+    <artifactId>currency-converter</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+
+    <name>SKYX Currency Converter</name>
+    <description>Full-stack currency converter with real-time market data</description>
+
+    <!-- Multi-Module Configuration -->
+    <modules>
+        <module>client</module>
+        <module>server</module>
+    </modules>
+
+    <!-- Properties -->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        
+        <!-- Node/npm versions pinned for Vite 7.x compatibility -->
+        <!-- Vite 7.x requires Node.js >= v20.19.0 or v22.12.0+ -->
+        <!-- Maven uses these versions internally via frontend-maven-plugin -->
+        <node.version>v22.12.0</node.version>
+        <npm.version>10.9.0</npm.version>
+        
+        <!-- Plugin versions -->
+        <frontend-maven-plugin.version>1.15.0</frontend-maven-plugin.version>
+    </properties>
+
+    <!-- Build Configuration -->
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- Frontend Maven Plugin -->
+                <plugin>
+                    <groupId>com.github.eirslett</groupId>
+                    <artifactId>frontend-maven-plugin</artifactId>
+                    <version>${frontend-maven-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <!-- Maven Profiles -->
+    <profiles>
+        <!-- Development Profile -->
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <build.profile>development</build.profile>
+            </properties>
+        </profile>
+
+        <!-- Production Profile -->
+        <profile>
+            <id>prod</id>
+            <properties>
+                <build.profile>production</build.profile>
+            </properties>
+        </profile>
+    </profiles>
+
+</project>
