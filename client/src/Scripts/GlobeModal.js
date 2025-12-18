@@ -10,7 +10,7 @@ renderer.setPixelRatio(window.devicePixelRatio);
 
 // Load Earth texture
 const textureLoader = new THREE.TextureLoader();
-const earthTexture = textureLoader.load("./src/assets/skin3.png");
+const earthTexture = textureLoader.load("/src/assets/skin3.png");
 
 // Sphere (Earth) - higher detail for smoothness
 const geometry = new THREE.SphereGeometry(2, 128, 128);
