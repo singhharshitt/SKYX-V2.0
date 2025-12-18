@@ -14,6 +14,10 @@
 }                   
 
 /* FliegeMono - complete weight range */
+/* Note: These fonts are optional and may not load if files are corrupted or missing */
+/* The app will fallback to system monospace fonts */
+
+/*
 @font-face {
   font-family: 'FliegeMono';
   src: url('./fonts/FliegeMono-Thin.woff2') format('woff2');
@@ -85,6 +89,7 @@
   font-style: normal;
   font-display: swap;
 }
+*/
 
 /* Convenience classes (optional) */
 .font-departure {
@@ -92,7 +97,7 @@
 }
 
 .font-fliege {
-  font-family: 'FliegeMono', monospace;
+  font-family: 'Courier New', Consolas, monospace; /* Fallback to system fonts */
 }
 
 /* SN Pro - variable font (normal and italic) covering 100–900 */
