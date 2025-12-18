@@ -76,6 +76,17 @@ client/.cache/
 server/.cache/
 
 # =========================
+# Maven Build Artifacts
+# =========================
+# Maven-managed Node.js installations (frontend-maven-plugin)
+client/node/
+server/node/
+# Maven build output directories
+target/
+client/target/
+server/target/
+
+# =========================
 # Project-specific ignores
 # =========================
 # Ignore fonts folder inside src
