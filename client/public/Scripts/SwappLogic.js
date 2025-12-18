@@ -16,24 +16,8 @@ const cryptoCurrencies = [
     'AVAX', 'DOT', 'MATIC', 'LINK', 'UNI', 'LTC'
 ];
 
-// Crypto ID mappings for CoinGecko API
-const cryptoIds = {
-    'BTC': 'bitcoin',
-    'ETH': 'ethereum',
-    'BNB': 'binancecoin',
-    'XRP': 'ripple',
-    'SOL': 'solana',
-    'ADA': 'cardano',
-    'USDT': 'tether',
-    'USDC': 'usd-coin',
-    'DOGE': 'dogecoin',
-    'AVAX': 'avalanche-2',
-    'DOT': 'polkadot',
-    'MATIC': 'matic-network',
-    'LINK': 'chainlink',
-    'UNI': 'uniswap',
-    'LTC': 'litecoin'
-};
+// API Base URL
+const API_BASE_URL = 'http://localhost:3001/api';
 
 // FIXED: Function to swap currencies (for backward compatibility)
 function swapCurrencies() {
@@ -61,7 +45,7 @@ function switchMode(mode) {
     const fiatBtn = document.getElementById('fiat-mode-btn');
     const cryptoBtn = document.getElementById('crypto-mode-btn');
     const crossBtn = document.getElementById('cross-mode-btn');
-    
+
     if (fiatBtn) fiatBtn.classList.toggle('active', mode === 'fiat');
     if (cryptoBtn) cryptoBtn.classList.toggle('active', mode === 'crypto');
     if (crossBtn) crossBtn.classList.toggle('active', mode === 'cross');
@@ -78,10 +62,10 @@ function switchMode(mode) {
     // Clear and recalculate
     const fromAmountInput = document.getElementById('from-amount-input');
     const toAmountInput = document.getElementById('to-amount-input');
-    
+
     if (fromAmountInput) fromAmountInput.value = '';
     if (toAmountInput) toAmountInput.value = '';
-    
+
     hideResult();
 
     // Update exchange suggestions
@@ -104,7 +88,7 @@ function updateCurrencyLists() {
     if (currencies.length > 1) {
         toSelect.selectedIndex = 1;
     }
-    
+
     // FIXED: Set the default from currency
     fromSelect.value = currencies[0];
     toSelect.value = currencies[1] || currencies[0];
@@ -119,10 +103,10 @@ function updateCrossModeLists() {
 
     // From dropdown: Cryptocurrencies
     fromSelect.innerHTML = cryptoCurrencies.map(curr => `<option value="${curr}">${curr}</option>`).join('');
-    
+
     // To dropdown: Fiat currencies
     toSelect.innerHTML = fiatCurrencies.map(curr => `<option value="${curr}">${curr}</option>`).join('');
-    
+
     // Set defaults
     fromSelect.value = 'BTC';
     toSelect.value = 'USD';
@@ -172,57 +156,39 @@ async function performConversion() {
     }
 
     try {
-        let rate;
+        let rate, result;
+        let endpoint;
 
         if (currentMode === 'fiat') {
-            // Fiat conversion using exchangerate API
-            const response = await fetch(`https://api.exchangerate-api.com/v4/latest/${fromCurrency}`);
-            const data = await response.json();
-            rate = data.rates[toCurrency];
+            // Fiat conversion using backend API
+            endpoint = `${API_BASE_URL}/convert/fiat?from=${fromCurrency}&to=${toCurrency}&amount=${fromAmount}`;
         } else if (currentMode === 'crypto') {
-            // Crypto conversion using CoinGecko API
-            const fromId = cryptoIds[fromCurrency];
-            const toId = cryptoIds[toCurrency];
-
-            if (fromId && toId) {
-                const response = await fetch(
-                    `https://api.coingecko.com/api/v3/simple/price?ids=${fromId}&vs_currencies=${toId}`
-                );
-                const data = await response.json();
-                rate = data[fromId]?.[toId.toLowerCase()] || 1;
-            } else {
-                rate = 1;
-            }
+            // Crypto conversion using backend API
+            endpoint = `${API_BASE_URL}/convert/crypto?from=${fromCurrency}&to=${toCurrency}&amount=${fromAmount}`;
         } else if (currentMode === 'cross') {
             // Cross-mode: Crypto to Fiat conversion
-            const fromId = cryptoIds[fromCurrency];
-
-            if (fromId) {
-                const response = await fetch(
-                    `https://api.coingecko.com/api/v3/simple/price?ids=${fromId}&vs_currencies=${toCurrency.toLowerCase()}`
-                );
-                const data = await response.json();
-                rate = data[fromId]?.[toCurrency.toLowerCase()];
-
-                if (!rate) {
-                    throw new Error('Unable to fetch conversion rate');
-                }
-            } else {
-                throw new Error('Invalid cryptocurrency');
-            }
+            endpoint = `${API_BASE_URL}/convert/crypto-to-fiat?from=${fromCurrency}&to=${toCurrency}&amount=${fromAmount}`;
         }
 
-        // Calculate result
-        const result = parseFloat(fromAmount) * rate;
+        const response = await fetch(endpoint);
+        const responseData = await response.json();
+
+        if (!response.ok || !responseData.success) {
+            throw new Error(responseData.message || 'Conversion failed');
+        }
+
+        // Extract data from backend response
+        rate = responseData.data.rate;
+        result = responseData.data.result;
 
         // Update UI
         toAmountInput.value = result.toFixed(6);
-        
+
         // Update result panel if it exists
         const resultValueEl = document.getElementById('result-value-premium');
         const exchangeRateEl = document.getElementById('exchange-rate-premium');
         const lastUpdatedEl = document.getElementById('last-updated');
-        
+
         if (resultValueEl) {
             resultValueEl.textContent = `${result.toFixed(2)} ${toCurrency}`;
         }
@@ -298,23 +264,23 @@ async function updateChart() {
     try {
         let chartData;
 
-        if (currentMode === 'crypto') {
-            // Fetch crypto historical data from CoinGecko
+        if (currentMode === 'crypto' || currentMode === 'cross') {
+            // Fetch crypto historical data from backend
             const days = currentPeriod === '7d' ? 7 : currentPeriod === '30d' ? 30 : 90;
-            const fromId = cryptoIds[fromCurrency];
+            const targetCurrency = currentMode === 'cross' ? toCurrency : 'USDT';
 
-            if (fromId) {
-                const response = await fetch(
-                    `https://api.coingecko.com/api/v3/coins/${fromId}/market_chart?vs_currency=usd&days=${days}`
-                );
-                const data = await response.json();
+            const response = await fetch(
+                `${API_BASE_URL}/rates/history?from=${fromCurrency}&to=${targetCurrency}&days=${days}`
+            );
+            const responseData = await response.json();
 
+            if (responseData.success && responseData.data.prices) {
                 chartData = {
-                    labels: data.prices.map((_, i) => `Day ${i + 1}`),
-                    values: data.prices.map(p => p[1])
+                    labels: responseData.data.prices.map((_, i) => `Day ${i + 1}`),
+                    values: responseData.data.prices.map(p => p.price)
                 };
             } else {
-                throw new Error('Invalid cryptocurrency');
+                throw new Error('Failed to fetch historical data');
             }
         } else {
             // For fiat, generate sample data (real API would require paid service)
@@ -507,7 +473,7 @@ const exchangePlatforms = {
 function updateExchangeSuggestions() {
     const exchangeGrid = document.getElementById('exchange-grid');
     if (!exchangeGrid) return;
-    
+
     // For cross mode, show crypto platforms since they support crypto-to-fiat
     const platforms = (currentMode === 'fiat') ? exchangePlatforms.fiat : exchangePlatforms.crypto;
 

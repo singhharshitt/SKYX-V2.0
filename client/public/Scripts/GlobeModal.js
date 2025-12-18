@@ -73,7 +73,13 @@ class CurrencyConverter {
         this.cryptoCurrencies = [];
         this.chart = null;
 
-        this.initializeElements();
+        const initialized = this.initializeElements();
+
+        if (!initialized) {
+            console.log('CurrencyConverter: Not initializing on this page (missing required elements)');
+            return;
+        }
+
         this.loadCurrencies();
         this.setupEventListeners();
     }
@@ -95,17 +101,43 @@ class CurrencyConverter {
             exchangeSuggestions: document.getElementById('exchangeSuggestions'),
             chartInfo: document.getElementById('chartInfo')
         };
+
+        // Check if required elements exist
+        const requiredElements = ['fromCurrency', 'toCurrency'];
+        const missingElements = requiredElements.filter(key => !this.elements[key]);
+
+        if (missingElements.length > 0) {
+            console.warn('CurrencyConverter: Required elements not found on this page. Skipping initialization.');
+            this.isInitialized = false;
+            return false;
+        }
+
+        this.isInitialized = true;
+        return true;
     }
 
     async loadCurrencies() {
         try {
             // Load fiat currencies
             const fiatResponse = await fetch(`${this.apiBaseUrl}/currencies/fiat`);
-            this.fiatCurrencies = await fiatResponse.json();
+            const fiatData = await fiatResponse.json();
+
+            // Parse new backend format { success: true, data: [...], source: "..." }
+            this.fiatCurrencies = fiatData.success ? fiatData.data : [];
 
             // Load crypto currencies
             const cryptoResponse = await fetch(`${this.apiBaseUrl}/currencies/crypto`);
-            this.cryptoCurrencies = await cryptoResponse.json();
+            const cryptoData = await cryptoResponse.json();
+
+            // Parse Binance format: { symbol: "BTC", name: "BTC", tradingSymbol: "BTCUSDT" }
+            // Map to expected format: { code: "BTC", name: "BTC" }
+            this.cryptoCurrencies = cryptoData.success
+                ? cryptoData.data.map(coin => ({
+                    code: coin.symbol,
+                    name: coin.name || coin.symbol,
+                    symbol: coin.symbol // Use symbol as fallback
+                }))
+                : [];
 
             this.populateCurrencyDropdowns();
         } catch (error) {
@@ -115,6 +147,8 @@ class CurrencyConverter {
     }
 
     populateCurrencyDropdowns() {
+        if (!this.isInitialized || !this.elements.fromCurrency || !this.elements.toCurrency) return;
+
         const currencies = this.currentMode === 'fiat' ? this.fiatCurrencies : this.cryptoCurrencies;
 
         // Clear existing options
@@ -141,9 +175,15 @@ class CurrencyConverter {
     }
 
     setupEventListeners() {
+        if (!this.isInitialized) return;
+
         // Toggle buttons
-        this.elements.fiatToggle.addEventListener('click', () => this.switchMode('fiat'));
-        this.elements.cryptoToggle.addEventListener('click', () => this.switchMode('crypto'));
+        if (this.elements.fiatToggle) {
+            this.elements.fiatToggle.addEventListener('click', () => this.switchMode('fiat'));
+        }
+        if (this.elements.cryptoToggle) {
+            this.elements.cryptoToggle.addEventListener('click', () => this.switchMode('crypto'));
+        }
 
         // Form submission
         this.elements.conversionForm.addEventListener('submit', (e) => {
@@ -233,13 +273,23 @@ class CurrencyConverter {
             }
 
             const response = await fetch(endpoint);
-            const data = await response.json();
+            const responseData = await response.json();
 
-            if (response.ok) {
-                this.displayConversionResult(data);
+            if (response.ok && responseData.success) {
+                // Normalize data structure for display
+                const normalizedData = {
+                    from: responseData.data.from,
+                    to: responseData.data.to,
+                    amount: responseData.data.amount,
+                    convertedAmount: responseData.data.result, // Backend uses 'result'
+                    rate: responseData.data.rate,
+                    timestamp: responseData.data.timestamp
+                };
+
+                this.displayConversionResult(normalizedData);
                 this.updateChart(fromCurrency, toCurrency);
             } else {
-                this.showError(data.error || 'Conversion failed');
+                this.showError(responseData.message || 'Conversion failed');
             }
         } catch (error) {
             console.error('Conversion error:', error);
@@ -267,9 +317,12 @@ class CurrencyConverter {
     }
 
     getCurrencySymbol(code) {
-        const currencies = [...this.fiatCurrencies, ...this.cryptoCurrencies];
-        const currency = currencies.find(c => c.code === code);
-        return currency ? currency.symbol + ' ' : '';
+        // Simple mapping for common currency symbols
+        const symbolMap = {
+            'USD': '$', 'EUR': '€', 'GBP': '£', 'JPY': '¥', 'INR': '₹',
+            'BTC': '₿', 'ETH': 'Ξ', 'BNB': 'BNB', 'XRP': 'XRP'
+        };
+        return symbolMap[code] || '';
     }
 
     async updateChart(fromCurrency, toCurrency) {
@@ -277,10 +330,12 @@ class CurrencyConverter {
             const response = await fetch(
                 `${this.apiBaseUrl}/rates/history?from=${fromCurrency}&to=${toCurrency}&days=7`
             );
-            const data = await response.json();
+            const responseData = await response.json();
 
-            if (data && data.length > 0) {
-                this.createChart(data, fromCurrency, toCurrency);
+            if (responseData.success && responseData.data.prices && responseData.data.prices.length > 0) {
+                this.createChart(responseData.data.prices, fromCurrency, toCurrency);
+            } else {
+                this.elements.chartInfo.textContent = 'Chart data not available for this pair';
             }
         } catch (error) {
             console.error('Chart update error:', error);
@@ -363,7 +418,13 @@ class CurrencyConverter {
     }
 
     showError(message) {
-        this.elements.conversionText.textContent = message;
+        if (!this.isInitialized) {
+            console.error('CurrencyConverter Error:', message);
+            return;
+        }
+        if (this.elements.conversionText) {
+            this.elements.conversionText.textContent = message;
+        }
         this.elements.rateText.textContent = '';
         this.elements.timestampText.textContent = '';
         this.elements.conversionResult.classList.remove('hidden');
