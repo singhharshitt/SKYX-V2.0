@@ -30,9 +30,14 @@ router.get('/overview', async (req, res, next) => {
         }
 
         // Fetch fresh data from multiple sources in parallel
+        // Each provider is isolated - failures won't crash the entire endpoint
         const [cryptoData, fiatRates] = await Promise.all([
             // Get crypto market data (BTC, ETH, SOL)
-            coinGeckoService.getMarketPulseData(['bitcoin', 'ethereum', 'solana']),
+            coinGeckoService.getMarketPulseData(['bitcoin', 'ethereum', 'solana'])
+                .catch(error => {
+                    console.warn('[MarketPulse] CoinGecko failed:', error.message);
+                    return []; // Return empty array, don't crash
+                }),
 
             // Get fiat exchange rates
             Promise.all([
@@ -40,7 +45,7 @@ router.get('/overview', async (req, res, next) => {
                 frankfurterService.convert('EUR', 'GBP', 1),
                 binanceService.getPrice('BTC', 'USDT')
             ]).catch(error => {
-                console.warn('Fiat rates fetch failed:', error.message);
+                console.warn('[MarketPulse] Fiat rates fetch failed:', error.message);
                 return [null, null, null];
             })
         ]);
@@ -76,7 +81,7 @@ router.get('/overview', async (req, res, next) => {
                 }
             ],
             volatility: {
-                high: cryptoData
+                high: (cryptoData || [])
                     .filter(c => Math.abs(c.price_change_percentage_24h) > 3)
                     .map(c => c.symbol)
                     .slice(0, 2),
