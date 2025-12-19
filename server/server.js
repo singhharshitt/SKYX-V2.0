@@ -23,10 +23,12 @@ const corsOptions = {
         if (!origin) return callback(null, true);
 
         const allowedOrigins = [
-            'http://localhost:5173',      // Vite dev server
-            'http://localhost:3000',      // Alternative dev port
-            'http://localhost:4173',      // Vite preview
-            process.env.FRONTEND_URL      // Production Vercel URL
+            'http://localhost:5173',           // Vite dev server
+            'http://localhost:3000',           // Alternative dev port
+            'http://localhost:4173',           // Vite preview
+            'https://skyx-v2-0.vercel.app',    // Production Vercel frontend
+            'https://www.skyx-v2-0.vercel.app', // Production Vercel with www
+            process.env.FRONTEND_URL           // Custom frontend URL from env
         ].filter(Boolean); // Remove undefined values
 
         if (allowedOrigins.indexOf(origin) !== -1) {
@@ -64,10 +66,12 @@ app.use((err, req, res, next) => {
     // Ensure CORS headers are ALWAYS set on errors
     const origin = req.headers.origin;
     const allowedOrigins = [
-        'http://localhost:5173',      // Vite dev server
-        'http://localhost:3000',      // Alternative dev port
-        'http://localhost:4173',      // Vite preview
-        process.env.FRONTEND_URL      // Production Vercel URL
+        'http://localhost:5173',           // Vite dev server
+        'http://localhost:3000',           // Alternative dev port
+        'http://localhost:4173',           // Vite preview
+        'https://skyx-v2-0.vercel.app',    // Production Vercel frontend
+        'https://www.skyx-v2-0.vercel.app', // Production Vercel with www
+        process.env.FRONTEND_URL           // Custom frontend URL from env
     ].filter(Boolean);
 
     if (origin && allowedOrigins.includes(origin)) {
