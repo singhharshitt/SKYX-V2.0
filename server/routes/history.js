@@ -14,18 +14,34 @@ router.get('/history', async (req, res, next) => {
             return res.status(400).json({ success: false, message: validation.error });
         }
 
-        const history = await binanceService.getHistoricalData(from, to, parseInt(days));
+        try {
+            const history = await binanceService.getHistoricalData(from, to, parseInt(days));
 
-        res.json({
-            success: true,
-            data: {
-                from,
-                to,
-                days: parseInt(days),
-                prices: history
-            },
-            source: 'Binance'
-        });
+            res.json({
+                success: true,
+                data: {
+                    from,
+                    to,
+                    days: parseInt(days),
+                    prices: history
+                },
+                source: 'Binance'
+            });
+        } catch (historyError) {
+            // Gracefully handle historical data failures - don't crash with 500
+            console.warn(`[History] Failed to fetch data for ${from}/${to}:`, historyError.message);
+
+            res.json({
+                success: false,
+                message: 'Historical data temporarily unavailable',
+                data: {
+                    from,
+                    to,
+                    days: parseInt(days),
+                    prices: [] // Return empty array so frontend doesn't crash
+                }
+            });
+        }
     } catch (error) {
         next(error);
     }
