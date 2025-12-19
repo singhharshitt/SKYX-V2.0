@@ -67,7 +67,7 @@ if (canvas) {
 // Currency Converter JavaScript
 class CurrencyConverter {
     constructor() {
-        this.apiBaseUrl = (window.API_CONFIG && window.API_CONFIG.API_BASE_URL) || 'http://localhost:3001/api';
+        this.apiBaseUrl = window.API_CONFIG?.API_BASE_URL || (() => { throw new Error('API configuration not loaded'); })();
         this.currentMode = 'fiat'; // 'fiat' or 'crypto'
         this.fiatCurrencies = [];
         this.cryptoCurrencies = [];

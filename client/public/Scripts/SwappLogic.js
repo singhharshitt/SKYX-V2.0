@@ -17,7 +17,7 @@ const cryptoCurrencies = [
 ];
 
 // API Base URL - uses global config with fallback
-const API_BASE_URL = (window.API_CONFIG && window.API_CONFIG.API_BASE_URL) || 'http://localhost:3001/api';
+const API_BASE_URL = window.API_CONFIG?.API_BASE_URL || (() => { throw new Error('API configuration not loaded'); })();
 
 // FIXED: Function to swap currencies (for backward compatibility)
 function swapCurrencies() {
