@@ -68,8 +68,13 @@ function switchMode(mode) {
 
     hideResult();
 
-    // Update exchange suggestions
-    updateExchangeSuggestions();
+    // Exchange suggestions are now handled by exchangeLoader.js (pair-aware)
+    // updateExchangeSuggestions(); // Disabled - using enhanced exchangeLoader.js instead
+
+    // Trigger exchange loader update if it exists
+    if (window.exchangeLoaderUpdate) {
+        window.exchangeLoaderUpdate();
+    }
 }
 
 // Update currency dropdown lists based on standard mode (fiat or crypto)
@@ -251,15 +256,21 @@ async function updateChart() {
     const fromCurrencySelect = document.getElementById('from-currency-select');
     const toCurrencySelect = document.getElementById('to-currency-select');
 
-    if (!fromCurrencySelect || !toCurrencySelect) return;
+    if (!fromCurrencySelect || !toCurrencySelect) {
+        console.warn('[Chart] Currency select elements not found');
+        return;
+    }
 
     const fromCurrency = fromCurrencySelect.value;
     const toCurrency = toCurrencySelect.value;
 
     const placeholder = document.getElementById('chart-placeholder-premium');
-    const chartCanvas = document.getElementById('liveChart');
+    const chartCanvas = document.getElementById('price-chart');
 
-    if (!placeholder || !chartCanvas) return;
+    if (!placeholder || !chartCanvas) {
+        console.warn('[Chart] Chart canvas or placeholder not found');
+        return;
+    }
 
     try {
         let chartData;
@@ -269,28 +280,51 @@ async function updateChart() {
             const days = currentPeriod === '7d' ? 7 : currentPeriod === '30d' ? 30 : 90;
             const targetCurrency = currentMode === 'cross' ? toCurrency : 'USDT';
 
+            console.log(`[Chart] Fetching ${days} days of data for ${fromCurrency}/${targetCurrency}`);
+
             const response = await fetch(
                 `${API_BASE_URL}/rates/history?from=${fromCurrency}&to=${targetCurrency}&days=${days}`
             );
             const responseData = await response.json();
 
-            if (responseData.success && responseData.data.prices) {
+            if (responseData.success && responseData.data.prices && responseData.data.prices.length > 0) {
+                // Sort data by timestamp to ensure chronological order
+                const sortedPrices = responseData.data.prices.sort((a, b) => a.timestamp - b.timestamp);
+
                 chartData = {
-                    labels: responseData.data.prices.map((_, i) => `Day ${i + 1}`),
-                    values: responseData.data.prices.map(p => p.price)
+                    labels: sortedPrices.map((item, i) => {
+                        // Use actual timestamp if available, otherwise use day number
+                        return item.timestamp ? new Date(item.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : `Day ${i + 1}`;
+                    }),
+                    values: sortedPrices.map(p => p.price),
+                    timestamps: sortedPrices.map(p => p.timestamp || Date.now() - (days - i) * 24 * 60 * 60 * 1000)
                 };
+                console.log(`[Chart] Successfully loaded ${chartData.values.length} data points`);
             } else {
-                throw new Error('Failed to fetch historical data');
+                console.warn('[Chart] No price data returned from API');
+                throw new Error('No historical data available');
             }
         } else {
             // For fiat, generate sample data (real API would require paid service)
             const days = currentPeriod === '7d' ? 7 : currentPeriod === '30d' ? 30 : 90;
             const baseValue = 1.0;
+            const now = Date.now();
+
             chartData = {
-                labels: Array.from({ length: days }, (_, i) => `Day ${i + 1}`),
+                labels: Array.from({ length: days }, (_, i) => {
+                    const date = new Date(now - (days - i - 1) * 24 * 60 * 60 * 1000);
+                    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                }),
                 values: Array.from({ length: days }, () =>
-                    baseValue + (Math.random() - 0.5) * 0.1)
+                    baseValue + (Math.random() - 0.5) * 0.1),
+                timestamps: Array.from({ length: days }, (_, i) => now - (days - i - 1) * 24 * 60 * 60 * 1000)
             };
+            console.log(`[Chart] Generated ${days} days of fiat sample data`);
+        }
+
+        // Defensive check: ensure we have valid data
+        if (!chartData || !chartData.values || chartData.values.length === 0) {
+            throw new Error('Chart data is empty or invalid');
         }
 
         // Hide placeholder, show chart
@@ -299,8 +333,11 @@ async function updateChart() {
 
         renderChart(chartData);
 
+        // Update chart stats with real data from the chart
+        updateChartStats(chartData, toCurrency);
+
     } catch (error) {
-        console.error('Chart error:', error);
+        console.error('[Chart] Error updating chart:', error);
         // Show placeholder on error
         placeholder.classList.remove('hidden');
         chartCanvas.classList.add('hidden');
@@ -309,11 +346,32 @@ async function updateChart() {
 
 // Render chart using Chart.js
 function renderChart(data) {
-    const ctx = document.getElementById('liveChart').getContext('2d');
+    const chartCanvas = document.getElementById('price-chart');
+    if (!chartCanvas) {
+        console.warn('[Chart] Canvas element not found');
+        return;
+    }
 
+    const ctx = chartCanvas.getContext('2d', {
+        alpha: true,
+        desynchronized: false
+    });
+
+    // Destroy existing chart instance
     if (priceChart) {
         priceChart.destroy();
+        priceChart = null;
     }
+
+    // Calculate Y-axis range with 5% padding for better visibility of fluctuations
+    const minValue = Math.min(...data.values);
+    const maxValue = Math.max(...data.values);
+    const range = maxValue - minValue;
+    const padding = range * 0.05;
+    const suggestedMin = minValue - padding;
+    const suggestedMax = maxValue + padding;
+
+    console.log(`[Chart] Rendering chart with ${data.values.length} points, range: ${minValue.toFixed(6)} - ${maxValue.toFixed(6)}`);
 
     priceChart = new Chart(ctx, {
         type: 'line',
@@ -323,43 +381,106 @@ function renderChart(data) {
                 label: 'Price History',
                 data: data.values,
                 borderColor: '#FF6F00',
-                backgroundColor: 'rgba(255, 111, 0, 0.1)',
+                backgroundColor: 'rgba(255, 111, 0, 0.2)',
                 borderWidth: 3,
                 fill: true,
                 tension: 0.4,
                 pointRadius: 0,
-                pointHoverRadius: 6,
-                pointHoverBackgroundColor: '#FF6F00'
+                pointHoverRadius: 8,
+                pointHoverBackgroundColor: '#FF6F00',
+                pointHoverBorderColor: '#ffffff',
+                pointHoverBorderWidth: 3,
+                pointBackgroundColor: '#FF6F00',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            animation: {
+                duration: 750,
+                easing: 'easeInOutQuart'
+            },
+            layout: {
+                padding: {
+                    top: 10,
+                    right: 15,
+                    bottom: 10,
+                    left: 10
+                }
+            },
             plugins: {
                 legend: {
                     display: false
                 },
                 tooltip: {
+                    enabled: true,
                     mode: 'index',
                     intersect: false,
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                    titleColor: '#fff',
-                    bodyColor: '#fff',
+                    backgroundColor: 'rgba(15, 23, 42, 0.95)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#e2e8f0',
                     borderColor: '#FF6F00',
-                    borderWidth: 1
+                    borderWidth: 2,
+                    padding: 12,
+                    titleFont: {
+                        size: 13,
+                        weight: '600'
+                    },
+                    bodyFont: {
+                        size: 14,
+                        weight: '600'
+                    },
+                    displayColors: false,
+                    callbacks: {
+                        title: function (context) {
+                            // Show date/label in title
+                            return context[0].label;
+                        },
+                        label: function (context) {
+                            // Show price with 6 decimal precision
+                            return `Price: ${context.parsed.y.toFixed(6)}`;
+                        },
+                        afterLabel: function (context) {
+                            // Show timestamp if available
+                            if (data.timestamps && data.timestamps[context.dataIndex]) {
+                                const date = new Date(data.timestamps[context.dataIndex]);
+                                return `Time: ${date.toLocaleTimeString()}`;
+                            }
+                            return '';
+                        }
+                    }
                 }
             },
             scales: {
                 x: {
-                    display: false
+                    display: false,
+                    grid: {
+                        display: false
+                    }
                 },
                 y: {
                     beginAtZero: false,
+                    suggestedMin: suggestedMin,
+                    suggestedMax: suggestedMax,
+                    position: 'right',
                     grid: {
-                        color: 'rgba(0, 0, 0, 0.05)'
+                        color: 'rgba(255, 255, 255, 0.1)',
+                        lineWidth: 1,
+                        drawBorder: false
                     },
                     ticks: {
-                        color: '#757575'
+                        color: '#94a3b8',
+                        font: {
+                            size: 11,
+                            weight: '500'
+                        },
+                        padding: 8,
+                        maxTicksLimit: 6,
+                        callback: function (value) {
+                            return value.toFixed(4);
+                        }
                     }
                 }
             },
@@ -367,17 +488,84 @@ function renderChart(data) {
                 mode: 'nearest',
                 axis: 'x',
                 intersect: false
+            },
+            elements: {
+                line: {
+                    borderJoinStyle: 'round',
+                    borderCapStyle: 'round'
+                }
             }
         }
     });
+
+    console.log('[Chart] Chart rendered successfully');
+}
+
+// Update chart stats display with actual data
+function updateChartStats(chartData, currency) {
+    if (!chartData || !chartData.values || chartData.values.length === 0) {
+        console.warn('[Chart Stats] No data available to update stats');
+        return;
+    }
+
+    const currentRateDisplay = document.getElementById('current-rate-display');
+    const rateChange = document.getElementById('rate-change');
+    const high24h = document.getElementById('high-24h');
+    const low24h = document.getElementById('low-24h');
+
+    if (!currentRateDisplay) {
+        console.warn('[Chart Stats] Stats elements not found');
+        return;
+    }
+
+    try {
+        const prices = chartData.values;
+
+        // Current rate is the most recent price
+        const currentRate = prices[prices.length - 1];
+
+        // Calculate high and low from the data
+        const highValue = Math.max(...prices);
+        const lowValue = Math.min(...prices);
+
+        // Calculate percentage change (current vs first price in dataset)
+        const firstPrice = prices[0];
+        const priceChange = ((currentRate - firstPrice) / firstPrice) * 100;
+
+        // Update Current Rate
+        currentRateDisplay.textContent = `${currentRate.toFixed(6)} ${currency}`;
+
+        // Update 24h High
+        if (high24h) {
+            high24h.textContent = `${highValue.toFixed(6)} ${currency}`;
+        }
+
+        // Update 24h Low
+        if (low24h) {
+            low24h.textContent = `${lowValue.toFixed(6)} ${currency}`;
+        }
+
+        // Update Rate Change
+        if (rateChange) {
+            const changeText = `${priceChange >= 0 ? '+' : ''}${priceChange.toFixed(2)}%`;
+            rateChange.textContent = changeText;
+            rateChange.className = `stat-change ${priceChange >= 0 ? 'positive' : 'negative'}`;
+        }
+
+        console.log(`[Chart Stats] Updated - Rate: ${currentRate.toFixed(6)}, High: ${highValue.toFixed(6)}, Low: ${lowValue.toFixed(6)}, Change: ${priceChange.toFixed(2)}%`);
+
+    } catch (error) {
+        console.error('[Chart Stats] Error updating stats:', error);
+    }
 }
 
 // Change chart period
 function changeChartPeriod(period) {
+    console.log(`[Chart] Changing period to ${period}`);
     currentPeriod = period;
 
-    // Update button styles
-    const chartBtns = document.querySelectorAll('.premium-chart-btn');
+    // Update button styles - FIXED: Use correct selector
+    const chartBtns = document.querySelectorAll('.period-btn');
     chartBtns.forEach(btn => {
         if (btn.dataset.period === period) {
             btn.classList.add('active');
@@ -389,18 +577,72 @@ function changeChartPeriod(period) {
     updateChart();
 }
 
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', function () {
-    updateCurrencyLists();
-
-    // Hide chart initially
-    const chartCanvas = document.getElementById('liveChart');
-    if (chartCanvas) {
-        chartCanvas.classList.add('hidden');
+// Append new data point for real-time updates (smooth, no redraw)
+function appendChartData(newPrice, timestamp) {
+    if (!priceChart) {
+        console.warn('[Chart] No chart instance to append data to');
+        return;
     }
 
-    // Initialize exchange suggestions
-    updateExchangeSuggestions();
+    const now = timestamp || Date.now();
+    const label = new Date(now).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+    // Add new data point
+    priceChart.data.labels.push(label);
+    priceChart.data.datasets[0].data.push(newPrice);
+
+    // Limit to last 100 points to prevent memory issues
+    if (priceChart.data.labels.length > 100) {
+        priceChart.data.labels.shift();
+        priceChart.data.datasets[0].data.shift();
+    }
+
+    // Update without animation for smooth real-time feel
+    priceChart.update('none');
+    console.log(`[Chart] Appended new data point: ${newPrice}`);
+}
+
+// Setup period button click handlers
+function setupPeriodButtons() {
+    const periodButtons = document.querySelectorAll('.period-btn');
+
+    if (periodButtons.length === 0) {
+        console.warn('[Chart] No period buttons found');
+        return;
+    }
+
+    periodButtons.forEach(btn => {
+        btn.addEventListener('click', function () {
+            const period = this.dataset.period;
+            if (period) {
+                changeChartPeriod(period);
+            }
+        });
+    });
+
+    console.log(`[Chart] Attached click handlers to ${periodButtons.length} period buttons`);
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function () {
+    console.log('[Converter] Initializing...');
+
+    updateCurrencyLists();
+
+    // Setup period button click handlers
+    setupPeriodButtons();
+
+    // Load initial chart with default currencies after a brief delay
+    // This ensures all DOM elements are fully ready
+    setTimeout(() => {
+        console.log('[Chart] Loading initial chart...');
+        updateChart();
+    }, 500);
+
+    // Exchange suggestions are now handled by exchangeLoader.js (pair-aware)
+    // updateExchangeSuggestions(); // Disabled - using enhanced exchangeLoader.js instead
+
+    console.log('[Converter] Initialization complete');
 });
 
 // ========== EXCHANGE SUGGESTIONS LOGIC ==========
@@ -502,3 +744,4 @@ window.performConversion = performConversion;
 window.switchMode = switchMode;
 window.swapCurrenciesRealTime = swapCurrenciesRealTime;
 window.changeChartPeriod = changeChartPeriod;
+window.appendChartData = appendChartData; // For real-time updates and testing
