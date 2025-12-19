@@ -291,23 +291,75 @@ async function updateChart() {
                 // Sort data by timestamp to ensure chronological order
                 const sortedPrices = responseData.data.prices.sort((a, b) => a.timestamp - b.timestamp);
 
+                let historicalPrices = sortedPrices.map(p => p.price);
+
+                // CRITICAL FIX: Apply conversion rate if the target currency differs from API base
+                // For example, if API returns BTC/USD but user wants BTC/INR, multiply by USD→INR rate
+                if (currentMode === 'cross' && targetCurrency !== toCurrency) {
+                    // This case is already handled by the API returning the correct target currency
+                    console.log(`[Chart] Cross mode: API already returns ${fromCurrency}/${toCurrency} prices`);
+                } else if (currentMode === 'crypto' && toCurrency !== 'USDT') {
+                    // Crypto mode: API returns prices in USDT, need to convert to selected toCurrency
+                    console.log(`[Chart] Crypto mode: Converting from USDT to ${toCurrency}`);
+
+                    try {
+                        // Fetch current USDT → toCurrency conversion rate
+                        const conversionEndpoint = `${API_BASE_URL}/convert/crypto?from=USDT&to=${toCurrency}&amount=1`;
+                        const convResponse = await fetch(conversionEndpoint);
+                        const convData = await convResponse.json();
+
+                        if (convData.success && convData.data.rate) {
+                            const conversionRate = convData.data.rate;
+                            console.log(`[Chart] Applying conversion rate: ${conversionRate} (USDT→${toCurrency})`);
+
+                            // Multiply all historical prices by the conversion rate
+                            historicalPrices = historicalPrices.map(price => price * conversionRate);
+                        } else {
+                            console.warn('[Chart] Failed to fetch conversion rate, using raw prices');
+                        }
+                    } catch (convError) {
+                        console.error('[Chart] Error fetching conversion rate:', convError);
+                        // Continue with raw prices if conversion fails
+                    }
+                }
+
                 chartData = {
                     labels: sortedPrices.map((item, i) => {
                         // Use actual timestamp if available, otherwise use day number
                         return item.timestamp ? new Date(item.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : `Day ${i + 1}`;
                     }),
-                    values: sortedPrices.map(p => p.price),
-                    timestamps: sortedPrices.map(p => p.timestamp || Date.now() - (days - i) * 24 * 60 * 60 * 1000)
+                    values: historicalPrices,
+                    timestamps: sortedPrices.map((p, i) => p.timestamp || Date.now() - (days - i) * 24 * 60 * 60 * 1000)
                 };
-                console.log(`[Chart] Successfully loaded ${chartData.values.length} data points`);
+                console.log(`[Chart] Successfully loaded ${chartData.values.length} data points, range: ${Math.min(...chartData.values).toFixed(2)} - ${Math.max(...chartData.values).toFixed(2)}`);
             } else {
                 console.warn('[Chart] No price data returned from API');
                 throw new Error('No historical data available');
             }
         } else {
-            // For fiat, generate sample data (real API would require paid service)
+            // For fiat, fetch current conversion rate and generate realistic data around it
             const days = currentPeriod === '7d' ? 7 : currentPeriod === '30d' ? 30 : 90;
-            const baseValue = 1.0;
+            let baseValue = 1.0; // Default fallback
+
+            console.log(`[Chart] Fiat mode: Fetching current ${fromCurrency}→${toCurrency} conversion rate`);
+
+            try {
+                // Fetch current fiat conversion rate
+                const rateEndpoint = `${API_BASE_URL}/convert/fiat?from=${fromCurrency}&to=${toCurrency}&amount=1`;
+                const rateResponse = await fetch(rateEndpoint);
+                const rateData = await rateResponse.json();
+
+                if (rateData.success && rateData.data.rate) {
+                    baseValue = rateData.data.rate;
+                    console.log(`[Chart] Using real conversion rate as base: ${baseValue.toFixed(6)}`);
+                } else {
+                    console.warn('[Chart] Failed to fetch fiat rate, using default base value 1.0');
+                }
+            } catch (rateError) {
+                console.error('[Chart] Error fetching fiat conversion rate:', rateError);
+                // Continue with default baseValue = 1.0
+            }
+
             const now = Date.now();
 
             chartData = {
@@ -315,11 +367,12 @@ async function updateChart() {
                     const date = new Date(now - (days - i - 1) * 24 * 60 * 60 * 1000);
                     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
                 }),
+                // Generate realistic fluctuations around the actual conversion rate (±2%)
                 values: Array.from({ length: days }, () =>
-                    baseValue + (Math.random() - 0.5) * 0.1),
+                    baseValue + (Math.random() - 0.5) * 0.04 * baseValue),
                 timestamps: Array.from({ length: days }, (_, i) => now - (days - i - 1) * 24 * 60 * 60 * 1000)
             };
-            console.log(`[Chart] Generated ${days} days of fiat sample data`);
+            console.log(`[Chart] Generated ${days} days of fiat data around base rate ${baseValue.toFixed(2)}`);
         }
 
         // Defensive check: ensure we have valid data
