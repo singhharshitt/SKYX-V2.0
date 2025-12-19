@@ -68,17 +68,32 @@ const getExchangeRate = async (from, to) => {
 
 /**
  * Convert amount from one currency to another
+ * With automatic fallback to Fawaz Ahmed Currency API
  * @param {string} from - Source currency
  * @param {string} to - Target currency
  * @param {number} amount - Amount to convert
  * @returns {Promise<object>} - { rate, result }
  */
 const convert = async (from, to, amount) => {
-    const { rate } = await getExchangeRate(from, to);
-    return {
-        rate,
-        result: amount * rate
-    };
+    try {
+        // Primary: Frankfurter (ECB-backed)
+        const { rate } = await getExchangeRate(from, to);
+        return {
+            rate,
+            result: amount * rate
+        };
+    } catch (frankfurterError) {
+        // Fall back to Fawaz Ahmed Currency API (CDN-based)
+        console.warn(`Frankfurter failed for ${from}/${to}, using Fawaz Ahmed fallback`);
+        try {
+            const fawazAhmedService = require('./fawazAhmedService');
+            const fallbackData = await fawazAhmedService.convert(from, to, amount);
+            return fallbackData;
+        } catch (fallbackError) {
+            console.error('Both Frankfurter and Fawaz Ahmed failed:', fallbackError.message);
+            throw new Error(`Unable to convert ${from} to ${to} - both providers failed`);
+        }
+    }
 };
 
 module.exports = {

@@ -200,11 +200,11 @@ const getPrice = async (symbol, quote = 'USDT') => {
         return cached;
     }
 
-    // Fallback chain
+    // Fallback chain - CoinGecko PRIMARY per production requirements
     const providers = [
+        { name: 'CoinGecko', fn: fetchFromCoinGecko },
         { name: 'Binance', fn: fetchFromBinance },
         { name: 'Coinbase', fn: fetchFromCoinbase },
-        { name: 'CoinGecko', fn: fetchFromCoinGecko },
         { name: 'Kraken', fn: fetchFromKraken },
         { name: 'CoinDesk', fn: fetchFromCoinDesk }
     ];
@@ -216,7 +216,7 @@ const getPrice = async (symbol, quote = 'USDT') => {
             const result = await provider.fn(symbol, quote);
 
             // Log successful provider (server-side only)
-            if (provider.name !== 'Binance') {
+            if (provider.name !== 'CoinGecko') {
                 console.log(`[CryptoPrice] Using fallback: ${provider.name} for ${symbol}/${quote}`);
             }
 
