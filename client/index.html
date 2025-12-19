@@ -9,13 +9,15 @@
     <link href="/styling/converter.css" rel="stylesheet" />
     <link href="/styling/HowWork.css" rel="stylesheet" />
     <link href="/styling/MarketPulse.css" rel="stylesheet" />
+    <link href="/styling/exchangeCards.css" rel="stylesheet" />
+    <link href="/styling/enhancedChart.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
         href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Gabarito:wght@400..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lexend+Exa:wght@100..900&family=Lexend+Mega:wght@100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
         rel="stylesheet" />
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" crossorigin="anonymous"></script>
 </head>
 
 <style>
@@ -951,9 +953,9 @@
                         <div class="currency-group">
                             <label class="currency-label">From</label>
                             <div class="currency-input-wrapper">
-                                <input type="number" class="amount-input text-gray-950" id="from-amount-input"
-                                    placeholder="0.00" oninput="handleAmountChange()" min="0" step="any" />
-                                <select class="currency-select text-gray-950" id="from-currency-select"
+                                <input type="number" class="amount-input" id="from-amount-input" placeholder="0.00"
+                                    oninput="handleAmountChange()" min="0" step="any" />
+                                <select class="currency-select" id="from-currency-select"
                                     onchange="handleCurrencyChange()">
                                     <option value="USD">USD</option>
                                 </select>
@@ -974,9 +976,9 @@
                         <div class="currency-group">
                             <label class="currency-label">To</label>
                             <div class="currency-input-wrapper">
-                                <input type="number" class="amount-input text-gray-950" id="to-amount-input"
-                                    placeholder="0.00" readonly />
-                                <select class="currency-select text-gray-950" id="to-currency-select"
+                                <input type="number" class="amount-input" id="to-amount-input" placeholder="0.00"
+                                    readonly />
+                                <select class="currency-select" id="to-currency-select"
                                     onchange="handleCurrencyChange()">
                                     <option value="EUR">EUR</option>
                                 </select>
@@ -997,25 +999,67 @@
                         </div>
                     </div>
 
-                    <!-- Right Panel: Price Chart -->
-                    <div class="chart-container">
-                        <div class="chart-header">
-                            <h3 class="chart-title plus-jakarta-sans-bold">Price Chart</h3>
-                            <div class="chart-period-selector">
-                                <button class="period-btn premium-chart-btn active" data-period="7d"
-                                    onclick="changeChartPeriod('7d')">7D</button>
-                                <button class="period-btn premium-chart-btn" data-period="30d"
-                                    onclick="changeChartPeriod('30d')">30D</button>
-                                <button class="period-btn premium-chart-btn" data-period="90d"
-                                    onclick="changeChartPeriod('90d')">90D</button>
+                    <!-- Right Panel: Enhanced Price Chart -->
+                    <div class="chart-container-enhanced">
+                        <!-- Gradient Border Effect -->
+                        <div class="chart-glow-border"></div>
+                        <div class="chart-inner">
+                            <!-- Chart Header with Live Indicator -->
+                            <div class="chart-header-modern">
+                                <div class="chart-title-section">
+                                    <div class="chart-icon-wrapper">
+                                        <svg class="chart-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="chart-title-text">Exchange Rate Chart</h3>
+                                        <p class="chart-subtitle" id="chart-currency-pair">USD / EUR</p>
+                                    </div>
+                                </div>
+                                <span class="live-indicator">
+                                    <span class="live-dot"></span>
+                                    Live
+                                </span>
                             </div>
-                        </div>
 
-                        <div class="chart-canvas-wrapper">
-                            <div class="chart-placeholder" id="chart-placeholder-premium">
-                                Select a currency pair to view historical data
+                            <!-- Quick Stats Grid -->
+                            <div class="chart-stats-grid">
+                                <div class="stat-card">
+                                    <p class="stat-label">Current Rate</p>
+                                    <p class="stat-value" id="current-rate-display">--</p>
+                                    <span class="stat-change positive" id="rate-change">+0.00%</span>
+                                </div>
+                                <div class="stat-card">
+                                    <p class="stat-label">24h High</p>
+                                    <p class="stat-value" id="high-24h">--</p>
+                                </div>
+                                <div class="stat-card">
+                                    <p class="stat-label">24h Low</p>
+                                    <p class="stat-value" id="low-24h">--</p>
+                                </div>
                             </div>
-                            <canvas id="liveChart" class="hidden"></canvas>
+
+                            <!-- Chart Canvas -->
+                            <div class="chart-canvas-wrapper">
+                                <canvas id="price-chart"></canvas>
+                                <div class="chart-placeholder" id="chart-placeholder-premium">
+                                    Select currencies to view exchange rate history
+                                </div>
+                            </div>
+
+                            <!-- Period Selector -->
+                            <div class="chart-footer-modern">
+                                <div class="period-selector-wrapper">
+                                    <span class="period-label">Time Period</span>
+                                    <div class="chart-period-selector">
+                                        <button class="period-btn active" data-period="7d">7D</button>
+                                        <button class="period-btn" data-period="30d">30D</button>
+                                        <button class="period-btn" data-period="90d">90D</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1257,7 +1301,7 @@
             </div>
         </section>
         <!--How it works-->
-        <section class="py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        <section id="how-it-works" class="py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
             <div class="max-w-7xl mx-auto">
 
                 <!-- Animated Background Elements -->
@@ -1585,10 +1629,10 @@
                             </div>
                             <span class="text-white text-lg plus-jakarta-sans-semibold">Ready to Experience It?</span>
                         </div>
-                        <button
-                            class="px-6 py-3 rounded-full bg-linear-to-r from-orange-500 to-yellow-500 text-white lexend-exa-semibold hover:from-orange-600 hover:to-yellow-600 hover:shadow-[0_0_25px_8px_rgba(255,165,0,0.3)] transition-all duration-300 group-hover:scale-105">
+                        <a href="#converter-section"
+                            class="px-6 py-3 rounded-full bg-linear-to-r from-orange-500 to-yellow-500 text-white lexend-exa-semibold hover:from-orange-600 hover:to-yellow-600 hover:shadow-[0_0_25px_8px_rgba(255,165,0,0.3)] transition-all duration-300 group-hover:scale-105 inline-block">
                             Start Converting Now
-                        </button>
+                        </a>
                     </div>
                 </div>
 
@@ -1596,7 +1640,7 @@
         </section>
 
         <!--Market Pulse Section-->
-        <section class="py-20 px-4 sm:px-6 lg:px-8  overflow-hidden relative">
+        <section id="market-pulse" class="py-20 px-4 sm:px-6 lg:px-8  overflow-hidden relative">
             <!-- Animated Background Elements -->
             <div class="absolute inset-0 overflow-hidden pointer-events-none">
                 <div class="absolute -top-40 -right-40 w-80 h-80 bg-orange-500/5 rounded-full blur-3xl animate-pulse">
@@ -1983,7 +2027,8 @@
             </div>
         </section>
         <!-- Security, Accuracy & Trust Section -->
-        <section class="py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-b from-transparent via-gray-900/30 to-transparent">
+        <section id="security"
+            class="py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-b from-transparent via-gray-900/30 to-transparent">
             <div class="max-w-7xl mx-auto">
                 <!-- Section Header -->
                 <div class="text-center mb-12 fade-in-up">
@@ -2176,7 +2221,7 @@
                                 </div>
                             </div>
 
-                            <form id="contact-form" novalidate>
+                            <form id="contact-form" novalidate action="https://formspree.io/f/mnjajnvy" method="POST">
                                 <!-- Full Name -->
                                 <div class="mb-6 group/input">
                                     <div class="flex items-center justify-between mb-2">
@@ -2193,7 +2238,7 @@
                                             <span class="text-xs text-green-400">Valid</span>
                                         </div>
                                     </div>
-                                    <input type="text" id="name"
+                                    <input type="text" id="name" name="name"
                                         class="w-full bg-gray-900/60 border border-gray-600/50 rounded-xl px-5 py-3.5 text-white placeholder-gray-500 focus:outline-none focus:border-orange-400 focus:ring-4 focus:ring-orange-500/20 transition-all duration-300 hover:border-gray-500/70"
                                         placeholder="John Doe" required />
                                     <div class="hidden items-center gap-2 mt-2 text-red-400 text-sm" id="name-error">
@@ -2222,7 +2267,7 @@
                                             <span class="text-xs text-green-400">Valid</span>
                                         </div>
                                     </div>
-                                    <input type="email" id="email"
+                                    <input type="email" id="email" name="email"
                                         class="w-full bg-gray-900/60 border border-gray-600/50 rounded-xl px-5 py-3.5 text-white placeholder-gray-500 focus:outline-none focus:border-orange-400 focus:ring-4 focus:ring-orange-500/20 transition-all duration-300 hover:border-gray-500/70"
                                         placeholder="john@example.com" required />
                                     <div class="hidden items-center gap-2 mt-2 text-red-400 text-sm" id="email-error">
@@ -2252,7 +2297,7 @@
                                         </div>
                                     </div>
                                     <div class="relative">
-                                        <select id="subject"
+                                        <select id="subject" name="subject"
                                             class="w-full bg-gray-900/60 border border-gray-600/50 rounded-xl px-5 py-3.5 text-white appearance-none focus:outline-none focus:border-orange-400 focus:ring-4 focus:ring-orange-500/20 transition-all duration-300 hover:border-gray-500/70"
                                             required>
                                             <option value="" class="bg-gray-800" selected disabled>Select a subject
@@ -2301,7 +2346,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <textarea id="message" rows="5"
+                                    <textarea id="message" name="message" rows="5"
                                         class="w-full bg-gray-800/50 border border-gray-700/50 rounded-xl px-5 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all duration-300 resize-none group-hover/input:border-gray-600/50"
                                         placeholder="Tell us how we can help you..." maxlength="500"
                                         required></textarea>
@@ -2380,8 +2425,8 @@
                                     <div>
                                         <p class="text-gray-400 text-sm plus-jakarta-sans-medium mb-1">Call Us</p>
                                         <a href="tel:+11234567890"
-                                            class="text-white text-lg font-medium hover:text-green-400 transition-colors duration-300">+1
-                                            (123) 456-7890</a>
+                                            class="text-white text-lg font-medium hover:text-green-400 transition-colors duration-300">
+                                            +91-xxxx-xxxx-xx</a>
                                         <p class="text-gray-500 text-sm mt-1">Mon-Fri, 9AM-6PM EST</p>
                                     </div>
                                 </div>
@@ -2401,8 +2446,8 @@
                                     </div>
                                     <div>
                                         <p class="text-gray-400 text-sm plus-jakarta-sans-medium mb-1">Visit Us</p>
-                                        <p class="text-white text-lg font-medium">123 Exchange Street</p>
-                                        <p class="text-gray-500 text-sm mt-1">New York, NY 10001, USA</p>
+                                        <p class="text-white text-lg font-medium">Phagwara</p>
+                                        <p class="text-gray-500 text-sm mt-1">Punjab, India</p>
                                     </div>
                                 </div>
                             </div>
@@ -2744,7 +2789,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#converter"
+                                    <a href="#converter-section"
                                         class="text-gray-400 hover:text-orange-400 text-sm transition-colors duration-200">
                                         Converter
                                     </a>
@@ -2756,7 +2801,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#currencies"
+                                    <a href="#converter-section"
                                         class="text-gray-400 hover:text-orange-400 text-sm transition-colors duration-200">
                                         Supported Currencies
                                     </a>
@@ -2785,25 +2830,25 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#market-insights"
+                                    <a href="#market-pulse"
                                         class="text-gray-400 hover:text-orange-400 text-sm transition-colors duration-200">
                                         Market Insights
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#api-sources"
+                                    <a href="#security"
                                         class="text-gray-400 hover:text-orange-400 text-sm transition-colors duration-200">
                                         API Sources
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#documentation"
+                                    <a href="#how-it-works"
                                         class="text-gray-400 hover:text-orange-400 text-sm transition-colors duration-200">
                                         Documentation
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#faq"
+                                    <a href="#contact"
                                         class="text-gray-400 hover:text-orange-400 text-sm transition-colors duration-200">
                                         FAQ
                                     </a>
@@ -2820,25 +2865,25 @@
                         <nav>
                             <ul class="space-y-3">
                                 <li>
-                                    <a href="#terms"
+                                    <a href="#security"
                                         class="text-gray-400 hover:text-orange-400 text-sm transition-colors duration-200">
                                         Terms of Service
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#privacy"
+                                    <a href="#security"
                                         class="text-gray-400 hover:text-orange-400 text-sm transition-colors duration-200">
                                         Privacy Policy
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#disclaimer"
+                                    <a href="#security"
                                         class="text-gray-400 hover:text-orange-400 text-sm transition-colors duration-200">
                                         Disclaimer
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#cookies"
+                                    <a href="#security"
                                         class="text-gray-400 hover:text-orange-400 text-sm transition-colors duration-200">
                                         Cookie Policy
                                     </a>
@@ -2968,6 +3013,18 @@
             });
 
         </script>
+
+        <!-- Exchange Recommendations Loader -->
+        <script src="/Scripts/exchangeLoader.js"></script>
+
+        <!-- Chart Pair Updater -->
+        <script src="/Scripts/chartPairUpdater.js"></script>
+
+        <!-- Chart Stats Updater -->
+        <script src="/Scripts/chartStatsUpdater.js"></script>
+
+        <!-- Currency Selection Validator -->
+        <script src="/Scripts/currencyValidator.js"></script>
 
 </body>
 
