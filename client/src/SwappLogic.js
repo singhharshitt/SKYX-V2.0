@@ -493,3 +493,12 @@ function updateExchangeSuggestions() {
         </div>
     `).join('');
 }
+
+// ========== GLOBAL EXPOSURE FOR INLINE EVENT HANDLERS ==========
+// Expose functions to window object so inline HTML handlers can access them
+window.handleAmountChange = handleAmountChange;
+window.handleCurrencyChange = handleCurrencyChange;
+window.performConversion = performConversion;
+window.switchMode = switchMode;
+window.swapCurrenciesRealTime = swapCurrenciesRealTime;
+window.changeChartPeriod = changeChartPeriod;
