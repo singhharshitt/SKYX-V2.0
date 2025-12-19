@@ -2,9 +2,9 @@
 
 A production-ready, real-time currency and cryptocurrency converter with interactive charts and market insights. Built with modern web technologies and deployed on Vercel (frontend) and Render (backend).
 
-**Live Demo:** [Visit SKYX](https://your-deployed-url.vercel.app)
+**Live Demo:** [Visit SKYX](https://skyx-v2-0.vercel.app)
 
-## ✨ Features
+## Features
 
 - **Real-Time Conversion** - Live exchange rates for 20+ fiat currencies and 15+ cryptocurrencies
 - **Interactive Charts** - Historical price data with 7D/30D/90D period selection
@@ -16,7 +16,7 @@ A production-ready, real-time currency and cryptocurrency converter with interac
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Frontend
 - **Vanilla JavaScript (ES6+)** - Modern JavaScript with ES modules
@@ -60,7 +60,7 @@ A production-ready, real-time currency and cryptocurrency converter with interac
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 SKYX V2/
@@ -119,7 +119,7 @@ SKYX V2/
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - **Node.js** v16 or higher
@@ -240,7 +240,7 @@ mvn clean
 
 ---
 
-## 📡 API Endpoints
+## API Endpoints
 
 ### Currency Lists
 | Endpoint | Method | Description |
@@ -270,7 +270,7 @@ mvn clean
 
 ---
 
-## 💱 Supported Assets
+## Supported Assets
 
 ### Fiat Currencies (20)
 USD, EUR, GBP, JPY, INR, CAD, AUD, CHF, CNY, ZAR, BRL, MXN, SGD, HKD, NZD, SEK, NOK, DKK, PLN, RUB
@@ -280,7 +280,7 @@ BTC, ETH, BNB, XRP, SOL, ADA, USDT, USDC, DOGE, AVAX, DOT, MATIC, LINK, UNI, LTC
 
 ---
 
-## 🌐 Deployment
+## Deployment
 
 ### Frontend (Vercel)
 
@@ -326,7 +326,7 @@ BTC, ETH, BNB, XRP, SOL, ADA, USDT, USDC, DOGE, AVAX, DOT, MATIC, LINK, UNI, LTC
 
 ---
 
-## 🧪 Testing
+## Testing
 
 ### Test Backend APIs
 ```bash
@@ -344,7 +344,7 @@ npm run test
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feature/YourFeature`
@@ -360,13 +360,13 @@ npm run test
 
 ---
 
-## 📝 License
+##  License
 
 This project is licensed under the **MIT License** - see the LICENSE file for details.
 
 ---
 
-## 📧 Contact & Support
+##  Contact & Support
 
 - **Email:** support@skyx.com
 - **Issues:** [GitHub Issues](https://github.com/singhharshitt/SKYX-V2/issues)
@@ -374,7 +374,7 @@ This project is licensed under the **MIT License** - see the LICENSE file for de
 
 ---
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - **Frankfurter API** - Free fiat currency data
 - **CoinGecko** - Free cryptocurrency market data
