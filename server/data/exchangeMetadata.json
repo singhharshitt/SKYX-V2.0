@@ -1,0 +1,241 @@
+{
+    "exchanges": [
+        {
+            "id": "binance",
+            "name": "Binance",
+            "logo": "https://assets.coingecko.com/markets/images/52/small/binance.jpg",
+            "kyc": "Required",
+            "supportsFiat": true,
+            "supportsCrypto": true,
+            "custodial": true,
+            "feeLevel": "low",
+            "regions": [
+                "global"
+            ],
+            "bestFor": [
+                "High volume trading",
+                "Low fees",
+                "Wide crypto selection"
+            ]
+        },
+        {
+            "id": "coinbase-exchange",
+            "name": "Coinbase",
+            "logo": "https://assets.coingecko.com/markets/images/23/small/Coinbase_Coin_Primary.png",
+            "kyc": "Required",
+            "supportsFiat": true,
+            "supportsCrypto": true,
+            "custodial": true,
+            "feeLevel": "medium",
+            "regions": [
+                "north-america",
+                "europe"
+            ],
+            "bestFor": [
+                "Beginners",
+                "US customers",
+                "Security"
+            ]
+        },
+        {
+            "id": "kraken",
+            "name": "Kraken",
+            "logo": "https://assets.coingecko.com/markets/images/29/small/kraken.jpg",
+            "kyc": "Required",
+            "supportsFiat": true,
+            "supportsCrypto": true,
+            "custodial": true,
+            "feeLevel": "low",
+            "regions": [
+                "global"
+            ],
+            "bestFor": [
+                "Advanced trading",
+                "Security",
+                "Fiat support"
+            ]
+        },
+        {
+            "id": "okx",
+            "name": "OKX",
+            "logo": "https://assets.coingecko.com/markets/images/96/small/WeChat_Image_20220117220452.png",
+            "kyc": "Optional",
+            "supportsFiat": true,
+            "supportsCrypto": true,
+            "custodial": true,
+            "feeLevel": "low",
+            "regions": [
+                "global"
+            ],
+            "bestFor": [
+                "Derivatives",
+                "Low fees",
+                "Asian markets"
+            ]
+        },
+        {
+            "id": "bybit_spot",
+            "name": "Bybit",
+            "logo": "https://assets.coingecko.com/markets/images/698/small/bybit_spot.png",
+            "kyc": "Optional",
+            "supportsFiat": true,
+            "supportsCrypto": true,
+            "custodial": true,
+            "feeLevel": "low",
+            "regions": [
+                "global"
+            ],
+            "bestFor": [
+                "Derivatives",
+                "Copy trading",
+                "Low fees"
+            ]
+        },
+        {
+            "id": "kucoin",
+            "name": "KuCoin",
+            "logo": "https://assets.coingecko.com/markets/images/61/small/kucoin.jpg",
+            "kyc": "Optional",
+            "supportsFiat": true,
+            "supportsCrypto": true,
+            "custodial": true,
+            "feeLevel": "low",
+            "regions": [
+                "global"
+            ],
+            "bestFor": [
+                "Altcoins",
+                "Staking",
+                "Trading bots"
+            ]
+        },
+        {
+            "id": "gate",
+            "name": "Gate.io",
+            "logo": "https://assets.coingecko.com/markets/images/60/small/gate.png",
+            "kyc": "Optional",
+            "supportsFiat": true,
+            "supportsCrypto": true,
+            "custodial": true,
+            "feeLevel": "low",
+            "regions": [
+                "global"
+            ],
+            "bestFor": [
+                "Wide selection",
+                "New tokens",
+                "Low fees"
+            ]
+        },
+        {
+            "id": "bitfinex",
+            "name": "Bitfinex",
+            "logo": "https://assets.coingecko.com/markets/images/4/small/BItfinex.png",
+            "kyc": "Required",
+            "supportsFiat": true,
+            "supportsCrypto": true,
+            "custodial": true,
+            "feeLevel": "medium",
+            "regions": [
+                "global"
+            ],
+            "bestFor": [
+                "Professional traders",
+                "Liquidity",
+                "Margin trading"
+            ]
+        },
+        {
+            "id": "huobi",
+            "name": "Huobi",
+            "logo": "https://assets.coingecko.com/markets/images/25/small/logo_colour_on_white.png",
+            "kyc": "Required",
+            "supportsFiat": true,
+            "supportsCrypto": true,
+            "custodial": true,
+            "feeLevel": "low",
+            "regions": [
+                "asia",
+                "global"
+            ],
+            "bestFor": [
+                "Asian markets",
+                "DeFi tokens",
+                "High volume"
+            ]
+        },
+        {
+            "id": "gemini",
+            "name": "Gemini",
+            "logo": "https://assets.coingecko.com/markets/images/44/small/gemini.jpeg",
+            "kyc": "Required",
+            "supportsFiat": true,
+            "supportsCrypto": true,
+            "custodial": true,
+            "feeLevel": "high",
+            "regions": [
+                "north-america"
+            ],
+            "bestFor": [
+                "Security",
+                "Regulatory compliance",
+                "US customers"
+            ]
+        }
+    ],
+    "feeScores": {
+        "low": 1.0,
+        "medium": 0.6,
+        "high": 0.3
+    },
+    "fallbackExchanges": [
+        {
+            "name": "Binance",
+            "logo": "https://assets.coingecko.com/markets/images/52/small/binance.jpg",
+            "trustScore": 10,
+            "fees": "Low",
+            "liquidity": "Very High",
+            "supportsFiat": true,
+            "supportsCrypto": true,
+            "kyc": "Required",
+            "bestFor": [
+                "High volume trading",
+                "Low fees"
+            ],
+            "status": "Online",
+            "score": 92
+        },
+        {
+            "name": "Coinbase",
+            "logo": "https://assets.coingecko.com/markets/images/23/small/Coinbase_Coin_Primary.png",
+            "trustScore": 10,
+            "fees": "Medium",
+            "liquidity": "High",
+            "supportsFiat": true,
+            "supportsCrypto": true,
+            "kyc": "Required",
+            "bestFor": [
+                "Beginners",
+                "Security"
+            ],
+            "status": "Online",
+            "score": 88
+        },
+        {
+            "name": "Kraken",
+            "logo": "https://assets.coingecko.com/markets/images/29/small/kraken.jpg",
+            "trustScore": 10,
+            "fees": "Low",
+            "liquidity": "High",
+            "supportsFiat": true,
+            "supportsCrypto": true,
+            "kyc": "Required",
+            "bestFor": [
+                "Advanced trading",
+                "Fiat support"
+            ],
+            "status": "Online",
+            "score": 90
+        }
+    ]
+}

@@ -1,0 +1,172 @@
+{
+    "providers": [
+        {
+            "id": "wise",
+            "name": "Wise",
+            "logo": "https://wise.com/public-resources/assets/logos/wise/brand_logo.svg",
+            "feeLevel": "low",
+            "speed": "Fast",
+            "availability": "global",
+            "transferTypes": [
+                "bank",
+                "card"
+            ],
+            "minTransfer": 1,
+            "maxTransfer": 1000000,
+            "bestFor": [
+                "Low fees",
+                "International transfers",
+                "Transparency"
+            ]
+        },
+        {
+            "id": "revolut",
+            "name": "Revolut",
+            "logo": "https://assets.revolut.com/media/logo/logo-revolut.svg",
+            "feeLevel": "low",
+            "speed": "Instant",
+            "availability": "europe-us",
+            "transferTypes": [
+                "bank",
+                "card",
+                "wallet"
+            ],
+            "minTransfer": 0,
+            "maxTransfer": 100000,
+            "bestFor": [
+                "Speed",
+                "Multi-currency accounts",
+                "Low fees"
+            ]
+        },
+        {
+            "id": "western-union",
+            "name": "Western Union",
+            "logo": "https://www.westernunion.com/content/dam/wu/logos/wu-logo-horizontal.svg",
+            "feeLevel": "medium",
+            "speed": "Fast",
+            "availability": "global",
+            "transferTypes": [
+                "cash",
+                "bank",
+                "card"
+            ],
+            "minTransfer": 1,
+            "maxTransfer": 50000,
+            "bestFor": [
+                "Cash pickup",
+                "Global coverage",
+                "Established network"
+            ]
+        },
+        {
+            "id": "paypal",
+            "name": "PayPal",
+            "logo": "https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg",
+            "feeLevel": "medium",
+            "speed": "Instant",
+            "availability": "global",
+            "transferTypes": [
+                "wallet",
+                "bank",
+                "card"
+            ],
+            "minTransfer": 0,
+            "maxTransfer": 60000,
+            "bestFor": [
+                "Online payments",
+                "Buyer protection",
+                "Instant transfers"
+            ]
+        },
+        {
+            "id": "remitly",
+            "name": "Remitly",
+            "logo": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Crect fill='%230066CC' width='64' height='64' rx='12'/%3E%3Ctext x='32' y='40' text-anchor='middle' fill='white' font-family='Arial' font-size='20' font-weight='bold'%3ER%3C/text%3E%3C/svg%3E",
+            "feeLevel": "low",
+            "speed": "Fast",
+            "availability": "global",
+            "transferTypes": [
+                "bank",
+                "cash"
+            ],
+            "minTransfer": 1,
+            "maxTransfer": 50000,
+            "bestFor": [
+                "Remittances",
+                "Cash delivery",
+                "Competitive rates"
+            ]
+        },
+        {
+            "id": "xe",
+            "name": "XE Money Transfer",
+            "logo": "https://www.xe.com/themes/xe/images/logos/xe-logo.svg",
+            "feeLevel": "low",
+            "speed": "Medium",
+            "availability": "global",
+            "transferTypes": [
+                "bank"
+            ],
+            "minTransfer": 1,
+            "maxTransfer": 500000,
+            "bestFor": [
+                "Large transfers",
+                "No fees",
+                "Rate alerts"
+            ]
+        }
+    ],
+    "feeScores": {
+        "low": 1.0,
+        "medium": 0.6,
+        "high": 0.3
+    },
+    "speedScores": {
+        "Instant": 1.0,
+        "Fast": 0.8,
+        "Medium": 0.5,
+        "Slow": 0.3
+    },
+    "fallbackProviders": [
+        {
+            "name": "Wise",
+            "logo": "https://wise.com/public-resources/assets/logos/wise/brand_logo.svg",
+            "rate": 0,
+            "fees": "Low",
+            "speed": "Fast",
+            "availability": "Global",
+            "bestFor": [
+                "Low fees",
+                "International transfers"
+            ],
+            "score": 94
+        },
+        {
+            "name": "Revolut",
+            "logo": "https://assets.revolut.com/media/logo/logo-revolut.svg",
+            "rate": 0,
+            "fees": "Low",
+            "speed": "Instant",
+            "availability": "Europe & US",
+            "bestFor": [
+                "Speed",
+                "Multi-currency accounts"
+            ],
+            "score": 92
+        },
+        {
+            "name": "XE Money Transfer",
+            "logo": "https://www.xe.com/themes/xe/images/logos/xe-logo.svg",
+            "rate": 0,
+            "fees": "Low",
+            "speed": "Medium",
+            "availability": "Global",
+            "bestFor": [
+                "Large transfers",
+                "No fees"
+            ],
+            "score": 88
+        }
+    ]
+}
