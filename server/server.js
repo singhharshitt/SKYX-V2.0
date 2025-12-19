@@ -54,6 +54,21 @@ app.get('/', (req, res) => {
 // Global Error Handler
 app.use((err, req, res, next) => {
     console.error(err.stack);
+
+    // Ensure CORS headers are set even on errors
+    const origin = req.headers.origin;
+    const allowedOrigins = [
+        'http://localhost:5173',      // Vite dev server
+        'http://localhost:3000',      // Alternative dev port
+        'http://localhost:4173',      // Vite preview
+        process.env.FRONTEND_URL      // Production Vercel URL
+    ].filter(Boolean);
+
+    if (origin && allowedOrigins.includes(origin)) {
+        res.header('Access-Control-Allow-Origin', origin);
+        res.header('Access-Control-Allow-Credentials', 'true');
+    }
+
     res.status(500).json({
         success: false,
         message: 'Internal Server Error',
