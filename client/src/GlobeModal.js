@@ -1,3 +1,6 @@
+// Import Three.js as ES module (eliminates deprecation warnings)
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+
 const canvas = document.getElementById("globeCanvas");
 
 // Safety check: only initialize globe if canvas exists
