@@ -4,6 +4,26 @@ const cache = require('../utils/cacheManager');
 const BASE_URL = 'https://api.binance.com/api/v3';
 const CACHE_TTL = 30; // 30 seconds for crypto (more volatile)
 
+// Symbol to CoinGecko ID mapping for fallback
+// Only maps common cryptos - extend as needed
+const SYMBOL_TO_COINGECKO = {
+    'BTC': 'bitcoin',
+    'ETH': 'ethereum',
+    'SOL': 'solana',
+    'BNB': 'binancecoin',
+    'XRP': 'ripple',
+    'ADA': 'cardano',
+    'DOGE': 'dogecoin',
+    'MATIC': 'matic-network',
+    'DOT': 'polkadot',
+    'AVAX': 'avalanche-2',
+    'SHIB': 'shiba-inu',
+    'LTC': 'litecoin',
+    'LINK': 'chainlink',
+    'UNI': 'uniswap',
+    'ATOM': 'cosmos'
+};
+
 /**
  * Get list of supported crypto symbols from Binance
  * @returns {Promise<Array>} - Array of symbol objects
@@ -58,6 +78,7 @@ const getPrice = async (symbol, quote = 'USDT') => {
     if (cached) return cached;
 
     try {
+        // Primary: Binance REST API
         const response = await axios.get(`${BASE_URL}/ticker/price`, {
             params: { symbol: pair }
         });
@@ -70,6 +91,43 @@ const getPrice = async (symbol, quote = 'USDT') => {
         cache.set(cacheKey, result, CACHE_TTL);
         return result;
     } catch (error) {
+        // Fallback: CoinGecko when Binance fails with HTTP 451 or network errors
+        const isBlockedOrNetworkError =
+            error.response?.status === 451 ||
+            error.code === 'ENOTFOUND' ||
+            error.code === 'ECONNREFUSED' ||
+            error.response?.status === 403;
+
+        if (isBlockedOrNetworkError) {
+            const coinGeckoId = SYMBOL_TO_COINGECKO[symbol.toUpperCase()];
+
+            if (coinGeckoId) {
+                console.warn(`[Binance Fallback] Binance blocked/unavailable (${error.response?.status || error.code}). Using CoinGecko for ${symbol}/${quote}`);
+
+                try {
+                    // Use CoinGecko service as fallback
+                    const coinGeckoService = require('./coinGeckoService');
+                    const fallbackData = await coinGeckoService.getCryptoPrice(
+                        coinGeckoId,
+                        normalizedQuote === 'USDT' ? 'usd' : normalizedQuote.toLowerCase()
+                    );
+
+                    const result = {
+                        price: fallbackData.price,
+                        timestamp: fallbackData.timestamp * 1000 // CoinGecko uses seconds, we use ms
+                    };
+
+                    // Cache the fallback result
+                    cache.set(cacheKey, result, CACHE_TTL);
+                    return result;
+                } catch (fallbackError) {
+                    console.error(`[Binance Fallback] CoinGecko fallback also failed for ${symbol}:`, fallbackError.message);
+                    throw new Error(`Unable to fetch price for ${symbol}/${quote} - both Binance and CoinGecko failed`);
+                }
+            }
+        }
+
+        // If not a fallback scenario or no mapping exists, throw original error
         console.error(`Binance: Error fetching price for ${pair}:`, error.message);
         throw new Error(`Unable to fetch price for ${symbol}/${quote}`);
     }

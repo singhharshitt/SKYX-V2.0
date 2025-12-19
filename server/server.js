@@ -55,7 +55,7 @@ app.get('/', (req, res) => {
 app.use((err, req, res, next) => {
     console.error(err.stack);
 
-    // Ensure CORS headers are set even on errors
+    // Ensure CORS headers are ALWAYS set on errors
     const origin = req.headers.origin;
     const allowedOrigins = [
         'http://localhost:5173',      // Vite dev server
@@ -67,6 +67,9 @@ app.use((err, req, res, next) => {
     if (origin && allowedOrigins.includes(origin)) {
         res.header('Access-Control-Allow-Origin', origin);
         res.header('Access-Control-Allow-Credentials', 'true');
+    } else if (process.env.NODE_ENV === 'development' && !origin) {
+        // Development fallback for tools like Postman
+        res.header('Access-Control-Allow-Origin', '*');
     }
 
     res.status(500).json({
