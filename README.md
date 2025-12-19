@@ -1,182 +1,388 @@
 # SKYX Currency Converter
 
-A real-time currency and cryptocurrency converter built with modern web technologies. Convert between fiat currencies (USD, EUR, GBP, INR, etc.) and cryptocurrencies (BTC, ETH, SOL, etc.) with live exchange rates and interactive price charts.
+A production-ready, real-time currency and cryptocurrency converter with interactive charts and market insights. Built with modern web technologies and deployed on Vercel (frontend) and Render (backend).
 
-## Features
+**Live Demo:** [Visit SKYX](https://your-deployed-url.vercel.app)
 
-- **Real-time Conversion**: Live exchange rates from CoinGecko and ExchangeRate-API
-- **Dual Mode**: Toggle between Fiat and Cryptocurrency conversions
-- **Interactive Charts**: 7-day price history visualization with Chart.js
-- **Modern UI**: Clean, responsive design with TailwindCSS
-- **Secure**: Built with best practices for production deployment
-- **Global**: Support for 20+ fiat currencies and 15+ cryptocurrencies
+## ✨ Features
 
-## Tech Stack
+- **Real-Time Conversion** - Live exchange rates for 20+ fiat currencies and 15+ cryptocurrencies
+- **Interactive Charts** - Historical price data with 7D/30D/90D period selection
+- **Cross-Asset Support** - Convert between fiat ↔ fiat, crypto ↔ crypto, and crypto ↔ fiat
+- **Market Pulse** - Real-time market movements and volatility indicators
+- **Exchange Recommendations** - Curated platform suggestions based on conversion pair
+- **Responsive Design** - Optimized for desktop, tablet, and mobile devices
+- **3D Globe Visualization** - Interactive Three.js globe showing global currency coverage
 
-### Backend
-- **Node.js** with Express.js
-- **Axios** for API calls
-- **CORS** enabled for cross-origin requests
+---
+
+## 🛠️ Tech Stack
 
 ### Frontend
-- **Vanilla JavaScript** (ES6+)
-- **TailwindCSS** for styling
-- **Chart.js** for data visualization
-- **Three.js** for 3D globe animation
+- **Vanilla JavaScript (ES6+)** - Modern JavaScript with ES modules
+- **Vite** - Build tool and dev server
+- **Tailwind CSS** - Utility-first CSS framework
+- **Chart.js** - Interactive price charts
+- **Three.js** - 3D globe visualization
+- **Formspree** - Contact form handling
 
-## Setup Instructions
+### Backend
+- **Node.js** - JavaScript runtime
+- **Express.js** - Web application framework
+- **Axios** - HTTP client for API requests
+- **CORS** - Cross-Origin Resource Sharing configuration
+- **dotenv** - Environment variable management
+
+### APIs (No API Keys Required)
+- **Frankfurter API** - Fiat currency exchange rates
+- **CoinGecko API** - Cryptocurrency prices and data
+- **Binance Public API** - WebSocket for real-time crypto prices (with fallback)
+- **ExchangeRate API** - Backup fiat exchange rates
+
+### DevOps & Deployment
+- **Vercel** - Frontend hosting and deployment
+- **Render** - Backend hosting and deployment
+- **Git & GitHub** - Version control
+- **Concurrently** - Run multiple npm scripts
+- **npm** - Package management
+- **In-Memory Caching** - API response caching for performance
+
+### Build Management
+- **Maven** - Optional unified build and orchestration tool
+  - **Why Maven?** Even though this is a Node.js/npm project, Maven provides:
+    - **Unified Build Process** - Single command to build both frontend and backend
+    - **Node Version Management** - Pins Node.js (v22.12.0) and npm (v10.9.0) versions via `frontend-maven-plugin`
+    - **Multi-Module Management** - Coordinates client and server builds from root
+    - **CI/CD Integration** - Standard Maven lifecycle for continuous integration
+    - **Consistent Environments** - Ensures same Node/npm versions across all developer machines
+  - **How it works:** Maven uses `frontend-maven-plugin` to execute npm commands within the Maven lifecycle
+  - **When to use:** Optional - you can use npm directly or Maven for standardized builds
+
+---
+
+## 📁 Project Structure
+
+```
+SKYX V2/
+├── client/                      # Frontend application
+│   ├── index.html              # Main HTML file
+│   ├── src/                    # JavaScript modules
+│   │   ├── config.js           # API configuration
+│   │   ├── SwappLogic.js       # Conversion logic & chart handling
+│   │   ├── MarketPulse.js      # Real-time market data
+│   │   ├── Navigation.js       # Navigation functionality
+│   │   ├── GlobeModal.js       # 3D globe interactions
+│   │   ├── ScrollAnimation.js  # Scroll animations
+│   │   ├── style.css           # Tailwind CSS
+│   │   └── ...
+│   ├── public/                 # Static assets
+│   │   ├── Scripts/            # Utility scripts
+│   │   │   ├── chartPairUpdater.js
+│   │   │   ├── chartStatsUpdater.js
+│   │   │   ├── currencyValidator.js
+│   │   │   ├── exchangeLoader.js
+│   │   │   └── fiatExchangeLoader.js
+│   │   ├── assets/             # Images, icons
+│   │   ├── fonts/              # Custom fonts
+│   │   └── styling/            # Component-specific CSS
+│   ├── package.json            # Frontend dependencies
+│   ├── vite.config.js          # Vite configuration
+│   └── vercel.json             # Vercel deployment config
+│
+├── server/                      # Backend API
+│   ├── server.js               # Express server entry point
+│   ├── routes/                 # API route handlers
+│   │   ├── convert.js          # Conversion endpoints
+│   │   ├── currencies.js       # Currency list endpoints
+│   │   ├── history.js          # Historical data endpoints
+│   │   ├── marketPulse.js      # Market data endpoints
+│   │   └── ...
+│   ├── services/               # External API integrations
+│   │   ├── binanceService.js   # Binance API wrapper
+│   │   ├── coinGeckoService.js # CoinGecko API wrapper
+│   │   ├── frankfurterService.js # Frankfurter API wrapper
+│   │   ├── exchangeRateService.js
+│   │   └── ...
+│   ├── utils/                  # Utility functions
+│   │   ├── validators.js       # Input validation
+│   │   └── cacheManager.js     # In-memory caching
+│   ├── data/                   # Static data files
+│   ├── package.json            # Backend dependencies
+│   └── .env                    # Environment variables (not in git)
+│
+├── package.json                # Root package.json (concurrently)
+├── .gitignore                  # Git ignore rules
+├── README.md                   # This file
+└── QUICK_REFERENCE.md          # Developer quick reference
+
+```
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js (v16 or higher)
-- npm or yarn package manager
+- **Node.js** v16 or higher
+- **npm** (comes with Node.js)
+- **Git** (for cloning)
 
 ### Installation
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd SKYX
+   git clone https://github.com/yourusername/SKYX-V2.git
+   cd SKYX-V2
    ```
 
-2. **Install Backend Dependencies**
+2. **Install dependencies (root)**
    ```bash
-   cd backend
    npm install
    ```
 
-3. **Install Frontend Dependencies**
+3. **Install client dependencies**
    ```bash
-   cd ../frontend
+   cd client
    npm install
+   cd ..
    ```
 
-### Running the Application
-
-#### Option 1: Using the Startup Script (Windows)
-Double-click `start-dev.bat` to start both servers automatically.
-
-#### Option 2: Manual Startup
-
-1. **Start Backend Server**
+4. **Install server dependencies**
    ```bash
-   cd backend
-   npm start
+   cd server
+   npm install
+   cd ..
    ```
-   Backend will run on `http://localhost:3001`
 
-2. **Start Frontend Server** (in a new terminal)
-   ```bash
-   cd frontend
-   npm run dev
-   ```
-   Frontend will run on `http://localhost:5173`
+### Running Locally
 
-### Usage
+#### Option 1: Run Both Servers Concurrently (Recommended)
+```bash
+npm run dev
+```
+- Frontend: `http://localhost:5173`
+- Backend: `http://localhost:3001`
 
-1. Open your browser and navigate to `http://localhost:5173`
-2. Toggle between "Fiat" and "Crypto" modes using the switch
-3. Select currencies from the dropdown menus
-4. Enter an amount to convert
-5. View real-time conversion results and price charts
-6. Use the swap button to quickly reverse currency pairs
+#### Option 2: Run Separately
 
-## API Endpoints
+**Terminal 1 - Backend:**
+```bash
+npm run server
+# or
+cd server && npm run dev
+```
+
+**Terminal 2 - Frontend:**
+```bash
+npm run client
+# or
+cd client && npm run dev
+```
+
+### Environment Variables
+
+Create a `.env` file in the `server/` directory (optional, APIs are public):
+
+```env
+PORT=3001
+NODE_ENV=development
+# No API keys required - all APIs are free public endpoints
+```
+
+### Alternative: Using Maven
+
+Maven provides a unified way to build and run the entire project with consistent Node.js versions.
+
+#### Build Both Modules (Production)
+```bash
+mvn clean install
+```
+This will:
+1. Install Node.js v22.12.0 and npm 10.9.0 locally (in `client/node` and `server/node`)
+2. Run `npm install` in both client and server
+3. Build the frontend (`npm run build` in client)
+4. Run backend tests (`npm run test` in server)
+
+#### Run Development Servers
+```bash
+# Run client dev server
+cd client
+mvn validate -Prun-dev
+
+# Run server dev server  
+cd server
+mvn validate -Prun-dev
+```
+
+#### Build Production Bundle
+```bash
+# Build client only
+cd client
+mvn clean install
+
+# This runs:
+# - npm install
+# - npm run build (creates dist/ folder)
+```
+
+#### Run Tests
+```bash
+# Run server tests
+cd server
+mvn test
+```
+
+#### Clean Build Artifacts
+```bash
+mvn clean
+```
+
+**Note:** You don't need Maven installed globally - the project uses it optionally. Use npm commands directly if you prefer.
+
+---
+
+## 📡 API Endpoints
 
 ### Currency Lists
-- `GET /api/currencies/fiat` - Get list of fiat currencies
-- `GET /api/currencies/crypto` - Get list of cryptocurrencies
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/currencies/fiat` | GET | List of supported fiat currencies |
+| `/api/currencies/crypto` | GET | List of supported cryptocurrencies |
 
 ### Conversion
-- `GET /api/convert/fiat?from=USD&to=EUR&amount=100` - Fiat to fiat conversion
-- `GET /api/convert/crypto?from=BTC&to=ETH&amount=1` - Crypto to crypto conversion
-- `GET /api/convert/crypto-to-fiat?from=BTC&to=USD&amount=1` - Crypto to fiat
-- `GET /api/convert/fiat-to-crypto?from=USD&to=BTC&amount=1000` - Fiat to crypto
+| Endpoint | Method | Query Parameters | Description |
+|----------|--------|------------------|-------------|
+| `/api/convert/fiat` | GET | `from`, `to`, `amount` | Fiat to fiat conversion |
+| `/api/convert/crypto` | GET | `from`, `to`, `amount` | Crypto to crypto conversion |
+| `/api/convert/crypto-to-fiat` | GET | `from`, `to`, `amount` | Crypto to fiat conversion |
+| `/api/convert/fiat-to-crypto` | GET | `from`, `to`, `amount` | Fiat to crypto conversion |
 
 ### Historical Data
-- `GET /api/rates/history?from=BTC&to=USD&days=7` - Get price history for charts
+| Endpoint | Method | Query Parameters | Description |
+|----------|--------|------------------|-------------|
+| `/api/rates/history` | GET | `from`, `to`, `days` | Price history for charts (7/30/90 days) |
 
-## Supported Currencies
+### Market Data
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/market-pulse/rate-movements` | GET | Real-time rate changes |
+| `/api/market-pulse/volatility` | GET | High/stable currency indicators |
+| `/api/market-pulse/snapshot` | GET | Market snapshot data |
 
-### Fiat Currencies
+---
+
+## 💱 Supported Assets
+
+### Fiat Currencies (20)
 USD, EUR, GBP, JPY, INR, CAD, AUD, CHF, CNY, ZAR, BRL, MXN, SGD, HKD, NZD, SEK, NOK, DKK, PLN, RUB
 
-### Cryptocurrencies
+### Cryptocurrencies (15)
 BTC, ETH, BNB, XRP, SOL, ADA, USDT, USDC, DOGE, AVAX, DOT, MATIC, LINK, UNI, LTC
 
-## Features in Detail
+---
 
-### Real-time Conversion
-- Automatic conversion as you type (debounced)
-- Live exchange rates from reliable APIs
-- Support for high-precision crypto calculations
+## 🌐 Deployment
 
-### Interactive Charts
-- 7-day price history
-- Responsive design
-- Smooth animations and hover effects
+### Frontend (Vercel)
 
-### User Experience
-- Swap currencies with one click
-- Validation to prevent same-currency conversion
-- Loading states and error handling
-- Mobile-responsive design
+1. **Push to GitHub**
+   ```bash
+   git push origin main
+   ```
 
-### Exchange Suggestions
-- Trusted platform recommendations
-- Security and rate information
+2. **Connect to Vercel**
+   - Import project from GitHub
+   - Set root directory to `client`
+   - Framework preset: **Vite**
+   - Build command: `npm run build`
+   - Output directory: `dist`
 
-## Development
+3. **Environment Variables** (Vercel Dashboard)
+   ```
+   VITE_API_URL=https://your-backend.onrender.com
+   ```
 
-### Project Structure
+### Backend (Render)
+
+1. **Create Web Service**
+   - Connect GitHub repository
+   - Root directory: `server`
+   - Build command: `npm install`
+   - Start command: `npm start`
+
+2. **Environment Variables** (Render Dashboard)
+   ```
+   NODE_ENV=production
+   PORT=3001
+   ```
+
+3. **CORS Configuration**
+   Update `server/server.js` to allow your Vercel domain:
+   ```javascript
+   const allowedOrigins = [
+     'https://your-app.vercel.app',
+     'http://localhost:5173'
+   ];
+   ```
+
+---
+
+## 🧪 Testing
+
+### Test Backend APIs
+```bash
+cd server
+npm run test
 ```
-SKYX/
-├── server/
-│   ├── server.js          # Express server with API routes
-│   ├── package.json       # Backend dependencies
-│   └── node_modules/      # Backend dependencies
-├── client/
-│   ├── src/
-│   │   ├── pages/
-│   │   │   └── home.html  # Main application page
-│   │   ├── assets/        # Images and fonts
-│   │   └── style.css      # TailwindCSS styles
-│   ├── package.json       # Frontend dependencies
-│   └── node_modules/      # Frontend dependencies
-├── start-dev.bat          # Windows startup script
-└── README.md              # This file
-```
 
-### Adding New Currencies
-To add new currencies, update the currency arrays in `backend/server.js`:
-- `fiatCurrencies` array for fiat currencies
-- `cryptoCurrencies` array for cryptocurrencies
-- Update the `cryptoIdMap` for CoinGecko API integration
+### Manual Testing
+1. Start both servers locally
+2. Open `http://localhost:5173`
+3. Test conversions across all modes (Fiat, Crypto, Cross)
+4. Test chart period buttons (7D, 30D, 90D)
+5. Verify real-time updates
+6. Test contact form submission
 
-## Production Deployment
+---
 
-### Backend
-- Set `NODE_ENV=production`
-- Use PM2 or similar process manager
-- Configure reverse proxy (nginx/Apache)
-- Set up SSL certificates
-
-### Frontend
-- Build with `npm run build`
-- Serve static files with nginx or CDN
-- Configure CORS for production domain
-
-## License
-
-This project is open source and available under the MIT License.
-
-## Contributing
+## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
- 
-## Support
+2. Create a feature branch: `git checkout -b feature/YourFeature`
+3. Commit changes: `git commit -m 'Add YourFeature'`
+4. Push to branch: `git push origin feature/YourFeature`
+5. Open a Pull Request
 
-For issues or questions, please open an issue on the GitHub repository.
+### Development Guidelines
+- Follow existing code style and structure
+- Test all changes locally before pushing
+- Update documentation for new features
+- Ensure no API keys are committed
+
+---
+
+## 📝 License
+
+This project is licensed under the **MIT License** - see the LICENSE file for details.
+
+---
+
+## 📧 Contact & Support
+
+- **Email:** support@skyx.com
+- **Issues:** [GitHub Issues](https://github.com/singhharshitt/SKYX-V2/issues)
+- **Live Support:** Use the contact form on the website
+
+---
+
+## 🙏 Acknowledgments
+
+- **Frankfurter API** - Free fiat currency data
+- **CoinGecko** - Free cryptocurrency market data
+- **Binance** - Public WebSocket and REST API
+- **Chart.js** - Interactive charting library
+- **Three.js** - 3D graphics library
+- **Vercel & Render** - Hosting and deployment platforms
+
+---
+
+**Built with ❤️ using modern web technologies**
