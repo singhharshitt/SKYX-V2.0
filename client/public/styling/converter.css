@@ -64,22 +64,38 @@
     }
 }
 
-/* Currency Converter Card - Premium Glassmorphism */
+/* Currency Converter Card - Modern Dark Theme */
 .converter-card {
-    background: rgba(255, 255, 255, 0.95);
+    position: relative;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95));
     backdrop-filter: blur(20px);
     border-radius: 24px;
     padding: 2.5rem;
-    box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.12),
-        0 0 1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Gradient Glow Effect */
+.converter-card::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, rgba(255, 140, 0, 0.3), rgba(255, 111, 0, 0.2), rgba(59, 130, 246, 0.2));
+    opacity: 0.3;
+    filter: blur(8px);
+    z-index: -1;
+    transition: opacity 0.3s ease;
+}
+
+.converter-card:hover::before {
+    opacity: 0.5;
 }
 
 .converter-card:hover {
-    box-shadow:
-        0 30px 80px rgba(0, 0, 0, 0.16),
-        0 0 1px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
     transform: translateY(-4px);
 }
 
@@ -129,7 +145,7 @@
     display: block;
     font-weight: 600;
     font-size: 0.875rem;
-    color: #333;
+    color: #e2e8f0;
     margin-bottom: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -139,18 +155,33 @@
     display: flex;
     gap: 1rem;
     align-items: stretch;
+    /* Prevent flex children from overflowing */
+    min-width: 0;
 }
 
 .amount-input {
     flex: 2;
+    /* Defensive constraints to prevent overflow */
+    min-width: 0;
+    max-width: 100%;
+
     padding: 1.25rem;
     font-size: 1.125rem;
     font-weight: 600;
-    border: 2px solid #e5e5e5;
+    border: 2px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     outline: none;
     transition: all 0.3s ease;
-    background: white;
+    background: rgba(15, 23, 42, 0.6);
+    color: #ffffff;
+
+    /* Prevent text overflow for large numbers */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.amount-input::placeholder {
+    color: #64748b;
 }
 
 .amount-input:focus {
@@ -171,14 +202,15 @@
     padding: 1.25rem;
     font-size: 1rem;
     font-weight: 600;
-    border: 2px solid #e5e5e5;
+    border: 2px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     outline: none;
     cursor: pointer;
     transition: all 0.3s ease;
-    background: white;
+    background: rgba(15, 23, 42, 0.6);
+    color: #ffffff;
     appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 0.5rem center;
     padding-right: 2rem;
@@ -195,8 +227,8 @@
 
 /* Force option elements to not expand dropdown */
 .currency-select option {
-    background: white;
-    color: #333;
+    background: rgba(15, 23, 42, 0.95);
+    color: #ffffff;
     padding: 0.5rem !important;
     font-weight: 500;
     font-size: 0.875rem !important;
@@ -398,6 +430,8 @@
     margin-top: 4rem;
     position: relative;
     z-index: 1;
+    overflow: visible;
+    padding: 1rem 0;
 }
 
 .exchange-heading {
@@ -437,6 +471,19 @@
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border: 2px solid transparent;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Best recommended exchange highlight */
+.exchange-card:first-child::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #22c55e, #16a34a);
 }
 
 .exchange-card:hover {
@@ -576,6 +623,41 @@
     .currency-select {
         padding-right: 2rem;
     }
+}
+
+/* Additional UI Hardening - Overflow Protection */
+@media (max-width: 640px) {
+    .converter-card {
+        padding: 1.75rem;
+    }
+
+    .currency-input-wrapper {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .amount-input,
+    .currency-select {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .mode-toggle {
+        flex-direction: row;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .mode-btn {
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
+}
+
+/* Prevent number input spinner in dark theme */
+.amount-input::-webkit-inner-spin-button,
+.amount-input::-webkit-outer-spin-button {
+    opacity: 0.5;
 }
 
 /* Utility Classes */

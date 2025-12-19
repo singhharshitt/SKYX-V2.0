@@ -14,8 +14,9 @@ if (canvas) {
     });
     renderer.setPixelRatio(window.devicePixelRatio);
 
-    // Load Earth texture
+    // Load Earth texture with proper CORS handling
     const textureLoader = new THREE.TextureLoader();
+    textureLoader.crossOrigin = 'anonymous';
     const earthTexture = textureLoader.load("/assets/skin3.png");
 
     // Sphere (Earth) - higher detail for smoothness
@@ -33,11 +34,11 @@ if (canvas) {
     scene.add(globe);
 
     // Lights
-    const light = new THREE.PointLight(0xffffff, 1.5);
+    const light = new THREE.PointLight(0xffffff, 2.0);
     light.position.set(5, 3, 5);
     scene.add(light);
 
-    const ambient = new THREE.AmbientLight(0x404040, 1.5);
+    const ambient = new THREE.AmbientLight(0x606060, 2.0);
     scene.add(ambient);
 
     camera.position.z = 5;
@@ -347,7 +348,13 @@ class CurrencyConverter {
     }
 
     createChart(data, fromCurrency, toCurrency) {
-        const ctx = document.getElementById('priceChart').getContext('2d');
+        const chartCanvas = document.getElementById('priceChart');
+        if (!chartCanvas) return;
+        
+        const ctx = chartCanvas.getContext('2d', { 
+            alpha: true,
+            desynchronized: false 
+        });
 
         // Destroy existing chart
         if (this.chart) {
@@ -365,40 +372,113 @@ class CurrencyConverter {
                     label: `${fromCurrency} to ${toCurrency}`,
                     data: prices,
                     borderColor: '#f97316',
-                    backgroundColor: 'rgba(249, 115, 22, 0.1)',
-                    borderWidth: 2,
+                    backgroundColor: 'rgba(249, 115, 22, 0.15)',
+                    borderWidth: 2.5,
                     fill: true,
-                    tension: 0.4,
+                    tension: 0.5,
                     pointBackgroundColor: '#f97316',
-                    pointBorderColor: '#fff',
+                    pointBorderColor: '#ffffff',
                     pointBorderWidth: 2,
-                    pointRadius: 4
+                    pointRadius: 0,
+                    pointHoverRadius: 8,
+                    pointHoverBackgroundColor: '#f97316',
+                    pointHoverBorderColor: '#ffffff',
+                    pointHoverBorderWidth: 2
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                layout: {
+                    padding: {
+                        top: 10,
+                        right: 15,
+                        bottom: 10,
+                        left: 10
+                    }
+                },
                 plugins: {
                     legend: {
                         display: false
+                    },
+                    tooltip: {
+                        enabled: true,
+                        mode: 'index',
+                        intersect: false,
+                        backgroundColor: 'rgba(15, 23, 42, 0.95)',
+                        titleColor: '#ffffff',
+                        bodyColor: '#e2e8f0',
+                        borderColor: '#f97316',
+                        borderWidth: 2,
+                        padding: 12,
+                        titleFont: {
+                            size: 13,
+                            weight: '600'
+                        },
+                        bodyFont: {
+                            size: 14,
+                            weight: '600'
+                        },
+                        displayColors: false,
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.parsed.y.toFixed(6)}`;
+                            }
+                        }
                     }
                 },
                 scales: {
                     y: {
                         beginAtZero: false,
+                        position: 'right',
                         grid: {
-                            color: 'rgba(0, 0, 0, 0.1)'
+                            color: 'rgba(255, 255, 255, 0.08)',
+                            lineWidth: 1,
+                            drawBorder: false
+                        },
+                        ticks: {
+                            color: '#94a3b8',
+                            font: {
+                                size: 11,
+                                weight: '500'
+                            },
+                            padding: 8,
+                            maxTicksLimit: 6,
+                            callback: function(value) {
+                                return value.toFixed(4);
+                            }
                         }
                     },
                     x: {
                         grid: {
-                            color: 'rgba(0, 0, 0, 0.1)'
+                            color: 'rgba(255, 255, 255, 0.08)',
+                            lineWidth: 1,
+                            drawBorder: false
+                        },
+                        ticks: {
+                            color: '#94a3b8',
+                            font: {
+                                size: 10,
+                                weight: '500'
+                            },
+                            padding: 6,
+                            maxRotation: 45,
+                            minRotation: 0
                         }
                     }
                 },
+                interaction: {
+                    mode: 'nearest',
+                    axis: 'x',
+                    intersect: false
+                },
                 elements: {
+                    line: {
+                        borderJoinStyle: 'round',
+                        borderCapStyle: 'round'
+                    },
                     point: {
-                        hoverRadius: 6
+                        hoverRadius: 8
                     }
                 }
             }

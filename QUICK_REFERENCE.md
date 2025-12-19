@@ -37,8 +37,18 @@ npm run test       # Run API tests
 ```
 
 ### Maven Workflow
+
+**Why Maven for Node.js?**
+- Unified build orchestration for multi-module projects
+- Pins Node.js v22.12.0 and npm 10.9.0 via `frontend-maven-plugin`
+- Ensures consistent environments across all developer machines
+- Standard Maven lifecycle for CI/CD integration
+- Optional - use npm directly if preferred
+
+**How it works:** Maven uses `frontend-maven-plugin` to execute npm commands
+
 ```bash
-# Build entire project
+# Build entire project (install deps + build frontend + run tests)
 mvn clean install
 
 # Build with production profile
@@ -47,14 +57,32 @@ mvn clean install -Pprod
 # Skip tests
 mvn clean install -DskipTests
 
-# Run frontend dev server
+# Run frontend dev server (Vite on port 5173)
 cd client
 mvn validate -Prun-dev
 
-# Run backend dev server
+# Run backend dev server (Node.js on port 3001)
 cd server
 mvn validate -Prun-dev
+
+# Run backend production server
+cd server
+mvn validate -Prun-start
+
+# Run tests only
+cd server
+mvn test
+
+# Clean build artifacts
+mvn clean
 ```
+
+**What Maven does when you run `mvn clean install`:**
+1. Downloads Node.js v22.12.0 and npm 10.9.0 into `client/node` and `server/node`
+2. Runs `npm install` in both client and server directories
+3. Executes `npm run build` in client (creates `dist/` folder)
+4. Runs `npm run test` in server (validates backend APIs)
+5. Packages everything for deployment
 
 ---
 
@@ -234,15 +262,29 @@ npm run dev
 
 ### Maven Build Fails
 ```bash
-# Clear Maven cache
-mvn clean
+# Clear Maven cache and reinstall
+mvn clean install
 
-# Reinstall
-mvn install
+# Force re-download of Node.js
+cd client
+rm -rf node node_modules
+mvn clean install
 
-# Check Maven version
+# Check Maven version (requires 3.6+)
 mvn --version
+
+# Verify pom.xml configuration
+cat pom.xml
+
+# Run with debug output
+mvn clean install -X
 ```
+
+**Common Maven Issues:**
+- **Node version mismatch:** Maven installs Node v22.12.0 locally in `node/` folder
+- **Plugin errors:** Ensure `frontend-maven-plugin` version is 1.15.0
+- **Build hangs:** Check if another process is using ports 5173 or 3001
+- **npm WARN:** Usually safe to ignore, focus on ERROR messages
 
 ---
 

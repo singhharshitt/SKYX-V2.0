@@ -8,6 +8,9 @@ const currencyRoutes = require('./routes/currencies');
 const convertRoutes = require('./routes/convert');
 const historyRoutes = require('./routes/history');
 const marketPulseRoutes = require('./routes/marketPulse');
+const exchangeRoutes = require('./routes/exchanges');
+const fiatExchangeRoutes = require('./routes/fiatExchanges');
+
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -45,6 +48,9 @@ app.use('/api/currencies', currencyRoutes);
 app.use('/api/convert', convertRoutes);
 app.use('/api/rates', historyRoutes);
 app.use('/api/market-pulse', marketPulseRoutes);
+app.use('/api/exchanges', exchangeRoutes);
+app.use('/api/fiat-exchanges', fiatExchangeRoutes);
+
 
 // Health Check
 app.get('/', (req, res) => {

@@ -1,0 +1,598 @@
+/* ========================================
+   SKYX ENHANCED EXCHANGE CARDS
+   Modern Dark Theme with Hover Effects
+   ======================================== */
+
+/* Exchange Card Container */
+.exchange-card-modern {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    perspective: 1000px;
+    cursor: pointer;
+    overflow: visible;
+}
+
+/* Card Inner - Enables 3D flip */
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+.exchange-card-modern:hover .card-inner {
+    transform: rotateY(180deg);
+}
+
+/* Card Front & Back - Shared Styles */
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 16px;
+    padding: 1.5rem;
+    padding-top: 1.75rem;
+    background: rgba(30, 31, 38, 0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    overflow: visible;
+}
+
+/* Card Front */
+.card-front {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Card Back */
+.card-back {
+    transform: rotateY(180deg);
+    background: linear-gradient(135deg, rgba(255, 140, 0, 0.15), rgba(30, 31, 38, 0.9));
+    border-color: rgba(255, 140, 0, 0.3);
+}
+
+/* Score Badge (Top Right) */
+.score-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    z-index: 15;
+}
+
+.score-value {
+    font-size: 1rem;
+    font-weight: 800;
+    color: white;
+    line-height: 1;
+}
+
+.score-label {
+    font-size: 0.5rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Exchange Header */
+.exchange-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.logo-container {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.exchange-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.exchange-info {
+    flex: 1;
+}
+
+.exchange-name {
+    font-family: "Lexend Exa", sans-serif;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 0.25rem 0;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+}
+
+.trust-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.stars {
+    color: #fbbf24;
+    font-size: 0.875rem;
+}
+
+.trust-score {
+    font-size: 0.75rem;
+    color: #9ca3af;
+}
+
+/* Quick Stats */
+.quick-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-top: auto;
+}
+
+.stat-item {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.25rem;
+}
+
+.stat-value {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+/* Card Back Content */
+.back-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.detail-label {
+    font-size: 0.875rem;
+    color: #9ca3af;
+    font-weight: 500;
+}
+
+.detail-value {
+    font-size: 0.875rem;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.status-online {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #22c55e;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    background: #22c55e;
+    border-radius: 50%;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Support Icons */
+.support-icons {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.support-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.375rem 0.75rem;
+    background: rgba(34, 197, 94, 0.15);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    border-radius: 100px;
+    font-size: 0.75rem;
+    color: #22c55e;
+    font-weight: 500;
+}
+
+.support-badge svg {
+    width: 0.875rem;
+    height: 0.875rem;
+}
+
+/* Best For Section */
+.best-for-section {
+    margin-top: auto;
+}
+
+.section-title {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.exchange-tag {
+    padding: 0.375rem 0.75rem;
+    background: rgba(255, 140, 0, 0.15);
+    border: 1px solid rgba(255, 140, 0, 0.3);
+    border-radius: 100px;
+    font-size: 0.7rem;
+    color: #ff8c00;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+/* Card Glow Effect */
+.card-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 140, 0, 0.3), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.exchange-card-modern:hover .card-glow {
+    opacity: 1;
+}
+
+/* Enhanced Exchange Grid */
+.exchange-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1rem 0;
+    overflow: visible;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .exchange-card-modern {
+        height: 280px;
+    }
+
+    .card-front,
+    .card-back {
+        padding: 1.25rem;
+    }
+
+    .exchange-name {
+        font-size: 1rem;
+    }
+
+    .score-badge {
+        width: 50px;
+        height: 50px;
+    }
+
+    .score-value {
+        font-size: 1rem;
+    }
+}
+
+/* Best Price Badge (Green) - Positioned Above Card */
+.exchange-card .best-price-badge {
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    font-size: 0.625rem;
+    font-weight: 700;
+    padding: 0.375rem 0.625rem;
+    border-radius: 9999px;
+    box-shadow:
+        0 0 20px rgba(16, 185, 129, 0.4),
+        0 4px 6px rgba(0, 0, 0, 0.3);
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    white-space: nowrap;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.exchange-card .best-price-badge svg {
+    width: 10px;
+    height: 10px;
+    flex-shrink: 0;
+}
+
+/* Recommended Badge (Blue/Orange) - Positioned Above Card */
+.exchange-card .recommended-badge {
+    position: absolute;
+    top: -24px;
+    left: 8px;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    font-size: 0.625rem;
+    font-weight: 700;
+    padding: 0.375rem 0.75rem;
+    border-radius: 9999px;
+    box-shadow:
+        0 0 15px rgba(59, 130, 246, 0.3),
+        0 4px 6px rgba(0, 0, 0, 0.3);
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    white-space: nowrap;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.exchange-card .recommended-badge.popular-choice {
+    background: linear-gradient(135deg, #ff8c00, #ff6f00);
+    color: #ffffff;
+    box-shadow: 0 3px 8px rgba(255, 140, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.exchange-card .recommended-badge.best-for {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    color: #ffffff;
+    box-shadow: 0 3px 8px rgba(139, 92, 246, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.exchange-card .recommended-badge.beginner {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    box-shadow:
+        0 0 15px rgba(245, 158, 11, 0.3),
+        0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.exchange-card .recommended-badge.popular {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    box-shadow:
+        0 0 15px rgba(139, 92, 246, 0.3),
+        0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Best Price Card Highlight */
+.best-price-card {
+    border: 2px solid rgba(34, 197, 94, 0.4) !important;
+    box-shadow: 0 8px 32px rgba(34, 197, 94, 0.2) !important;
+}
+
+.best-price-card .card-glow {
+    background: radial-gradient(circle at 50% 50%, rgba(34, 197, 94, 0.4), transparent 70%);
+}
+
+.best-price-card:hover .card-glow {
+    opacity: 0.6;
+}
+
+/* Rate Display for Fiat Exchanges */
+.rate-display {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background: rgba(59, 130, 246, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    font-size: 0.875rem;
+}
+
+.rate-display .rate-label {
+    color: #9ca3af;
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+}
+
+.rate-display .rate-value {
+    color: #3b82f6;
+    font-weight: 700;
+    font-size: 1rem;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Overflow protection for long currency codes */
+.stat-value,
+.detail-value {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+}
+
+/* Exchange Subtitle */
+.exchange-subtitle {
+    margin-top: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Visit Exchange Button */
+.visit-exchange-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-top: 1rem;
+    background: linear-gradient(135deg, #ff8c00, #ff6f00);
+    color: white;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.visit-exchange-btn:hover {
+    background: linear-gradient(135deg, #ff6f00, #ff5500);
+    box-shadow: 0 6px 16px rgba(255, 140, 0, 0.5);
+    transform: translateY(-2px);
+}
+
+.visit-exchange-btn svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.visit-exchange-btn:hover svg {
+    transform: translateX(3px);
+}
+
+@media (max-width: 768px) {
+
+    .best-price-badge,
+    .recommended-badge {
+        font-size: 0.5625rem;
+        padding: 0.3125rem 0.5rem;
+        top: -6px;
+    }
+
+    .best-price-badge {
+        left: 6px;
+        gap: 0.25rem;
+    }
+
+    .score-badge {
+        top: -6px;
+        right: -6px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .score-value {
+        font-size: 0.875rem;
+    }
+
+    .score-label {
+        font-size: 0.5rem;
+    }
+
+    .best-price-badge svg {
+        width: 9px;
+        height: 9px;
+    }
+}
+
+@media (max-width: 480px) {
+    .exchange-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .exchange-card-modern {
+        height: 260px;
+    }
+
+    .best-price-badge,
+    .recommended-badge {
+        font-size: 0.5rem;
+        padding: 0.25rem 0.5rem;
+        top: -6px;
+        letter-spacing: 0.2px;
+    }
+
+    .best-price-badge {
+        left: 4px;
+        gap: 0.25rem;
+    }
+
+    .score-badge {
+        top: -6px;
+        right: -6px;
+        width: 38px;
+        height: 38px;
+    }
+
+    .score-value {
+        font-size: 0.8125rem;
+    }
+
+    .score-label {
+        font-size: 0.4375rem;
+    }
+
+    .best-price-badge svg {
+        width: 8px;
+        height: 8px;
+    }
+}
